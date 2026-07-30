@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="clip-Mesa_de_trabajo_1">
+      <rect width="32" height="32"/>
+    </clipPath>
+  </defs>
+  <g id="Mesa_de_trabajo_1" data-name="Mesa de trabajo – 1" clip-path="url(#clip-Mesa_de_trabajo_1)">
+    <rect width="32" height="32" fill="#fff"/>
+    <g id="Icon_feather-edit" data-name="Icon feather-edit" transform="translate(-2.091 -1.909)">
+      <path id="Trazado_24017" data-name="Trazado 24017" d="M16.5,6H6A3,3,0,0,0,3,9V30a3,3,0,0,0,3,3H27a3,3,0,0,0,3-3V19.5" fill="none" stroke="#0077a8" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Trazado_24018" data-name="Trazado 24018" d="M27.75,3.75a3.182,3.182,0,0,1,4.5,4.5L18,22.5,12,24l1.5-6Z" fill="none" stroke="#0077a8" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

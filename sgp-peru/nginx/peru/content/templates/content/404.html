@@ -1,0 +1,35 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} No encotrado {% endblock %}
+{% block content %}
+
+<main class="banner-404">
+        <!-- START SECTION 404 -->
+    <section class="banner-background-404">
+      <div class="container gx-5 gx-md-4">
+        <div class="row col-md-10 offset-md-1 col-xxl-12 offset-xxl-0 gx-md-5 align-items-center content-404">
+            <div class="col-md-12 col-lg-12 col-xl-6 ps-md-0">
+                <div class="banner-item-txt">
+                    <h1 class="banner-item-title cepal-h1">
+                        <span class="banner-item-title1 cepal-h1-normal">¡Ups Error 404!</span>
+                        <span class="banner-item-title2">Lo sentimos, esta página no esta disponible</span>
+                    </h1>
+                    <p class="banner-item-desc">La página que intentas solicitar no está en el servidor (Error 404). Prueba nuevamente regresando a nuestra homepage:</p>
+                    <p class="banner-item-linkcontainer">
+                        <a class="banner-item-link btn btn-white" href="/" data-seo="linkhome404">Ir a página principal</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-6 ps-md-0"> 
+                <div class="svg-image-404-container">
+                    <img src="/static/cepal/dist/assets/images/grafico-404.svg" alt="Avatar" class="list-cards-info-item-image">
+                </div>
+            </div>
+        </div>
+     
+      </div>
+    </section>
+    <!-- END SECTION 404 -->
+</main>
+
+{% endblock %}

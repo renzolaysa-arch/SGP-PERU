@@ -1,0 +1,176 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Crear Solicitud {% endblock %}
+
+{% block content %}
+<main class="demand-create createform">
+    <section class="container createform__header">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Formulario de solicitud de RRAA</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- Title -->
+        <div class="row justify-content-center mt-4 mb-5">
+            <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+                <h1 class="cepal-h1 createform__title">Formulario de solicitud de RRAA</h1>
+                <p>Cree una solicitud de RRAA, recuerde que los campos marcados con (<span class="cepal-alert__text">*</span>) son obligatorios o requeridos.</p>
+            </div>
+        </div>
+        <!-- End Title -->
+    </section>
+    <section class="container">
+        <div class="row">            
+            <div class="col-md-8 offset-md-2">
+                <form class="createform__form form box-shadow-five"
+                    {% if edit %} 
+                        action='/editar-solicitud/{{ id }}' 
+                    {% else %} 
+                        action='/crear-solicitud/' 
+                    {% endif %} 
+                 method="post" enctype="multipart/form-data" id="demandCreateForm">
+                 {% csrf_token %}
+                    <div class="loading z-index-3 d-none">
+                        <div class="loader"></div>
+                        <p class="loading__text">Enviando...</p>
+                    </div>
+                    <div class="form__group--two-col">
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_title_3">Título de Solicitud</label>
+                            <div class="form__element">
+                                {{ form_create_demand.title }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_inventory">Nombre del RRAA</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.inventory }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_project">Proyecto Relacionado</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.project }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_description">Descripción (Máximo 300 caracteres)</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_demand.description }}
+                                <p class="form__element__info counter" data-maxlength="300">
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_use">¿Cuál será su uso?</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.use }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required" data-value="ot">
+                            <label for="id_use_other">Otro ¿cuál?</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_demand.use_other }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_time">Tiempo de uso requerido</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.time }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_product">Producto final esperado(Máximo 300 caracteres)</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_demand.product }}
+                                <p class="form__element__info counter" data-maxlength="300">
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_category">Categoría</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.category }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_status">Estado</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.status }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_theme">Tema</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.theme }}                                
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_topic">Temática</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_demand.topic }}                                
+                            </div>
+                        </fieldset>
+                        {{ form_create_demand.functionary }}
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_key_words">Palabras claves</label>
+                            <div class="form__element form__element--select-multiple">
+                                {{ form_create_demand.key_words }}
+                                <p class="form__element__info">
+                                    Puede seleccionar más de uno.
+                                    <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100">
+                            <label for="id_file_demand">Archivo de solicitud</label>
+                            <div class="form__element form__element--file">
+                                {{ form_create_demand.file_demand }}
+                                <p class="form__element__info mt-2">
+                                    Solo se pueden subir archivos en formato: PDF, JPG, JPEG, PNG, DOC, DOCX. XLS, XLSX con un peso máximo de 5MB
+                                </p>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="container-buttons">
+                        <input class="btn btn-secondary btn-secondary--fill" type="submit" value="Enviar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modal confirmation Demand -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationDemand" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Crear nueva solicitud</h2>
+            </div>
+            <div class="modal-body">
+                <p class="description">Se ha creado la nueva solicitud correctamente.</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour create-new" type="button" aria-label="Volver">Nueva solicitud</button>
+                    <a class="btn btn-primary btn-primary--contour goto-list" href="{% url 'demand:demand_list' %}">Ver Solicitudes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation Demand -->
+
+{% csrf_token %}
+{% endblock %}

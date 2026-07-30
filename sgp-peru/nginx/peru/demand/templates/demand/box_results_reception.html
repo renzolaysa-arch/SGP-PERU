@@ -1,0 +1,995 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Cuadro de resultados {% endblock %}
+{% block content %}
+<main class="demand-reception bg-int-secondary">
+
+  <section class="results-box-header mb-5">
+    <div class="container">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_detail' demand.id %}">Detalle de solicitud</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Cuadro de resultados</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <div class="row mt-lg-0 mt-5 mb-5">
+        <!-- Column Left -->
+        <div class="col-12 col-md-6 results-box-data">
+          <h1 class="results-box-data-title">{{ demand.title }}</h1>
+          <div class="results-box-data-content">
+            <div class="activity">
+              <p class="activity-title">Actividad:</p>
+              <div class="activity-badge">
+                <img src="/static/cepal/dist/assets/images/recepcion-mg-col.svg" alt="icon" title="icon" />
+                <span>Recepción</span>
+              </div>
+            </div>
+            <p class="description">{{ demand.description }}</p>
+          </div>
+        </div>
+        <!-- End Column Left -->
+
+        <!-- Column Right -->
+        {% if participations %}
+        <div class="col-12 col-md-6 mt-5 mt-md-0">
+          <div class="card-type-participants">
+            <h2 class="card-type-participants-title">Participantes</h2>
+            <!-- Participants List -->
+            <div class="card-type-participants-list style-scrooll">
+              <!-- Participants List Item -->
+              {% for participation in participations %}
+              <div class="card-type-participants-list-item">
+                <div class="participant-data">
+                  <span class="participant-data-type type-functionary">{{ participation.user.groups.all.0.name }}</span>
+                  <p class="participant-data-name">
+                    {{ participation.user.first_name }} {{ participation.user.last_name}}
+                  </p>
+                </div>
+                <div class="participant-data-email">
+                  <p class="participant-email">{{ participation.user.username }}</p>
+                  <button class="btn btn-copy" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip" data-bs-title="Copiar">
+                    <span class="icon-copy"></span>
+                  </button>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- End Participants List Item -->
+            </div>
+            <!-- End Participants List -->
+          </div>
+        </div>
+        {% endif %}
+        <!-- End Column Right -->
+      </div>
+
+      <div class="row">
+        <div class="col-12 mt-5 py-4">
+          <div class="highlight-list highlight-list--three-cols">
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Proveedor</div>
+                <p class="field-informative-text">{{ demand.inventory.entity_provider.name }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Fecha de inicio</div>
+                <p class="field-informative-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M'}} de {{ demand.created_date|date:'Y' }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Fecha de finalización</div>
+                {% if reception.date_demand_finalized %}
+                <p class="field-informative-text"> {{ reception.date_demand_finalized|date:'d' }} de {{reception.date_demand_finalized|date:'M' }} de {{ reception.date_demand_finalized|date:'Y' }}</p>
+                {% endif %}
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="result-box-body my-5" data-name="{{sub_process}}">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="accordion accordion-secondary" id="accordionActivityManagement">
+            <!-- Loader -->
+            <div class="loading z-index-3">
+              <div class="loader">
+              </div>
+              <p class="loading__text">Cargando...</p>
+            </div>
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3" data-accordion-item="inicio">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title" id="accordion-initiation">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/recepcion/inicio/?regresar=true">Inicio</a>
+                </h2>
+              </div>
+              <div id="initiation" class="accordion-collapse collapse show" aria-labelledby="accordion-initiation"
+                data-bs-parent="#accordionActivityManagement">
+                {% if process == 'ini' or rollback == True %}
+                <div class="accordion-body">
+                  <form method="post" id="process_reception">
+                    {% csrf_token %}
+                    <div class="highlight-list highlight-list--two-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Solicitud</div>
+                          <p class="field-informative-text">#{{ demand.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Tema</div>
+                          {% if demand.theme is not None %}
+                            <p class="field-informative-text">{{ demand.theme }}</p>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Proveedor</div>
+                          <p class="field-informative-text">#{{ demand.inventory.entity_provider.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Temática</div>
+                          {% if demand.topic is not None %}
+                            <p class="field-informative-text">{{ demand.topic }}</p>
+                            {% endif %}
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Fecha Registro</div>
+                          <p class="field-informative-text">{{ demand.created_date|date:'d F Y' }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Hora Registro</div>
+                          <p class="field-informative-text">{{ demand.created_date|time:'g:i a' }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                    </div>
+
+                    <div class="content-buttons mt-5">
+                      <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Continuar">
+                    </div>
+                  </form>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <!-- END Collapse item -->
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3" data-accordion-item="proceso">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-process">
+                  <a class="accordion-button" type="button"
+                    href="/solicitud/{{ demand.id }}/recepcion/proceso/?regresar=true">En proceso</a>
+                </h2>
+              </div>
+              <div id="process" class="accordion-collapse collapse" aria-labelledby="accordion-process"
+                data-bs-parent="#accordionActivityManagement">
+                {% if process == 'pr' or rollback == True %}
+                <div class="accordion-body">
+                  <div class="info-data-activity">
+                    <!-- Data activity left -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">ID Solicitud:</p>
+                        <p class="info-data-activity-item-text">#{{ demand.id }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Solicitado por:</p>
+                        <p class="info-data-activity-item-text">{{ demand.functionary.user.first_name }} {{demand.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity left -->
+                    <!-- Data activity right -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Fecha de solicitud:</p>
+                        <p class="info-data-activity-item-text">{{ demand.created_date|date:'d' }} de {{demand.created_date|date:'M Y' }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Temática:</p>
+                        <p class="info-data-activity-item-text">{{ demand.theme }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity right -->
+                  </div>
+
+                  <!-- Steps Card -->
+                  <div class="container-steps">
+                    <div class="progressbar">
+                      <ul class="progressbar-primary box-shadow-primary" id="progressbar">
+                        <li class="progressbar-step" id="step-1" data-name="demand-validation"><span>Validación
+                            Solicitud</span></li>
+                        <li class="progressbar-step" id="step-2" data-name="verification-completeness">
+                          <span>Verificación y Completitud</span>
+                        </li>
+                        <li class="progressbar-step" id="step-3" data-name="demand-notification"><span>Notificación
+                            Solicitud</span></li>
+                        <li class="progressbar-step" id="step-4" data-name="technical-committee-presentation">
+                          <span>Presentación Comité Técnico</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <!-- Form step card -->
+                    <div class="container-steps-forms box-shadow-primary">
+                      <!-- Form Step1 -->
+                      <div class="content-step step-1" data-name="demand-validation">
+                        <h4 class="content-step-title">Estado de Recepción</h4>
+                        <p class="content-step-subtitle">{{ demand.project }}</p>
+
+                        {% if reception.date_demand_validation %}
+                        <div class="content-step-date-project">
+                          <div class="content-step-date">
+                            <p class="content-step-date-title">Fecha:</p>
+                            <span class="content-step-date-value">{{ reception.date_demand_validation|date:'d' }} de {{ reception.date_demand_validation|date:'M' }}</span>
+                          </div>
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora:</p>
+                            <span class="content-step-hours-value">{{ reception.date_demand_validation|time:'g:i a' }}</span>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <form method="POST" class="form-stpes form-stpe-1" id="formStep1">
+                          {% csrf_token %}
+                          <div class="inputs-fields">
+                            <label for="id_status_demand_validation" class="input-field-label required">Estado</label>
+                            <div class="input-field form__element form__element--select">
+                              {{ form.status_demand_validation }}
+                            </div>
+                          </div>
+                          <div class="content-buttons">
+                            <button
+                              class="btn btn-secondary btn-secondary--contour btn-form-back btn-accordeon-back"><span
+                                class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue"
+                              value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Step1 -->
+
+                      <!-- Form Step2 -->
+                      <div class="content-step step-2" data-name="verification-completeness">
+                        <h4 class="content-step-title">Proyecto</h4>
+                        {% if reception.date_verification_completeness %}
+                        <div class="content-step-date-project">
+                          <div class="content-step-date">
+                            <p class="content-step-date-title">Fecha:</p>
+                            <span class="content-step-date-value">{{ reception.date_verification_completeness|date:'d'}} de {{ reception.date_verification_completeness|date:'M' }}</span>
+                          </div>
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora:</p>
+                            <span class="content-step-hours-value">{{ reception.date_verification_completeness|time:'g:ia' }}</span>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <form method="POST" class="form-stpes form-stpe-2" id="formStep2"
+                        data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          {% if reception.demand_assessment %}
+                            <div class="simple-title">
+                              Nivel de relevancia
+                            </div>
+                            <p class="simple-box">
+                                {{ reception.demand_assessment }}
+                            </p>
+                          {% else %}
+                            <p class="content-step-subtitle required mt-2">Nivel de relevancia</p>
+                            <!-- Assessment-criteria -->
+                            <div class="container-assessment-criteria position-relative">
+                              <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                {% for choices in form.demand_assessment %}
+                                {% if choices.data.index != '0' %}
+                                <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                                  {{ choices }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                              </div>
+                            </div>
+                            <!-- End Assessment-criteria -->
+                          {% endif %}
+
+                          {% if not reception.demand_assessment %}
+                          <!-- Load file -->
+                          <div class="load-files mt-5 mb-2">
+                            <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                            <div class="input-field">
+                              <button class="btn btn-primary btn-primary--fill show-modal-file" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span> Cargar
+                                Documento</button>
+                            </div>
+                          </div>
+                          <!-- End Load file -->
+                          {% endif %}
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            {% for document in documents_committee %}
+                            <div class="list-of-documents-item">
+                              <a href="/media/{{document.document}}" class="list-of-documents-item-preview"
+                                target="_blank">
+                                <img data-pdf-thumbnail-file="/media/{{document.document}}"
+                                  src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}"
+                                  title="{{ document.title }}">
+                              </a>
+                              <div class="list-of-documents-item-content">
+                                <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                              </div>
+                              <div class="list-of-documents-item-state">
+                                <p class="list-of-documents-item-state-title">Estado: <span>
+                                    {% if document.approved %}
+                                    Aprobado
+                                    {% else %}
+                                    Sin Aprobar
+                                    {% endif %}
+                                  </span></p>
+                                <p class="list-of-documents-item-content-required">
+                                  {% if document.requires_approval %}
+                                  Requiere aprobación
+                                  {% else %}
+                                  NO Requiere aprobación
+                                  {% endif %}
+                                </p>
+                              </div>
+                              {% if not reception.demand_assessment %}
+                              <div class="list-of-documents-item-delete">
+                                <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span
+                                    class="icon-icon-bell-notificacion-remove"></span></a>
+                              </div>
+                              {% endif %}
+                            </div>
+                            {% endfor %}
+
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span
+                                class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue"
+                              value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Step2 -->
+
+                      <!-- Form Step3 -->
+                      <div class="content-step step-3" data-name="demand-notification">
+                        <h4 class="content-step-title">{{ demand.project }}</h4>
+                        {% if reception.date_demand_notification %}
+                        <div class="content-step-date-project">
+                          <div class="content-step-date">
+                            <p class="content-step-date-title">Fecha:</p>
+                            <span class="content-step-date-value">{{ reception.date_demand_notification|date:'d' }} de
+                              {{ reception.date_demand_notification|date:'M' }}</span>
+                          </div>
+                        </div>
+                        <div class="content-step-date-project">
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora:</p>
+                            <span class="content-step-hours-value">{{ reception.date_demand_notification|time:'g:i a' }}</span>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <form method="POST" class="form-stpes form-stpe-3" id="formStep3"
+                          data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          <!-- form -->
+                          <!-- Si existe estado y fecha -->
+                          {% if reception.status_demand_notification or reception.date_tentative_presentation %}
+                            <div class="boxes-wrapper">
+                          {% else %}
+                            <div class="inputs-fields d-flex gap-3 flex-column flex-md-row">
+                          {% endif %}
+                              <!-- Estado -->
+                              {% if reception.status_demand_notification %}
+                                <div class="simple-title">Estado</div>
+                                <p class="simple-box">
+                                  {% if reception.status_demand_notification == 'do' %}
+                                    Aprobado
+                                  {% else %}
+                                    Rechazado
+                                  {% endif %}
+                                </p>
+                              {% else %}
+                                <div class="input-field">
+                                  <label for="stateNotificatio" class="input-field-label required">Estado</label>
+                                  <div class="form__element form__element--select">
+                                    {{ form.status_demand_notification }}
+                                  </div>
+                                </div>
+                              {% endif %}
+                              <!-- END Estado -->
+                            
+                              <!-- Fecha Presentación -->
+                              {% if reception.date_tentative_presentation %}
+                                <div class="simple-title">Fecha tentativa de presentación al comité técnico</div>
+                                <p class="simple-box">{{ reception.date_tentative_presentation|date:"d F Y" }}</p>
+                              {% else %}
+                                  <div class="input-field date-comite">
+                                      <label for="datePresentation" class="input-field-label required">Fecha tentativa de presentación al comité técnico</label>
+                                      <div class="form__element form__element--date">
+                                          {{ form.date_tentative_presentation }}
+                                      </div>
+                                  </div>
+                              {% endif %}
+                              <!-- END Fecha Presentación -->
+                            </div>
+                            <!-- Comentario -->
+                            {% if reception.comment %}
+                              <div class="simple-title">Comentario</div>
+                              <p class="simple-box">{{ reception.comment }}</p>
+                            {% else %}
+                              <div class="inputs-fields mt-4">
+                                  <div class="input-field input-field-textarea">
+                                      <label for="commentary" class="input-field-label required">Comentario</label>      
+                                      {{ form.comment }}
+                                      <p class="form__element__info counter" data-maxlength="300">
+                                      </p>
+                                  </div>
+                              </div>
+                            {% endif %}
+                            <!-- END Comentario -->
+
+                          <!-- End form -->
+
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span
+                                class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue"
+                              value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Step3 -->
+
+                      <!-- Form Step4 -->
+                      <div class="content-step step-4" data-name="technical-committee-presentation">
+                        <h4 class="content-step-title">{{ demand.project }}</h4>
+                        {% if reception.date_demand_presentation %}
+                        <div class="content-step-date-project">
+                          <div class="content-step-date">
+                            <p class="content-step-date-title">Fecha:</p>
+                            <span class="content-step-date-value">{{ reception.date_demand_presentation|date:'d' }} de
+                              {{ reception.date_demand_presentation|date:'M' }}</span>
+                          </div>
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora:</p>
+                            <span class="content-step-hours-value">{{ reception.date_demand_presentation|time:'g:i a' }}</span>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="content-step-date-project">
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora de Notificación:</p>
+                            <span class="content-step-hours-value">{{ reception.date_demand_notification|time:'g:i a' }}</span>
+                          </div>
+                        </div>
+                        <form method="POST" class="form-stpes form-stpe-4" id="formStep4">
+                          {% csrf_token %}
+                          <!-- Load file -->
+                          {% if not reception.comment_revision %}
+                          <div class="load-files mt-5 mb-2">
+                            <div class="load-files-description">
+                              <p class="load-files-description-type">Los archivos permitidos son pdf con un tamaño máximo de 5MB</p>
+                            </div>
+                            <div class="input-field">
+                              <button class="btn btn-primary btn-primary--fill show-modal-file" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span> Cargar
+                                Documento</button>
+                            </div>
+                          </div>
+                          {% endif %}
+                          <!-- End Load file -->
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            {% for document in documents_presentation %}
+                            <div class="list-of-documents-item">
+                              <a href="/media/{{document.document}}" class="list-of-documents-item-preview"
+                                target="_blank">
+                                <img data-pdf-thumbnail-file="/media/{{document.document}}"
+                                  src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}"
+                                  title="{{ document.title }}">
+                              </a>
+                              <div class="list-of-documents-item-content">
+                                <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                              </div>
+                              <div class="list-of-documents-item-state">
+                                <p class="list-of-documents-item-state-title">Estado: <span>
+                                    {% if document.approved %}
+                                    Aprobado
+                                    {% else %}
+                                    Sin Aprobar
+                                    {% endif %}
+                                  </span></p>
+                                <p class="list-of-documents-item-content-required">
+                                  {% if document.requires_approval %}
+                                  Requiere aprobación
+                                  {% else %}
+                                  NO Requiere aprobación
+                                  {% endif %}
+                                </p>
+                              </div>
+                              <div class="list-of-documents-item-delete">
+                                <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span
+                                    class="icon-icon-bell-notificacion-remove"></span></a>
+                              </div>
+                            </div>
+                            {% endfor %}
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span
+                                class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue"
+                              value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Step4 -->
+
+                    </div>
+
+                    <!-- End Form step card -->
+                  </div>
+                  <!-- End Steps Card -->
+
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <!-- END Collapse item -->
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3" data-accordion-item="revision">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-review">
+                  <a class="accordion-button" type="button"
+                    href="/solicitud/{{ demand.id }}/recepcion/revision/?regresar=true">En revisión</a>
+                </h2>
+              </div>
+              <div id="review" class="accordion-collapse collapse" aria-labelledby="accordion-review"
+                data-bs-parent="#accordionActivityManagement">
+                {% if process == 're' or rollback == True %}
+                <div class="accordion-body">
+                  <div class="info-data-activity">
+                    <!-- Data activity left -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">ID Solicitud:</p>
+                        <p class="info-data-activity-item-text">#{{ demand.id }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Solicitado por:</p>
+                        <p class="info-data-activity-item-text">{{ demand.functionary.user.first_name }} {{ demand.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity left -->
+                    <!-- Data activity right -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Fecha de solicitud:</p>
+                        <p class="info-data-activity-item-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M Y' }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Temática:</p>
+                        <p class="info-data-activity-item-text">{{ demand.theme }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity right -->
+                  </div>
+
+                  <!-- Steps Card -->
+                  <div class="container-steps">
+
+                    <div class="card-informative-left box-shadow-primary">
+                      <h4 class="card-informative-title">{{ demand.project }}</h4>
+                      {% if reception.date_demand_revision %}
+                        <div class="content-step-date-wrapper">
+                          <div class="content-step-date">
+                            <p class="content-step-date-title">Fecha:</p>
+                            <span class="content-step-date-value">{{ reception.date_demand_revision|date:'d' }} de {{ reception.date_demand_revision|date:'M' }}</span>
+                          </div>
+                          <div class="content-step-hours">
+                            <p class="content-step-hours-title">Hora de Revisión:</p>
+                            <span class="content-step-hours-value">{{ reception.date_demand_revision|time:'g:i a' }}</span>
+                          </div>
+                        </div>
+                      {% else %}
+                        <div class="content-step-date-wrapper m-auto">
+                          <img src="{% static 'cepal/dist/assets/images/procesando.svg' %}" alt="Procesando ..." title="Procesando">
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- Form step card -->
+                    <div class="container-steps-forms box-shadow-primary">
+                      <!-- Form Review -->
+                      <div class="content-step step-active">
+                        <form method="POST" class="form-stpes form-stpe-review" id="formReview">
+                          {% csrf_token %}
+                          <div class="inputs-fields d-flex mb-5">
+                            <div class="input-field w-100">
+                              {% if reception.punctual_need != "" %}
+                                  <div class="simple-title">
+                                      {{ form.punctual_need.label }}
+                                  </div>
+                                  {% if reception.punctual_need == 'Y' %}
+                                    <p class="simple-box">Si</p>
+                                  {% else %}
+                                    <p class="simple-box">No</p>
+                                  {% endif %}
+                              {% else %}
+                                  <label for="stateReception" class="input-field-label required">{{ form.punctual_need.label }}</label>
+                                  <div class="form__element form__element--select">
+                                  
+                                      {{ form.punctual_need }}
+                                  </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="inputs-fields d-flex mb-5">
+                            <div class="input-field w-100">
+                              {% if reception.full_justification  != "" %}
+                                  <div class="simple-title">
+                                      {{ form.full_justification.label }}
+                                  </div>
+                                  {% if reception.full_justification == 'Y' %}
+                                    <p class="simple-box">Si</p>
+                                  {% else %}
+                                    <p class="simple-box">No</p>
+                                  {% endif %}
+                              {% else %}
+                              <label for="stateReception" class="input-field-label required">{{ form.full_justification.label }}</label>
+                              <div class="form__element form__element--select">
+                                  {{ form.full_justification }}
+                              </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="inputs-fields d-flex mb-5">
+                            <div class="input-field w-100">
+                              {% if reception.approval_instance  != "" %}
+                                  <div class="simple-title">
+                                      {{ form.approval_instance.label }}
+                                  </div>
+                                  {% if reception.approval_instance == 'Y' %}
+                                    <p class="simple-box">Si</p>
+                                  {% else %}
+                                    <p class="simple-box">No</p>
+                                  {% endif %}
+                              {% else %}
+                                  <label for="stateReception" class="input-field-label required">{{ form.approval_instance.label }}</label>
+                                  <div class="form__element form__element--select">
+                                      {{ form.approval_instance }}
+                                  </div>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          <div class="inputs-fields d-flex mb-5">
+                            <div class="input-field w-100">
+                              {% if reception.comment_revision %}
+                                  <div class="simple-title">Comentarios</div>
+                                  <p class="simple-box">{{ reception.comment_revision }}</p>
+                              {% else %}
+                                  <label for="commentary" class="input-field-label required">Comentarios</label>
+                                  {{ form.comment_revision }}
+                                  <p class="form__element__info counter" data-maxlength="300">
+                                  </p>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          <div class="content-buttons">
+                            <button
+                              class="btn btn-secondary btn-secondary--contour btn-form-back btn-accordeon-back"><span
+                                class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue"
+                              value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Review -->
+
+                    </div>
+
+                    <!-- End Form step card -->
+                  </div>
+                  <!-- End Steps Card -->
+
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <!-- END Collapse item -->
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3" data-accordion-item="finalizado">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-finalized">
+                  <a class="accordion-button" type="button"
+                    href="/solicitud/{{ demand.id }}/recepcion/finalizado/?regresar=true">Finalizado</a>
+                </h2>
+              </div>
+              <div id="finalized" class="accordion-collapse collapse" aria-labelledby="accordion-finalized"
+                data-bs-parent="#accordionActivityManagement">
+                {% if process == 'fi' or rollback == True %}
+                <div class="accordion-body">
+                  <div class="info-data-activity">
+                    <!-- Data activity left -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">ID Solicitud:</p>
+                        <p class="info-data-activity-item-text">#{{ demand.id }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Solicitado por:</p>
+                        <p class="info-data-activity-item-text">{{ demand.functionary.user.first_name }} {{ demand.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity left -->
+                    <!-- Data activity right -->
+                    <div class="info-data-activity-left">
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Fecha de solicitud:</p>
+                        <p class="info-data-activity-item-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M Y' }}</p>
+                      </div>
+                      <div class="info-data-activity-item">
+                        <p class="info-data-activity-item-title">Temática:</p>
+                        <p class="info-data-activity-item-text">{{ demand.theme }}</p>
+                      </div>
+                    </div>
+                    <!-- End Data activity right -->
+                  </div>
+
+
+                  <!-- Steps Card -->
+                  <div class="container-steps">
+
+                    <div class="card-informative-left finished box-shadow-primary">
+                      <div class="card-informative-left-validation">
+                        <div src="" alt="" class="card-informative-left-validation-icon">
+                          <span class="icon-icon-check"></span>
+                        </div>
+                        <h3 class="card-informative-left-validation-title">Validado</h3>
+                      </div>
+                      <h4 class="card-informative-title text-center">{{ demand.project}}</h4>
+                      {% if reception.date_demand_finalized %}
+                      <div class="content-step-date-wrapper">
+                        <div class="content-step-date justify-content-center">
+                          <p class="content-step-date-title">Fecha:</p>
+                          <span class="content-step-date-value">{{ reception.date_demand_finalized|date:'d' }} de {{ reception.date_demand_finalized|date:'M' }}</span>
+                        </div>
+                        <div class="content-step-hours justify-content-center">
+                          <p class="content-step-hours-title">Hora de finalización:</p>
+                          <span class="content-step-hours-value">{{ reception.date_demand_finalized|time:'g:i a' }}</span>
+                        </div>
+                        <div class="content-step-hours justify-content-center">
+                          <p class="content-step-hours-title">Duración proceso:</p>
+                          <span class="content-step-hours-value">{{ reception.time_demand_finalized|time:'H:i' }}</span>
+                        </div>
+                      </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- Form step card -->
+                    <div class="container-steps-forms box-shadow-primary">
+                      <!-- Form Review -->
+                      <div class="content-step step-active">
+                        <form method="POST" class="form-stpes form-stpe-review" id="formReview">
+                          {% csrf_token %}
+                          <p class="content-step-text">Su solicitud ha sido validada, se encontró que tiene un <b>nivel de relevancia de {{ reception.demand_assessment}}</b>, cumplió con todos los soportes, pasa al siguiente proceso, para ver su solicitud haga <a href="/solicitud/{{ demand.id }}" target="_blank">clic aquí</a>.</p>
+
+                          <div class="inputs-fields d-flex mb-5 pb-5">
+                            <div class="input-field w-100">
+                              {% if reception.comment_finalized %}
+                                  <div class="simple-title">Comentarios</div>
+                                  <p class="simple-box">{{ reception.comment_finalized }}</p>
+                              {% else %}
+                                  <label for="commentary" class="input-field-label">Comentarios</label>
+                                  {{ form.comment_finalized }}
+                                  <p class="form__element__info counter" data-maxlength="300">
+                                  </p>
+                              {% endif %}
+                            </div>
+                            <!-- <div class="input-field w-100">
+                              <label for="commentary" class="input-field-label">Comentarios</label>
+                              {% if reception.comment_finalized %}
+                                <p>{{ reception.comment_finalized }}</p>
+                              {% else %}
+                                {{ form.comment_finalized }}
+                              {% endif %}
+                            </div> -->
+                          </div>
+
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back btn-accordeon-back"><span class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Form Review -->
+                    </div>
+                    <!-- End Form step card -->
+                  </div>
+                  <!-- End Steps Card -->
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <!-- END Collapse item -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- DOCUMENTS LOAD MODAL -->
+<div class="modal fade modal--closein documentsmodal" id="loadDocumentBoxResult" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span class="icon-upload-icon"></span>
+          <span class="documentsmodal__title">Cargar Documento</span>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form enctype="multipart/form-data" class="form documentsmodal__form" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="document" value="document">
+
+          <div class="form__group">
+            <fieldset class="form__field" id="field-0">
+              <div class="input-field d-flex align-items-center mt-5 mb-2">
+                {{ form_document.requires_approval }}
+                <label for="id_requires_approval" class="input-field-label mb-0">Documento verificado</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form__field required" id="field-1">
+              <label for="addressedTo" class="input-field-label">Dirigido a</label>
+              <div class="form__element form__element--select">
+                {{ form_document.assigned_to }}
+              </div>
+            </fieldset>
+
+            <fieldset class="form__field required" id="field-2">
+              <label for="copyTo" class="input-field-label">Copia a</label>
+              <div class="form__element form__element--select-multiple">
+                {{ form_document.copy_to }}
+                <p class="form__element__info mt-2">
+                  Puede seleccionar más de uno.
+                  <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                </p>
+              </div>
+            </fieldset>
+
+            <fieldset class="form__field required" id="field-3">
+              <label for="id_name">Nombre</label>
+              <div class="form__element">
+                {{ form_document.title }}
+              </div>
+            </fieldset>
+
+            <fieldset class="form__field required" id="field-4">
+              <label for="id_documents">Documento</label>
+              <div class="form__element form__element--file">
+                {{ form_document.document }}
+                <p class="form__element__info mt-2">Solo se aceptan archivos en formato PDF con un peso máximo de 5MB</p>
+              </div>
+            </fieldset>
+
+          </div>
+          <div class="documentsmodal__call">
+            <input type="submit" value="Cargar" class="d-none">
+            <input type="submit" class="btn btn-secondary btn-secondary--fill" id="loadFile" value="Cargar">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END DOCUMENTS LOAD MODAL -->
+
+<!-- Modal Confirmar diferentes estados: Aprobado - Rechazado -->
+<dialog class="modal fade modal-primary-style" id="showStatesProcess" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title"></h2>
+            <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p class="description"></p>
+
+            <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+              <button class="btn btn-white-bordered btn-acept-modal" type="button" aria-label="Si">Si</button>
+              <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="No">No</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</dialog>
+<!-- End Modal Confirmar diferentes estados: Aprobado - Rechazado -->
+
+<!-- Modal Confirmar para borrar los documentos cargados -->
+<dialog class="modal fade modal-primary-style" id="deleteDocumentMP" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Borrar documento</h2>
+            <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p class="description">Está seguro que quiere borrar el documento: <strong><span></span></strong></p>
+
+            <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+              <button class="btn btn-white-bordered btn-acept-modal" type="button" aria-label="Aceptar">Aceptar</button>
+              <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Close">Cancelar</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</dialog>
+<!-- Modal Confirmar para borrar los documentos cargados -->
+
+{% endblock %}

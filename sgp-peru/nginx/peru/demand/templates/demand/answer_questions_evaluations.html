@@ -1,0 +1,150 @@
+    <form method="post" class="form-answer form consistency-quality-cuestions container" id="answer">
+        {% csrf_token %}
+        <div class="all-questions style-scrooll">
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_1.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_1  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_2.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_2  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_3.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_3  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_4.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_4  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_5.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_5  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_6.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_6  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_7.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_7  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_8.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_8  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_9.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_9  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="question">
+                <div class="label-question">
+                {{ form.question_10.label }}
+                </div>
+                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                {% for choices in form.question_10  %}
+                    {% if choices.data.index != '0' %}
+                    <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                        {{ choices }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if not evaluation_answer %}
+            <!-- <div class="content-buttons d-flex justify-content-end mt-5">
+                <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Guardar">
+            </div> -->
+        {% endif %}
+    </form>

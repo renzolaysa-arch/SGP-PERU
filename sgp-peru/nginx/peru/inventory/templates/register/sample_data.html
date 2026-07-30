@@ -1,0 +1,287 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Sample data {% endblock %}
+{% block content %}
+<section class="create-provider">
+    <div class="main-title">
+        <h1 class="cepal-h1 title-provider">Nuevo proveedor</h1>
+        <p>
+            En esta sección podrás crear y registrar la información completa de un proveedor. 
+        </p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 steps-card">
+                <div class="container-steps demand-create">
+                    <div class="step active">
+                        <div class="step-number">
+                            <p>1</p>
+                        </div>
+                        <div class="step-title">
+                            <p>Datos Primer formulario</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <p>2</p>
+                        </div>
+                        <div class="step-title">
+                            <p>Información del proveedor</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <p>3</p>
+                        </div>
+                        <div class="step-title">
+                            <p>Información de contacto</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-7 form-card">
+                <form action="/enviar-provider/" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken"
+                        value="d4GzVdrNwSFmLGjlkoeszwVZLLGoYOtI8IOFtOEzH3HInhFjWvp7oa7UbbONeg4N">
+
+                    <label for="id_name">Nombre:</label>
+
+
+                    <input type="text" name="name" maxlength="255" required="" id="id_name">
+
+
+
+
+
+
+                    <label for="id_identification_number">Número de Identificación Tributaria:</label>
+
+
+                    <input type="text" name="identification_number" maxlength="255" id="id_identification_number">
+
+
+
+
+
+
+                    <label for="id_description">Descripción:</label>
+
+
+                    <textarea name="description" cols="40" rows="10" required="" id="id_description"></textarea>
+
+
+
+
+
+
+                    <label for="id_sector">Sector:</label>
+
+
+                    <select name="sector" id="id_sector">
+                        <option value="" selected="">---------</option>
+
+                    </select>
+
+
+
+
+
+
+                    <label for="id_type">Tipo:</label>
+
+
+                    <select name="type" id="id_type">
+                        <option value="" selected="">---------</option>
+
+                    </select>
+
+
+
+
+
+
+                    <label for="id_mision">Misión:</label>
+
+
+                    <textarea name="mision" cols="40" rows="10" id="id_mision"></textarea>
+
+
+
+
+
+
+                    <label for="id_sicode">Código SICODE:</label>
+
+
+                    <input type="text" name="sicode" maxlength="255" id="id_sicode">
+
+
+
+
+
+
+                    <label for="id_territorial_level">Nivel territorial:</label>
+
+
+                    <input type="text" name="territorial_level" maxlength="255" id="id_territorial_level">
+
+
+
+
+
+
+                    <label for="id_web">Página web:</label>
+
+
+                    <input type="url" name="web" maxlength="255" id="id_web">
+
+
+
+
+
+
+                    <label for="id_mail">Correo electrónico:</label>
+
+
+                    <input type="email" name="mail" maxlength="255" id="id_mail">
+
+
+
+
+
+
+                    <label for="id_telephone">Teléfonos:</label>
+
+
+                    <input type="text" name="telephone" maxlength="255" id="id_telephone">
+
+
+
+
+
+
+                    <label for="id_location">Ubicación:</label>
+
+
+                    <select name="location" id="id_location">
+                        <option value="" selected="">---------</option>
+
+                    </select>
+
+
+
+
+
+
+                    <label for="id_agent_mame">Nombre del principal representante:</label>
+
+
+                    <input type="text" name="agent_mame" maxlength="255" id="id_agent_mame">
+
+
+
+
+
+
+                    <label for="id_agent_position">Cargo del principal representante:</label>
+
+
+                    <input type="text" name="agent_position" maxlength="255" id="id_agent_position">
+
+
+
+
+
+
+                    <label for="id_official_name">Nombre del funcionario enlace:</label>
+
+
+                    <input type="text" name="official_name" maxlength="255" id="id_official_name">
+
+
+
+
+
+
+                    <label for="id_official_position">Cargo del funcionario enlace:</label>
+
+
+                    <input type="text" name="official_position" maxlength="255" id="id_official_position">
+
+
+
+
+
+
+                    <label for="id_official_mail">Correo electrónico del funcionario enlace:</label>
+
+
+                    <input type="email" name="official_mail" maxlength="255" id="id_official_mail">
+
+
+
+
+
+
+                    <label for="id_official_telephone">Teléfono del funcionario enlace:</label>
+
+
+                    <input type="text" name="official_telephone" maxlength="255" id="id_official_telephone">
+
+
+
+
+
+
+                    <label for="id_image">Imagen:</label>
+
+
+                    <input type="file" name="image" accept="image/*" required="" id="id_image">
+
+
+                    <span class="helptext">Las imágenes debe ser exactamente de 80x80 píxeles</span>
+
+
+
+
+
+
+                    <label for="id_domain">Dominio:</label>
+
+
+                    <input type="text" name="domain" maxlength="255" required="" id="id_domain">
+
+                    <label for="id_status">Estado:</label>
+
+
+                    <select name="status" id="id_status">
+                        <option value="" selected="">---------</option>
+
+                    </select>
+
+
+                    <label for="id_category">Categorías:</label>
+
+                    <select name="category" id="id_category" multiple="">
+                    </select>
+
+                    <label for="id_topic">Temáticas:</label>
+
+                    <select name="topic" id="id_topic" multiple="">
+                    </select>
+
+
+
+
+
+
+                    <div class="container-buttons">
+                        <input class="btn-user-login" type="submit" value="Enviar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

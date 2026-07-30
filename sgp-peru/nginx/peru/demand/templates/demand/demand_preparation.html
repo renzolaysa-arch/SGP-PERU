@@ -1,0 +1,1278 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Cuadro de resultados | Preparación RRAA {% endblock %}
+{% block content %}
+
+<main class="demand-preparation bg-int-secondary">
+  <section class="results-box-header mb-5">
+    <div class="container">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_detail' demand.id %}">Detalle de solicitud</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cuadro de resultados</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <div class="row mt-lg-0 mt-5 mb-5">
+        <!-- Column Left -->
+        <div class="col-12 col-md-6 results-box-data">
+          <h1 class="results-box-data-title">{{ demand.title }}</h1>
+          <div class="results-box-data-content">
+            <div class="activity">
+              <p class="activity-title">Actividad:</p>
+              <div class="activity-badge">
+                <img src="/static/cepal/dist/assets/images/preparacion-mg-col.svg" alt="icon" title="icon" />
+                <span >Preparación RRAA</span>
+              </div>
+            </div>
+            <p class="description">{{ demand.description }}</p>
+          </div>
+        </div>
+        <!-- End Column Left -->
+
+        <!-- Column Right -->
+        {% if participations %}
+          <div class="col-12 col-md-6 mt-5 mt-md-0">
+            <div class="card-type-participants">
+              <h2 class="card-type-participants-title">Participantes</h2>
+              <!-- Participants List -->
+              <div class="card-type-participants-list style-scrooll">
+                <!-- Participants List Item -->
+                {% for participation in participations %}
+                  <div class="card-type-participants-list-item">
+                    <div class="participant-data">
+                      <span class="participant-data-type type-functionary">{{ participation.user.groups.all.0.name }}</span>
+                      <p class="participant-data-name">{{ participation.user.first_name }} {{ participation.user.last_name }}</p>
+                    </div>
+                    <div class="participant-data-email">
+                      <p class="participant-email">{{ participation.user.username }}</p>
+                      <button class="btn btn-copy" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip" data-bs-title="Copiar">
+                        <span class="icon-copy"></span>
+                      </button>
+                    </div>
+                  </div>
+                {% endfor %}
+                <!-- End Participants List Item -->
+              </div>
+              <!-- End Participants List -->
+            </div>
+          </div>
+        {% endif %}
+        <!-- End Column Right -->
+      </div>
+
+      <div class="row">
+        <div class="col-12 mt-5 pt-4">
+          <div class="highlight-list highlight-list--three-cols">
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Proveedor</div>
+                <p class="field-informative-text">{{ demand.provider_entity }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Fecha de inicio</div>
+                <p class="field-informative-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M' }} de {{ demand.created_date|date:'Y' }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Fecha de finalización</div>
+                <p class="field-informative-text">
+                  {% if transfe.date_demand_finalized %}
+                      <p class="field-informative-text">{{ transfe.date_demand_finalized|date:'d' }} de {{ transfe.date_demand_finalized|date:'M' }} de {{ transfe.date_demand_finalized|date:'Y' }}</p>
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="result-box-body my-5" data-name="{{sub_process}}">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="accordion accordion-secondary" id="accordionActivityManagement">
+            <!-- Loader -->
+            <div class="loading z-index-3">
+              <div class="loader">
+              </div>
+              <p class="loading__text">Cargando...</p>
+            </div>
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-preparation__begin" data-accordion-item="inicio">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title" id="accordion-initiation">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/preparacion/inicio/">Inicio</a>
+                </h2>
+              </div>
+
+              <div id="initiation" class="accordion-collapse collapse show" aria-labelledby="accordion-initiation" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+
+                  <div class="highlight-list highlight-list--three-cols">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{ demand.id }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">Fecha acordada</div>
+                        <p class="field-informative-text">{{ negotiation.date_agreed|date:'d' }} de {{ negotiation.date_agreed|date:'M' }} de {{ negotiation.date_agreed|date:'Y' }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  <form method="post" class="form form-stpes form-begin" id="beginPreparationForm">
+                    {% csrf_token %}
+                    <fieldset class="form__field required">
+                      <label for="transfer">Transferencia</label>
+                      <div class="form__element form__element--select">
+                        <select name="transfer" id="transfer">
+                          <option value="" disabled selected>Seleccione una opción</option>
+                          {% for transfer in transfers %}
+                            {% if transfer.finalize and transfer.validate_preparation == False and transfer.preparation == False %}
+                              <option value="{{ transfer.id }}">{{ transfer.number_deliveries }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <p class="form__element__info transferlink"><a href="{% url 'demand:process_transfer' demand.id %}">Actualizar transferencia</a></p>
+                    </fieldset>
+
+                    <fieldset class="form__field required">
+                      <label for="fecha">Fecha de verificación</label>
+                      <div class="form__element form__element--date">
+                        <input type="date" name="date" id="date" />
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form__field required">
+                      <label for="hora">Hora de verificación</label>
+                      <div class="form__element form__element--time">
+                        <input type="time" name="hour" id="hour" />
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form__field required">
+                      <label for="id_coments">Comentarios</label>
+                      <div class="form__element form__element--textarea">
+                        <textarea name="coments" cols="40" rows="10" required="" id="id_coments"
+                          placeholder="Agregue comentarios del proceso"></textarea>
+                      </div>
+                    </fieldset>
+
+                    <div class="form__call">
+                      <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                    </div>
+                  </form>
+
+                  <div class="highlight-list highlight-list--one-cols mt-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative content-data">
+                        <div class="field-informative-title">Preparaciones</div>
+
+                        <!-- Item list transfer -->
+                        {% if preparations %}
+                          <div class="list-of-transfer list-of-transfer--style-one style-scrooll">
+                            {% for preparation in preparations %}
+                              <div class="list-of-transfer-item style-scrooll">
+                               
+                                <!-- Column list transfer -->
+                                <div class="list-of-transfer-item-column">
+                                  <h5 class="list-of-transfer-item-title">Transferencia</h5>
+                                  <p class="list-of-transfer-item-text">{{ preparation.transfer.number_deliveries }}</p>
+                                </div>
+                                <!-- End Column list transfer -->
+
+                                <!-- Column list transfer -->
+                                <div class="list-of-transfer-item-column">
+                                  <h5 class="list-of-transfer-item-title">Fecha de verificación</h5>
+                                  <p class="list-of-transfer-item-text">{{ preparation.date_verification|date:"d F Y" }}</p>
+                                </div>
+                                <!-- End Column list transfer -->
+
+                                <!-- Column list transfer -->
+                                <div class="list-of-transfer-item-column">
+                                  <h5 class="list-of-transfer-item-title">Hora de verificación</h5>
+                                  <p class="list-of-transfer-item-text">{{ preparation.date_verification|date:"H:m" }}</p>
+                                </div>
+                                <!-- End Column list transfer -->
+
+                                <!-- Column list transfer -->
+                                <div class="list-of-transfer-item-column">
+                                  <h5 class="list-of-transfer-item-title">Comentarios</h5>
+                                  <p class="list-of-transfer-item-text">{{ preparation.comment }}</p>
+                                </div>
+                                <!-- End Column list transfer -->
+
+                              </div>
+                            {% endfor %}
+                          </div>
+                          {% else %}
+                          <div class="list-of-transfer list-of-transfer--style-one style-scrooll d-flex justify-content-center align-items-center">
+                            <p>Actualmente no hay preparaciones disponibles para mostrar. Por favor, actualice una preparacion para ver los detalles aquí.</p>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="content-buttons">
+                      {% if transfers %}
+                        <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_process' demand.id %}">Continuar</a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-secondary--fill pe-none" disabled>Continuar</button>
+                      {% endif %}
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+                  
+                </div>
+              </div>
+
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-preparation__process" data-accordion-item="proceso">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-in-process">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/preparacion/proceso/">En proceso</a>
+                </h2>
+              </div>
+
+              <div id="process" class="accordion-collapse collapse" aria-labelledby="accordion-process"
+                data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+
+                  <div class="highlight-list highlight-list--three-cols mb-5 pb-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{demand.id}}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. Entrega</div>
+                        <div class="field-informative-text">
+                          <div class="form__element--select">
+                            <select name="transfer" id="transfer">
+                              <option value="" disabled selected>Seleccione una opción</option>
+                              {% for preparation in preparations %}
+                                <option value="{{ preparation.id }}">{{ preparation.transfer.number_deliveries }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+                  
+                  {% if preparation_id is not None and preparation_id != "" %}
+                  <!-- Steps Card -->
+                  <div class="container-steps">
+
+                    <!-- step wizard -->
+                    <div class="progressbar">
+                      <ul class="progressbar-primary box-shadow-primary" id="progressbar">
+                        <li class="progressbar-step" id="step-2" data-name="consistency"><span>Consistencia</span></li>
+                        <li class="progressbar-step" id="step-3" data-name="standardization-normalization"><span>Estandarización y Normalización</span></li>
+                        <li class="progressbar-step" id="step-4" data-name="anomaly-detection"><span>Detección de anomalías</span></li>
+                        <li class="progressbar-step" id="step-5" data-name="anonymization-completeness"><span>Anonimización y completitud</span></li>
+                      </ul>
+                    </div>
+                    <!-- End step wizard -->
+
+                    <!-- Form step card -->
+                    <div class="container-steps-forms box-shadow-primary">
+
+                      <!-- Form Step2 -->
+                      <div class="content-step step-2" data-name="consistency">
+                        <h4 class="content-step-title">ID Solicitud: {{ demand.id }}</h4>
+                        <p class="content-step-description">Para garantizar la precisión de la información, es necesario que seleccione a un funcionario que se encargará de verificar y calificar su consistencia.</p>
+                        {% if preparation.date_consistency %}
+                          <div class="content-step-date-project">
+                            <div class="content-step-date">
+                              <p class="content-step-date-title">Fecha:</p>
+                              <span class="content-step-date-value">{{ preparation.date_consistency|date:'d' }} de {{ preparation.date_consistency|date:'M' }}</span>
+                            </div>
+                            <div class="content-step-hours">
+                              <p class="content-step-hours-title">Hora:</p>
+                              <span class="content-step-hours-value">{{ preparation.date_consistency|time:'g:i a' }}</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                        <form method="post" class="form-stpes form-stpe-1 mt-5 form" id="formStep1" data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          <div class="inputs-fields container-responsible-functionary">
+                            {% if preparation_active.consistency_functionary %}
+                                <div class="simple-title">Funcionario responsable</div>
+                                <p class="simple-box">{{preparation_active.consistency_functionary}}</p>
+                            {% else %}
+                                <label for="consistency_functionary" class="input-field-label required">Funcionario responsable</label>
+                                <div class="input-field form__element form__element--select w-100">
+                                    <select name="consistency_functionary" class="input-normal" id="consistency_functionary" required
+                                    {% if sub_process != "consistency" %}
+                                        disabled
+                                    {% endif %}
+                                    >
+                                        <option value="">Seleccione una opción</option>
+                                        {% for functionary in functionaries %}
+                                        <option value="{{ functionary.id }}"
+                                            {% if demand.preparation.consistency_functionary.user.id == functionary.user.id %}
+                                                selected
+                                            {% endif %}
+                                        >{{ functionary.user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                          </div>
+
+                          {% if preparation_active.consistency_answer %}
+                            <h2>Respuestas</h2>
+                            <div class="all-questions">
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.consistency_question_1.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                  <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                                    {{ preparation_active.consistency_question_1 }}
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.consistency_question_2.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.consistency_question_2 }}
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.consistency_question_3.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.consistency_question_3 }}
+                                </div>
+                              </div>
+                            </div>
+                          {% endif %}
+
+                          <!-- Load file -->
+                          {% if not preparation_active.consistency_functionary %}
+                          <div class="load-files mt-5 mb-2">
+                            <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                            <div class="input-field">
+                              <a class="btn btn-primary btn-primary--fill" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span>Cargar
+                                documento</a>
+                            </div>
+                          </div>
+                          {% endif %}
+                          <!-- End Load file -->
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            <!-- document item -->
+                            {% if documents_consistency %}
+                              {% for document in documents_consistency %}
+                                <div class="list-of-documents-item">
+                                    <!-- <embed src="/media/{{document.document}}" class="list-of-documents-item-preview" width="48" height="48"></embed> -->
+                                    <a href="/media/{{document.document}}" class="list-of-documents-item-preview" target="_blank">
+                                      <img data-pdf-thumbnail-file="/media/{{document.document}}" src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}" title="{{ document.title }}">
+                                    </a>
+                                    <div class="list-of-documents-item-content">
+                                        <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                        <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                                    </div>
+                                    <div class="list-of-documents-item-state">
+                                        <p class="list-of-documents-item-state-title">Estado: <span>
+                                        {% if document.approved %}
+                                          Aprobado 
+                                        {% else %}
+                                          Sin Aprobar
+                                        {% endif %}
+                                          </span></p>
+                                        <p class="list-of-documents-item-content-required">
+                                        {% if document.requires_approval %}
+                                          Requiere aprobación
+                                        {% else %}
+                                          NO Requiere aprobación
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    {% if not preparation_active.consistency_functionary %}
+                                    <div class="list-of-documents-item-delete">
+                                      <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span class="icon-icon-bell-notificacion-remove"></span></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              {% endfor %} 
+                            {% endif %}
+                            <!-- End document item -->
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <!-- forward and backward navigation -->
+                          <div class="content-buttons d-flex justify-content-end mt-5">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                          </div>
+                          <!-- End forward and backward navigation -->
+
+                        </form>
+                      </div>
+                      <!-- End Form Step2 -->
+
+                      <!-- Form Step3 -->
+                      <div class="content-step step-3" data-name="standardization-normalization">
+                        <h4 class="content-step-title">ID Solicitud: {{ demand.id }}</h4>
+                        <p class="content-step-description">Para garantizar la coherencia y uniformidad de los datos, seleccione un funcionario de IT que verificará su estandarización y normalización.</p>
+                        {% if preparation.date_standarization %}
+                          <div class="content-step-date-project">
+                            <div class="content-step-date">
+                              <p class="content-step-date-title">Fecha:</p>
+                              <span class="content-step-date-value">{{ preparation.date_standarization|date:'d' }} de {{ preparation.date_standarization|date:'M' }}</span>
+                            </div>
+                            <div class="content-step-hours">
+                              <p class="content-step-hours-title">Hora:</p>
+                              <span class="content-step-hours-value">{{ preparation.date_standarization|time:'g:i a' }}</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                        <form method="post" class="form-stpes form-stpe-2 mt-5 form" id="formStep2" data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          <div class="inputs-fields container-responsible-functionary">
+                            {% if preparation_active.standardization_functionary %}
+                                <div class="simple-title">Funcionario responsable</div>
+                                <p class="simple-box">{{preparation_active.standardization_functionary}}</p>
+                            {% else %}
+                                <label for="standardization_functionary" class="input-field-label required">Funcionario responsable</label>
+                                <div class="input-field form__element form__element--select w-100">
+                                    <select name="standardization_functionary" class="input-normal" id="standardization_functionary" required
+                                    {% if sub_process != "standardization-normalization" %}
+                                        disabled
+                                    {% endif %}
+                                    >
+                                        <option value="">Seleccione una opción</option>
+                                        {% for functionary in functionaries %}
+                                        <option value="{{ functionary.id }}"
+                                            {% if demand.preparation.standardization_functionary.user.id == functionary.user.id %}
+                                                selected
+                                            {% endif %}
+                                        >{{ functionary.user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                          </div>
+
+                          {% if preparation_active.standardization_answer %}
+                            <h2>Respuestas</h2>
+                            <div class="all-questions">
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.standarization_question_1.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                  <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                                    {{ preparation_active.standarization_question_1 }}
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.standarization_question_2.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.standarization_question_2 }}
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.standarization_question_3.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.standarization_question_3 }}
+                                </div>
+                              </div>
+                            </div>
+                          {% endif %}
+
+                          {% if not preparation_active.standardization_functionary %}
+                          <!-- Load file -->
+                          <div class="load-files mt-5 mb-2">
+                            <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                            <div class="input-field">
+                              <a class="btn btn-primary btn-primary--fill" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span>Cargar
+                                documento</a>
+                            </div>
+                          </div>
+                          <!-- End Load file -->
+                          {% endif %}
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            <!-- document item -->
+                            {% if doc_standarization %}
+                              {% for document in doc_standarization %}
+                                <div class="list-of-documents-item">
+                                    <a href="/media/{{document.document}}" class="list-of-documents-item-preview" target="_blank">
+                                      <img data-pdf-thumbnail-file="/media/{{document.document}}" src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}" title="{{ document.title }}">
+                                    </a>
+                                    <!-- <embed src="/media/{{document.document}}" class="list-of-documents-item-preview" width="48" height="48"></embed> -->
+                                    <div class="list-of-documents-item-content">
+                                        <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                        <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                                    </div>
+                                    <div class="list-of-documents-item-state">
+                                        <p class="list-of-documents-item-state-title">Estado: <span>
+                                        {% if document.approved %}
+                                          Aprobado 
+                                        {% else %}
+                                          Sin Aprobar
+                                        {% endif %}
+                                          </span></p>
+                                        <p class="list-of-documents-item-content-required">
+                                        {% if document.requires_approval %}
+                                          Requiere aprobación
+                                        {% else %}
+                                          NO Requiere aprobación
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    {% if not preparation_active.standardization_functionary %}
+                                    <div class="list-of-documents-item-delete">
+                                      <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span class="icon-icon-bell-notificacion-remove"></span></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              {% endfor %} 
+                            {% endif %}
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <!-- forward and backward navigation -->
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                          </div>
+                          <!-- End forward and backward navigation -->
+
+                        </form>
+                      </div>
+                      <!-- End Form Step3 -->
+
+                      <!-- Form Step4 -->
+                      <div class="content-step step-4" data-name="anomaly-detection">
+                        <h4 class="content-step-title">ID Solicitud: {{ demand.id }}</h4>
+                        <p class="content-step-description">Para garantizar la precisión de la detección de anomalías, es necesario que seleccione a un funcionario el cual será el responsable de verificarla.</p>
+                        {% if preparation.date_detection %}
+                          <div class="content-step-date-project">
+                            <div class="content-step-date">
+                              <p class="content-step-date-title">Fecha:</p>
+                              <span class="content-step-date-value">{{ preparation.date_detection|date:'d' }} de {{ preparation.date_detection|date:'M' }}</span>
+                            </div>
+                            <div class="content-step-hours">
+                              <p class="content-step-hours-title">Hora:</p>
+                              <span class="content-step-hours-value">{{ preparation.date_detection|time:'g:i a' }}</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                        <form method="post" class="form-stpes form-stpe-3 mt-5 form" id="formStep3" data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          <div class="inputs-fields container-responsible-functionary">
+                            {% if preparation_active.anomaly_functionary %}
+                                <div class="simple-title">Funcionario responsable</div>
+                                <p class="simple-box">{{preparation_active.anomaly_functionary}}</p>
+                            {% else %}
+                                <label for="anomaly_functionary" class="input-field-label required">Funcionario responsable</label>
+                                <div class="input-field form__element form__element--select w-100">
+                                    <select name="anomaly_functionary" class="input-normal" id="anomaly_functionary" required
+                                    {% if sub_process != "anomaly-detection" %}
+                                        disabled
+                                    {% endif %}
+                                    >
+                                        <option value="">Seleccione una opción</option>
+                                        {% for functionary in functionaries %}
+                                        <option value="{{ functionary.id }}"
+                                            {% if demand.preparation.anomaly_functionary.user.id == functionary.user.id %}
+                                                selected
+                                            {% endif %}
+                                        >{{ functionary.user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                          </div>
+
+                          {% if preparation_active.anomaly_answer %}
+                            <h2>Respuestas</h2>
+                            <div class="all-questions">
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.detection_question_1.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                  <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                                    {{ preparation_active.detection_question_1 }}
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.detection_question_2.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.detection_question_2 }}
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.detection_question_3.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.detection_question_3 }}
+                                </div>
+                              </div>
+                            </div>
+                          {% endif %}
+
+                          {% if not preparation_active.anomaly_functionary %}
+                          <!-- Load file -->
+                          <div class="load-files mt-5 mb-2">
+                            <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                            <div class="input-field">
+                              <a class="btn btn-primary btn-primary--fill" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span>Cargar
+                                documento</a>
+                            </div>
+                          </div>
+                          <!-- End Load file -->
+                          {% endif %}
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            {% if doc_detection %}
+                              {% for document in doc_detection %}
+                                <div class="list-of-documents-item">
+                                    <a href="/media/{{document.document}}" class="list-of-documents-item-preview" target="_blank">
+                                      <img data-pdf-thumbnail-file="/media/{{document.document}}" src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}" title="{{ document.title }}">
+                                    </a>
+                                    <!-- <embed src="/media/{{document.document}}" class="list-of-documents-item-preview" width="48" height="48"></embed> -->
+                                    <div class="list-of-documents-item-content">
+                                        <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                        <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                                    </div>
+                                    <div class="list-of-documents-item-state">
+                                        <p class="list-of-documents-item-state-title">Estado: <span>
+                                        {% if document.approved %}
+                                          Aprobado 
+                                        {% else %}
+                                          Sin Aprobar
+                                        {% endif %}
+                                          </span></p>
+                                        <p class="list-of-documents-item-content-required">
+                                        {% if document.requires_approval %}
+                                          Requiere aprobación
+                                        {% else %}
+                                          NO Requiere aprobación
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    {% if not preparation_active.anomaly_functionary %}
+                                    <div class="list-of-documents-item-delete">
+                                      <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span class="icon-icon-bell-notificacion-remove"></span></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              {% endfor %} 
+                            {% endif %}
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <!-- forward and backward navigation -->
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                          </div>
+                          <!-- End forward and backward navigation -->
+
+                        </form>
+                      </div>
+                      <!-- End Form Step4 -->
+
+                      <!-- Form Step5 -->
+                      <div class="content-step step-5" data-name="anonymization-completeness">
+                        <h4 class="content-step-title">ID Solicitud: {{ demand.id }}</h4>
+                        <p class="content-step-description">Seleccione un funcionario que se encargará de verificar la anonimización y completitud de los datos, asegurándose de que estén libres de información identificable.</p>
+                        {% if preparation.date_anonymization %}
+                          <div class="content-step-date-project">
+                            <div class="content-step-date">
+                              <p class="content-step-date-title">Fecha:</p>
+                              <span class="content-step-date-value">{{ preparation.date_anonymization|date:'d' }} de {{ preparation.date_anonymization|date:'M' }}</span>
+                            </div>
+                            <div class="content-step-hours">
+                              <p class="content-step-hours-title">Hora:</p>
+                              <span class="content-step-hours-value">{{ preparation.date_anonymization|time:'g:i a' }}</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                        <form method="post" class="form-stpes form-stpe-4 mt-5 form" id="formStep4" data-iddemand="{{ demand.id }}">
+                          {% csrf_token %}
+                          <div class="inputs-fields container-responsible-functionary">
+                            {% if preparation_active.anonymization_functionary %}
+                                <div class="simple-title">Funcionario responsable</div>
+                                <p class="simple-box">{{preparation_active.anonymization_functionary}}</p>
+                            {% else %}
+                            <label for="anonymization_functionary" class="input-field-label required">Funcionario responsable</label>
+                                <div class="input-field form__element form__element--select w-100">
+                                    <select name="anonymization_functionary" class="input-normal" id="anonymization_functionary" required
+                                    {% if sub_process != "anonymization-completeness" %}
+                                        disabled
+                                    {% endif %}
+                                    >
+                                        <option value="">Seleccione una opción</option>
+                                        {% for functionary in functionaries %}
+                                        <option value="{{ functionary.id }}"
+                                            {% if preparation_active.anonymization_functionary.user.id == functionary.user.id %}
+                                                selected
+                                            {% endif %}
+                                        >{{ functionary.user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                          </div>
+
+                          {% if preparation_active.anonymization_answer %}
+                            <h2>Respuestas</h2>
+                            <div class="all-questions">
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.anonymization_question_1.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                  <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                                    {{ preparation_active.anonymization_question_1 }}
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.anonymization_question_2.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.anonymization_question_2 }}
+                                </div>
+                              </div>
+                              <div class="question">
+                                <div class="label-question">
+                                  {{ form.anonymization_question_3.label }}
+                                </div>
+                                <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                                    {{ preparation_active.anonymization_question_3 }}
+                                </div>
+                              </div>
+                            </div>
+                          {% endif %}
+
+                          {% if not preparation_active.anonymization_functionary %}
+                          <!-- Load file -->
+                          <div class="load-files mt-5 mb-2">
+                            <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                            <div class="input-field">
+                              <a class="btn btn-primary btn-primary--fill" data-bs-toggle="modal"
+                                data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span>Cargar
+                                documento</a>
+                            </div>
+                          </div>
+                          <!-- End Load file -->
+                          {% endif %}
+
+                          <!-- List Documents to send -->
+                          <div class="list-of-documents style-scrooll mt-5">
+                            {% if doc_anonymization %}
+                              {% for document in doc_anonymization %}
+                                <div class="list-of-documents-item">
+                                    <a href="/media/{{document.document}}" class="list-of-documents-item-preview" target="_blank">
+                                      <img data-pdf-thumbnail-file="/media/{{document.document}}" src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}" title="{{ document.title }}">
+                                    </a>
+                                    <!-- <embed src="/media/{{document.document}}" class="list-of-documents-item-preview" width="48" height="48"></embed> -->
+                                    <div class="list-of-documents-item-content">
+                                        <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                                        <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                                    </div>
+                                    <div class="list-of-documents-item-state">
+                                        <p class="list-of-documents-item-state-title">Estado: <span>
+                                        {% if document.approved %}
+                                          Aprobado 
+                                        {% else %}
+                                          Sin Aprobar
+                                        {% endif %}
+                                          </span></p>
+                                        <p class="list-of-documents-item-content-required">
+                                        {% if document.requires_approval %}
+                                          Requiere aprobación
+                                        {% else %}
+                                          NO Requiere aprobación
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    {% if not preparation_active.anonymization_functionary %}
+                                    <div class="list-of-documents-item-delete">
+                                      <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span class="icon-icon-bell-notificacion-remove"></span></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              {% endfor %} 
+                            {% endif %}
+                          </div>
+                          <!-- End List Documents to send -->
+
+                          <!-- forward and backward navigation -->
+                          <div class="content-buttons">
+                            <button class="btn btn-secondary btn-secondary--contour btn-form-back"><span class="icon-back"></span>Volver</button>
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                          </div>
+                          <!-- End forward and backward navigation -->
+
+                        </form>
+                      </div>
+                      <!-- End Form Step5 -->
+
+                    </div>
+
+                  </div>
+                  <!-- End Steps Card -->
+                  {% else %}
+                    <!-- forward and backward navigation -->
+                    <div class="content-buttons">
+                      <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation' demand.id %}">Volver</a>
+                      <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_revision' demand.id %}">Continuar</a>
+                    </div>
+                    <!-- End forward and backward navigation -->
+                  {% endif %}
+
+                </div>
+              </div>
+
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-preparation__revision" data-accordion-item="revision">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-review">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/preparacion/revision/">En revisión</a>
+                </h2>
+              </div>
+
+              <div id="review" class="accordion-collapse collapse" aria-labelledby="accordion-review" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+                  <div class="highlight-list highlight-list--three-cols my-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{ demand.id }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. Entrega</div>
+                        <div class="field-informative-text">
+                          <div class="form__element--select">
+                            <select name="transfer" id="transfer">
+                              <option value="" disabled selected>Seleccione una opción</option>
+                              {% for preparation in preparations %}
+                                <option value="{{ preparation.id }}">{{ preparation.transfer.number_deliveries }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  {% if preparation_active is not None %}
+                  <div class="highlight-father">
+                      <div class="highlight-father__title">Criterios de calidad reportados</div>
+
+                      <div class="highlight-list highlight-list--three-cols w-100 style-scrooll">
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Consistencia</div>
+                            <p class="field-informative-text">{{ metrics.consistency }}</p>
+                          </div>
+                        </div>
+                        <!-- End Highlight Item -->
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Estandarización y Normalización</div>
+                            <p class="field-informative-text">{{ metrics.standardization }}</p>
+                          </div>
+                        </div>
+                        <!-- End Highlight Item -->
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Detección de anomalías</div>
+                            <p class="field-informative-text">{{ metrics.anomaly }}</p>
+                          </div>
+                        </div>
+                        <!-- End Highlight Item -->
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Anonimización y completitud</div>
+                            <p class="field-informative-text">{{ metrics.anonymization }}</p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="simple-box my-5">
+                    <form method="post" class="form-stpes form-stpe-review form my-5" id="formReview">
+                      {% csrf_token %}
+                      <div class="form__group--three-col">
+                        <fieldset class="form__field required">
+                          {% if preparation_active.date_revision %}
+                              <div class="simple-title">Fecha de revisión</div>
+                              <p class="simple-box">{{ preparation_active.date_revision|date:"d F Y" }}</p>
+                          {% else %}
+                              <label for="fecha">Fecha de revisión</label>
+                              <div class="form__element form__element--date">
+                                  <input type="date" name="date" id="date" />
+                              </div>
+                          {% endif %}
+                        </fieldset>
+    
+                        <fieldset class="form__field required">
+                          {% if preparation_active.date_revision %}
+                              <div class="simple-title">Hora de revisión</div>
+                              <p class="simple-box">{{ preparation_active.date_revision|date:"H:m" }}</p>
+                          {% else %}
+                              <label for="hora">Hora de revisión</label>
+                              <div class="form__element form__element--time">
+                                  <input type="time" name="hour" id="hour" />
+                              </div>
+                          {% endif %}
+                        </fieldset>
+                      </div>
+                      <div class="form__group--two-col">
+                        <fieldset class="form__field required">
+                          {% if preparation_active.question_1 %}
+                              <div class="simple-title">{{ revision_form.question_1.label }}</div>
+                              <p class="simple-box">{{ preparation_active.question_1 }}</p>
+                          {% else %}
+                              <label for="review-question-1">{{ revision_form.question_1.label }}</label>
+                              <div class="form__element form__element--select">
+                                  {{ revision_form.question_1 }}
+                              </div>
+                          {% endif %}
+                        </fieldset>
+                        <fieldset class="form__field required">
+                          {% if preparation_active.question_2 %}
+                              <div class="simple-title">{{ revision_form.question_2.label }}</div>
+                              <p class="simple-box">{{ preparation_active.question_2 }}</p>
+                          {% else %}
+                              <label for="review-question-2">{{ revision_form.question_2.label }}</label>
+                              <div class="form__element form__element--select">
+                                  {{ revision_form.question_2 }}
+                              </div>
+                          {% endif %}
+                        </fieldset>
+                        <fieldset class="form__field required">
+                          {% if preparation_active.question_3 %}
+                              <div class="simple-title">{{ revision_form.question_3.label }}</div>
+                              <p class="simple-box">{{ preparation_active.question_3 }}</p>
+                          {% else %}
+                              <label for="review-question-3">{{ revision_form.question_3.label }}</label>
+                              <div class="form__element form__element--select">
+                                  {{ revision_form.question_3 }}
+                              </div>
+                          {% endif %}
+                        </fieldset>
+
+                        <fieldset class="form__field w-100 required">
+                          {% if preparation_active.comment_revision %}
+                              <div class="simple-title">Comentarios</div>
+                              <p class="simple-box">{{ preparation_active.comment_revision }}</p>
+                          {% else %}
+                              <label for="id_coments">Comentarios</label>
+                              <div class="form__element form__element--textarea">
+                                  <textarea name="coments" cols="40" rows="10" required="" id="id_coments"
+                                      placeholder="Agregue comentarios del proceso"></textarea>
+                              </div>
+                          {% endif %}
+                        </fieldset>
+                      </div>
+                      {% if not preparation_active.date_revision %}
+                      <div class="form__call">
+                        
+                        <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                      </div>
+                      {% endif %}
+                    </form>
+                  </div>                  
+                  {% endif %}
+                  <!-- forward and backward navigation -->
+                  <div class="content-buttons">
+                    <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_process' demand.id %}">Volver</a>
+                    <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_finalize' demand.id %}">Continuar</a>
+                  </div>
+                  <!-- End forward and backward navigation -->
+
+
+                </div>
+              </div>
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-preparation__finalized" data-accordion-item="finalizado">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-finalized">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/preparacion/finalizado/">Finalizado</a>
+                </h2>
+              </div>
+              <div id="finalized" class="accordion-collapse collapse" aria-labelledby="accordion-finalized" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+                  <div class="highlight-list highlight-list--three-cols my-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{ demand.id }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. Entrega</div>
+                        <div class="field-informative-text">
+                          <div class="form__element--select">
+                            <select name="transfer" id="transfer">
+                              <option value="" disabled selected>Seleccione una opción</option>
+                              {% for preparation in preparations %}
+                                <option value="{{ preparation.id }}">{{ preparation.transfer.number_deliveries }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  {% if preparation_active %}
+                  <form method="post" class="form-stpes form-stpe-review form my-5" id="formFinalize">
+                    {% csrf_token %}
+                    <div class="highlight-father">
+                      <div class="highlight-father__title">Estado de preparación de los registros</div>
+
+                      <div class="form__group--three-col">
+    
+                        <fieldset class="form__field required">
+                          {% if preparation_active.date_finalize  %}
+                              <div class="simple-title">Fecha de revisión</div>
+                              <p class="simple-box">{{ preparation_active.date_finalize|date:"d F Y" }}</p>
+                          {% else %}
+                              <label for="fecha">Fecha de revisión</label>
+                              <div class="form__element form__element--date">
+                                  <input type="date" name="date_finalize" id="date" />
+                              </div>
+                          {% endif %}
+                        </fieldset>
+    
+                        <fieldset class="form__field required">
+                          {% if preparation_active.date_finalize  %}
+                              <div class="simple-title">Hora de revisión</div>
+                              <p class="simple-box">{{ preparation_active.date_finalize|date:"H:m" }}</p>
+                          {% else %}
+                              <label for="hora">Hora de revisión</label>
+                              <div class="form__element form__element--time">
+                                  <input type="time" name="hour_finalize" id="hour_finalize" />
+                              </div>
+                          {% endif %}
+                        </fieldset>
+
+                        <fieldset class="form__field w-100 required">
+                          {% if preparation_active.comment_finalize  %}
+                              <div class="simple-title">Comentarios</div>
+                              <p class="simple-box">{{ preparation_active.comment_finalize }}</p>
+                          {% else %}
+                              <label for="id_coments">Comentarios</label>
+                              <div class="form__element form__element--textarea">
+                                  <textarea name="coments_finalize" cols="40" rows="10" required="" id="id_coments"
+                                  placeholder="Agregue comentarios del proceso"></textarea>
+                              </div>
+                          {% endif %}
+                        </fieldset>
+
+                      </div>
+
+                      <div class="form__call">
+                        <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_revision' demand.id %}">Volver</a>
+                        <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                      </div>
+
+                    </div>
+                  </form>
+                  {% else %}
+                    <!-- forward and backward navigation -->
+                    <div class="content-buttons">
+                      <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_preparation_revision' demand.id %}">Volver</a>
+                      <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_evaluation' demand.id %}">Continuar</a>
+                    </div>
+                    <!-- End forward and backward navigation -->
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <!-- END Collapse item -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS LOAD MODAL -->
+  <div class="modal fade modal--closein documentsmodal" id="loadDocumentBoxResult" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header-title">
+            <span class="icon-upload-icon"></span>
+            <span class="documentsmodal__title">Cargar Documento</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form enctype="multipart/form-data" class="form documentsmodal__form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="document" value="document">
+
+            <div class="form__group">
+              <fieldset class="form__field" id="field-0">
+                <div class="input-field d-flex align-items-center mt-5 mb-2">
+                  {{ form_document.requires_approval }}
+                  <label for="id_requires_approval" class="input-field-label mb-0">Documento verificado</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field required" id="field-1">
+                <label for="addressedTo" class="input-field-label">Dirigido a</label>
+                <div class="form__element form__element--select">
+                  {{ form_document.assigned_to }}
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field required" id="field-2">
+                <label for="copyTo" class="input-field-label">Copia a</label>
+                <div class="form__element form__element--select-multiple">
+                  {{ form_document.copy_to }}
+                  <p class="form__element__info mt-2">
+                    Puede seleccionar más de uno.
+                    <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                  </p>
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field required" id="field-3">
+                <label for="id_name">Nombre</label>
+                <div class="form__element">
+                  {{ form_document.title }}
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field required" id="field-4">
+                <label for="id_documents">Documento</label>
+                <div class="form__element form__element--file">
+                  {{ form_document.document }}
+                  <p class="form__element__info mt-2">Solo se aceptan archivos en formato PDF con un peso máximo de 5MB</p>
+                </div>
+              </fieldset>
+
+            </div>
+            <div class="documentsmodal__call">
+              <input type="submit" value="Cargar" class="d-none">
+              <input type="submit" class="btn btn-secondary btn-secondary--fill" id="loadFile" value="Cargar">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END DOCUMENTS LOAD MODAL -->
+
+  <!-- Modal Confirmar para borrar los documentos cargados -->
+  <dialog class="modal fade modal-primary-style" id="deleteDocumentMP" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h2 class="modal-title">Borrar documento</h2>
+              <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p class="description">Está seguro que quiere borrar el documento: <strong><span></span></strong></p>
+
+              <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                <button class="btn btn-white-bordered btn-acept-modal" type="button" aria-label="Aceptar">Aceptar</button>
+                <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Close">Cancelar</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </dialog>
+  <!-- Modal Confirmar para borrar los documentos cargados -->
+
+</main>
+
+{% endblock %}

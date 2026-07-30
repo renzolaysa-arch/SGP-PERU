@@ -1,0 +1,202 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Tablero de actividades {% endblock %}
+{% load project_tags %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="block-management-header mt-5">
+    <h2 class="block-management-header-title mb-4">Tablero de actividades de relacionamiento con proveedor</h2>
+    <p class="block-management-header-description">En este tablero se podrá ver el proceso y las evidencias de cada una de las actividades de contacto con el proveedor.</p>
+</div>
+
+<!-- BLOCK ACTIVITY MAGAGMENT -->
+<div class="block-activity-management style-scrooll">
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+    <div class="block-activity-management-item box-activities d-flex flex-column">
+        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <div class="block-activity-management-item-header mb-3">
+            <h4 class="block-activity-management-item-title">Actividades</h4>
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+        <div class="block-activity-management-item-content style-scrooll d-flex flex-column justify-content-center">
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Reunión</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">0%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Firma de documentos</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">0%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Transferencia</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">0%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Desistimiento</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">0%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+    </div>
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+    <div class="block-activity-management-item box-start d-flex flex-column">
+        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <div class="block-activity-management-item-header mb-3">
+            <h4 class="block-activity-management-item-title">Inicio</h4>
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Reunión</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">0%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+    </div>
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+    <div class="block-activity-management-item box-process d-flex flex-column">
+        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <div class="block-activity-management-item-header mb-3">
+            <h4 class="block-activity-management-item-title">En proceso</h4>
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Contacto</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">69%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+    </div>
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+    <div class="block-activity-management-item box-revision d-flex flex-column">
+        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <div class="block-activity-management-item-header mb-3">
+            <h4 class="block-activity-management-item-title">En revisión</h4>
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Contacto</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">80%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+    </div>
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+    <div class="block-activity-management-item box-finalized d-flex flex-column">
+        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <div class="block-activity-management-item-header mb-3">
+            <h4 class="block-activity-management-item-title">Finalizado</h4>
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+            <div class="activity-item box-shadow-secondary">
+                <div class="activity-item-info">
+                    <p class="activity-item-info-title">Contacto</p>
+                    {% if request.user|has_group:"Unidad Central" %}
+                        <a href="#" class="activity-item-info-link">Ver evidencias</a>
+                    {% endif %}
+                </div>
+                <p class="activity-item-percentage">100%</p>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+        </div>
+        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+    </div>
+    <!-- COLUMN ACTIVITY MAGAGMENT -->
+</div>
+<!-- END BLOCK ACTIVITY MAGAGMENT -->
+
+<div class="macroprocess-type box-shadow-primary mt-5 d-flex justify-content-between">
+        <div class="macroprocess-type-title">
+            <h3 class="macroprocess-type-title-text">Macroprocesos</h3>
+        </div>
+        <div class="macroprocess-type-item">
+            <div class="macroprocess-type-item-icon"></div>
+            <p class="macroprocess-type-item-text">Descubrimiento</p>
+        </div>
+        <div class="macroprocess-type-item">
+            <div class="macroprocess-type-item-icon"></div>
+            <p class="macroprocess-type-item-text">Relacionamiento</p>
+        </div>
+        <div class="macroprocess-type-item">
+            <div class="macroprocess-type-item-icon"></div>
+            <p class="macroprocess-type-item-text">Intercambio y Transferencia</p>
+        </div>
+        <div class="macroprocess-type-item">
+            <div class="macroprocess-type-item-icon"></div>
+            <p class="macroprocess-type-item-text">Preparación</p>
+        </div>
+        <div class="macroprocess-type-item">
+            <div class="macroprocess-type-item-icon"></div>
+            <p class="macroprocess-type-item-text">Uso estadístico del Registo</p>
+        </div>
+     </div>

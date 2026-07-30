@@ -1,0 +1,59 @@
+.macroprocess-type {
+  padding: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: var(--secondary-color);
+  @include media-query(mindesktopLS){
+    flex-wrap: nowrap;
+  }
+  
+  &-title,
+  &-item {
+    &-text {
+      margin-bottom: 0;
+    }
+  }
+
+  // Titulo
+  &-title {
+    width: 100%;
+    @include media-query(mindesktopLS){
+      width: fit-content;
+    }
+
+    &-text {
+      color: $color-white;
+      font-size: 1.6rem;
+      font-weight: $bold;
+    }
+  }
+
+  // Items
+  &-item {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+
+    @include media-query(mintablet){
+      width: 45%;
+    }
+
+    @include media-query(mindesktop){
+      width: auto;
+    }
+
+    &-icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      // background-color: #d9d9d9;
+      background-color: $color-white;
+    }
+
+    &-text {
+      color: $color-white;
+      font-size: 1.3rem;
+    }
+  }
+}

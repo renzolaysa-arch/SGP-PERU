@@ -1,0 +1,680 @@
+// Estilos para detalle de "Proyectos" / "Noticias" / "Contenido Educativo"
+.detail {
+
+    // Header
+    &__header {
+        background-color: rgba($color: var(--primary-rgb), $alpha: 0.05);
+
+        // Fecha
+        &-date {
+            color: $color-black-b3;
+            font-size: 1.6rem;
+            margin-bottom: 3rem;
+        }
+
+        // Titulo
+        &-title {
+            color: $color-black-b3;
+            font-weight: $semibold;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            max-width: 28ch;
+            margin-left: auto;
+            margin-right: auto;
+
+            @include media-query(mintablet) {
+                font-size: 3.5rem;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 4.5rem;
+            }
+
+        }
+
+        // Taxonomias
+        &-taxonomies {
+            display: flex;
+            flex-direction: column;
+            padding-top: 1.6rem;
+            border-top: 1px solid rgba($color-lightgray, 0.3);
+            margin-bottom: 5rem;
+
+            @include media-query(mintablet) {
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1.3rem;
+            }
+
+            // Titulo
+            &__title {
+                color: $color-black-b3;
+                font-weight: $semibold;
+                font-size: 1.6rem;
+
+                @include media-query(mintablet) {
+                    margin-bottom: 0;
+                }
+            }
+
+            // Contenedor taxonomias(badges)
+            &__wrapper {
+                display: flex;
+                gap: 0.7rem;
+                justify-content: center;
+
+                .badge{
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    // Contenido
+    &__content {
+        margin-bottom: 5rem;
+        background-color: $color-white;
+
+        // Titulos
+        h3 {
+            color: $color-black-b3;
+            font-weight: $semibold;
+            font-size: 2.5rem;
+            text-align: left;
+            margin-bottom: 2rem;
+
+            @include media-query(mindesktop) {
+                width: 83.33333333%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        // Parrafos
+        p {
+            color: $color-black-b3;
+            font-weight: $regular;
+            font-size: 1.6rem;
+            margin-bottom: 2.5rem;
+
+            @include media-query(mindesktop) {
+                width: 83.33333333%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        // Contenedores imagenes
+        figure {
+            margin-bottom: 4rem;
+
+            img {
+                border-radius: 2rem;
+                box-shadow: 0rem 1rem 2rem #45454526;
+                display: block;
+                margin-bottom: 2rem;
+            }
+
+            // Caption
+            figcaption {
+                color: $color-black-b3;
+                font-weight: $regular;
+                font-size: 1.4rem;
+                text-align: left;
+            }
+        }
+
+        // Citas
+        blockquote {
+            width: 73.33333333%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 5rem;
+            position: relative;
+            quotes: "“" "”" "‘" "’";
+
+            @include media-query(mindesktop) {
+                width: 63.33333333%;
+            }
+
+            p {
+                color: $color-gray-v2;
+
+                @include media-query(mindesktop) {
+                    width: 100%;
+                }
+
+                &:first-child {
+                    font-weight: 900;
+                    font-size: 1.8rem;
+                    margin-bottom: 1.5rem;
+                    position: relative;
+
+                    @include media-query(mindesktop) {
+                        font-size: 2rem;
+                    }
+                    // Icono Commillas open
+                    &::before {
+                        // content: open-quote;
+                        font-family: 'icomoon';
+                        content: "\e926";
+                        position: absolute;
+                        top: 0;
+                        right: calc(100% + 9px);                        
+                        font-size: 2rem;
+                    }
+                    // Icono Commillas close
+                    &::after {
+                        // content: close-quote;
+                        font-family: 'icomoon';
+                        content: "\e925";
+                        position: absolute;
+                        bottom: 0;
+                        left: calc(100% + 3px);                        
+                        font-size: 2rem;
+                    }
+
+                }
+
+                // Autor
+                &:nth-child(2) {
+                    font-size: 1.6rem;
+                }
+            }
+
+            // Autor
+            footer {
+                font-size: 1.4rem;
+            }
+
+            
+        }
+
+        // Listas
+        ol,
+        ul {
+            color: $color-black-b3;
+            font-weight: $regular;
+            font-size: 1.6rem;
+            text-align: left;
+            margin-bottom: 3rem;
+
+            @include media-query(mindesktop) {
+                width: 83.33333333%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        // Subtitulo
+        &__subtitle {
+            font-weight: $medium;
+            font-size: 2rem;
+            color: $color-black-b4;
+            margin-top: 3.4rem;
+            margin-bottom: 2rem;
+            text-align: left;
+
+            @include media-query(mindesktop) {
+                font-size: 2.5rem;
+                font-weight: $bold;
+                color: #000000;
+                margin-top: 4.3rem;
+            }
+        }
+
+        // Bloques de contenido
+        &__first-desc,
+        &__second-desc,
+        &__third-desc {
+            margin-bottom: 2.2rem;
+
+            @include media-query(mindesktop) {
+                width: 83.33333333%;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 5.5rem;
+            }
+
+            p,
+            ol,
+            ul {
+                width: 100%;
+            }
+
+            // Parrafos
+            p {
+                color: $color-gray-v1;
+                font-weight: $regular;
+                font-size: 1.6rem;
+                margin-bottom: 2.5rem;
+
+                @include media-query(mindesktop) {
+                    color: $color-gray-v2;
+                }
+            }
+        }
+
+        .graphic-images {
+            @include media-query(mindesktop) {
+                width: 85%;
+                margin: 0 auto 4rem;
+            }
+        }
+
+        // Bloque con 2 imagenes
+        &__twoimages{
+            @include media-query(mindesktop) {
+                margin-bottom: 5rem;
+            }
+            .col-12{
+                margin-bottom: 2.5rem;
+                @include media-query(mindesktop) {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        // Videos
+        .detail__video {
+
+            &-container {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                padding-top: 56.25%;
+                border-radius: 2rem;
+                box-shadow: 0rem 1rem 2rem #45454526;
+            }
+
+            iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            // Caption
+            &-caption {
+                width: 100%;
+                margin-top: 1rem;
+                margin-bottom: 3rem;
+                font-size: 1.2rem;
+
+                @include media-query(mintablet) {
+                    font-size: 1.4rem;
+                }
+
+                @include media-query(mindesktop) {
+                    font-size: 1.6rem;
+                }
+            }
+        }
+
+    }
+
+    // Bloque "Registros Administrativos"
+    &__records {
+        margin-bottom: 5rem;
+
+        // Titulo
+        &__title {
+            color: $color-black-b3;
+            text-align: left;
+            @include media-query(mindesktop){
+                text-align: center;
+            }
+        }
+
+        // Contenedor items
+        &__wrapper {
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+
+            // Paginador
+            .pagination {
+                margin-top: 4rem;
+            }
+        }
+    }
+
+    // Bloque "Proyectos Relacionados"
+    &__related-projects, &__related-news {
+        margin-bottom: 7rem;
+
+        .cepal-h2 {
+            color: $color-black-b3;
+        }
+
+        // Listado
+        &__list {
+            @include media-query(mindesktopLS) {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            @media only screen and (min-width: 1800px) {
+                padding-right: calc(var(--bs-gutter-x) * .5);
+                padding-left: calc(var(--bs-gutter-x) * .5);
+            }
+
+            .news__item {
+                .news__item__tags {
+                    margin-top: 1.5rem;
+                }
+            }
+
+            // Estilos para que no corte los box shadow de las cards
+            & > .owl-stage-outer {
+                margin: -12px;
+                padding: 12px; // esta medida depende de la medida de la sombra de las cards X2
+                // Estilos owl para hacer los items del mismo alto
+                & > .owl-stage {
+                    display: flex;
+                    padding: 5px 0;
+                    // margin-bottom: 20px;
+    
+                    // @include media-query(mindesktop) {
+                    //     margin-bottom: 30px;
+                    // }
+                }
+                
+                .owl-item {
+                    display: flex;
+                    flex: 1 0 auto;
+                }
+            }
+
+            // Navegación slider owl carousel (prev, next)
+            & > .owl-nav {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 40%;
+                margin: 0 auto;
+                max-width: 1920px;
+
+                .owl-prev,
+                .owl-next {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 4;
+                    box-sizing: border-box;
+
+                    // navegación deshabilitada
+                    &.disabled {
+                        &::after {
+                            // filter: grayscale(100%);
+                            color: $color-gray-v2;
+                        }
+                    }
+                }
+
+                .owl-prev {
+                    left: -7.33333333vw;
+                    margin-right: 0;
+                    padding-right: 42px;
+                    background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0px, white 50%) !important;
+
+                    @include media-query(mindesktopLS) {
+                        left: -1.5vw;
+                    }
+
+                    @media only screen and (min-width: 1800px) {
+                        left: -5.33333333vw;
+                    }
+
+                }
+
+                .owl-next {
+                    right: -7.33333333vw;
+                    padding-left: 42px;
+                    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0px, rgb(255, 255, 255) 50%) !important;
+                    @include media-query(mindesktopLS) {
+                        right: -1.5vw;
+                    }
+
+                    @media only screen and (min-width: 1800px) {
+                        right: -5.33333333vw;
+                    }
+                }
+            }
+
+            // Navegación Owl slider bullets
+            & > .owl-dots {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+    // Bloque introductorio (texto izquierda - Imágen derecha)
+    &__intro {
+        margin-top: 4.4rem;
+        margin-bottom: 4.4rem;
+
+        @include media-query(mintablet) {
+            align-items: center;
+        }
+
+        @include media-query(mindesktop) {
+            margin-top: 3.7rem;
+            margin-bottom: 7rem; //antes 13.7rem
+        }
+
+        // Fecha
+        &-date{
+            $fontSize : 1.4rem;
+            $lineHeight: 1.8rem;
+            font-size: $fontSize;
+            line-height: $lineHeight;
+            margin-bottom: 1rem;
+            color: #575757;
+
+            @include media-query(mindesktop) {
+                $fontSize : 1.6rem;
+                $lineHeight: 2rem;
+                font-size: $fontSize;
+                line-height: $lineHeight;
+            }
+        }
+
+        // Titulo
+        &-title {
+            font-weight: $semibold;
+            font-size: 2.8rem;
+            color: $color-black-b4;
+            margin-bottom: 3.5rem;
+
+            @include media-query(minmobilexl) {
+                font-size: 3rem;
+            }
+
+            @include media-query(mintablet) {
+                font-size: 3.3rem;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 3.6rem;
+            }
+
+            @include media-query(mindesktopL) {
+                font-size: 4rem;
+            }
+
+            @include media-query(mindesktopLS) {
+                font-size: 4.5rem;
+            }
+
+            @include media-query(mindesktopXL) {
+                font-size: 5rem;
+            }
+
+            @media only screen and (min-width: 1800px) {
+                font-size: 5.5rem;
+            }
+        }
+
+        // Descripción
+        &-desc {
+            color: $color-gray-v1;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+
+            @include media-query(mindesktop) {
+                color: $color-gray-v2;
+                font-size: 1.6rem;
+                margin-bottom: 3rem;
+            }
+        }
+
+        // Autor
+        &-autor {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+
+            @include media-query(mindesktop) {
+                gap: 2rem;
+            }
+
+            // imagen autor
+            img {
+                width: 49px;
+                height: 49px;
+                border-radius: 50%;
+
+                @include media-query(mindesktop) {
+                    width: 60px;
+                    height: 60px;
+                }
+            }
+
+            // Label
+            &__label {
+                $fontSize : 1.4rem;
+                $lineHeight: 1.8rem;
+                font-size: $fontSize;
+                line-height: $lineHeight;
+                margin-bottom: 0;
+                color: #575757;
+
+                @include media-query(mindesktop) {
+                    $fontSize : 1.6rem;
+                    $lineHeight: 2rem;
+                    font-size: $fontSize;
+                    line-height: $lineHeight;
+                }
+            }
+
+            // Nombre autor
+            &__name {
+                $fontSize : 1.8rem;
+                $lineHeight: 2.2rem;
+                font-size: $fontSize;
+                line-height: $lineHeight;
+                font-weight: $bold;
+                margin-bottom: 0;
+                color: $color-black-b4;
+
+                @include media-query(mindesktop) {
+                    $fontSize : 2rem;
+                    $lineHeight: 2.4rem;
+                    font-size: $fontSize;
+                    line-height: $lineHeight;
+                }
+            }
+        }
+
+        // Imagen Destacada (derecha)
+        &-right {
+            margin-top: 2.8rem;
+
+            @include media-query(mintablet) {
+                margin-top: 0;
+            }
+
+            img {
+                border-radius: 20px;
+            }
+        }
+
+    }
+
+    // Bloque Galeria
+    &__gallery {
+        margin-bottom: 6.2rem;
+
+        // Titulo
+        &__title {
+            color: $color-black-b4;
+            font-weight: $semibold;
+            font-size: 2.7rem;
+            margin-bottom: 4.4rem;
+
+            @include media-query(mintablet) {
+                font-size: 3rem;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 3.5rem;
+            }
+
+            @include media-query(mindesktopL) {
+                font-size: 4rem;
+            }
+
+            @include media-query(mindesktopLS) {
+                font-size: 4.5rem;
+            }
+        }
+
+        // Contenedor items
+        &__wrapper {
+            // Navegación Owl slider prev/next
+            .owl-nav {
+                @include media-query(mindesktop) {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    text-align: right;
+                }
+                button{
+                    @include media-query(mindesktop) {
+                        position: relative;
+                        z-index: 2;
+                    }
+                }
+            }
+            // Navegación Owl bullets
+            .owl-dots {
+                margin-top: 1rem;
+                @include media-query(mindesktop) {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    text-align: left;
+                    z-index: 1;
+                }
+            }
+        }
+
+        // Item
+        &__item {
+            display: inline-block;
+            max-width: 400px;
+
+            @include media-query(mindesktopXL){
+                max-width: 500px;
+            }
+
+            img {
+                border-radius: 2rem;
+            }
+        }
+    }
+}

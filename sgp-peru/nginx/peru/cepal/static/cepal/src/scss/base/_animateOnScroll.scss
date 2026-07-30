@@ -1,0 +1,59 @@
+section{
+	&.hidden{
+		opacity: 0;
+		filter: blur(7px);
+		// transform: translateX(-100%);
+		transition: all 1s;
+		overflow: hidden;
+		.transition{
+			opacity: 0;
+			filter: blur(7px);
+			transition: all 1s;
+		}
+		
+		// &:nth-child(odd){
+		// 	transform: translateX(100%);
+		// }
+	}
+
+	&.show{
+		opacity: 1;
+		filter: blur(0);
+		// transform: translateX(0);
+		transition: all 1s;
+		.transition{
+			opacity: 1;
+			transition: all 1s;
+			animation: .5s ease-in-out;
+			filter: blur(0);
+			&__one{
+				transition-delay: .5s;
+			}
+			&__two{
+				transition-delay: .8s;
+			}
+			&__three{
+				transition-delay: 1.2s;
+			}
+			&__fourth{
+				transition-delay: 1.5s;
+			}
+
+			// Genera clases .transition-1 hasta .transition-N, con diferentes delays
+			@for $i from 1 through 10 {
+				$base-delay: .3;
+				$increment: .2;
+				$calculated-delay: $base-delay + ($i * $increment);
+
+				&-#{$i}{
+					transition-delay: #{$calculated-delay}s;
+				}
+			}
+		}
+		// &:nth-child(odd){
+		// 	transform: translateX(0);
+		// }
+	}
+
+    
+}

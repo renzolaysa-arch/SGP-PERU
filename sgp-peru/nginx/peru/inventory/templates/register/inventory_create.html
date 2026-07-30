@@ -1,0 +1,758 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Crear registro administrativo   
+{% endblock %}
+{% block content %}
+<main class="multi-step-page">
+    <section class="container multi-step-page__header">
+        <!-- BREADCRUMB -->
+        <div class="row">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Crear RRAA</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- Title -->
+        <div class="row justify-content-center mt-4 mb-5">
+          <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+            <h1 class="cepal-h1 multi-step-page__title">Crear registro administrativo</h1>
+            <p class="multi-step-page__desc">
+                Cree y edite la información de los registros administrativos de su organización, recuerde que los campos marcados con (<span class="cepal-alert__text">*</span>) son obligatorios o requeridos.
+                {{ form_create_inventory.errors }}
+            </p>
+          </div>
+        </div>
+        <!-- End Title -->
+    </section>
+
+    <section class="container multi-step-page__wrapper step-app" id="createRraa">
+        <div class="row">
+            <div class="loading z-index-3 d-none">
+                <div class="loader"></div>
+                <p class="loading__text">Cargando...</p>
+            </div>
+            <div class="col-lg-4 steps-card">
+                <div class="progressbar">
+                    <ul class="progressbar-primary box-shadow-five step-steps" id="progressbar">
+                        <li class="progressbar-step" id="step-1" data-step-target="step1"><span>Identificación del RRAA</span></li>
+                        <li class="progressbar-step" id="step-2" data-step-target="step2"><span>Características del RRAA</span></li>
+                        <li class="progressbar-step" id="step-3" data-step-target="step3"><span>Identificación de los responsables del RRAA</span></li>
+                        <li class="progressbar-step" id="step-4" data-step-target="step4"><span>Características secundarias del RRAA</span></li>
+                        <li class="progressbar-step" id="step-5" data-step-target="step5"><span>Sample Data</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 form-card">
+
+                    <form class="multi-step-page__form form box-shadow-five" 
+                    {% if edit %}
+                        action='/editar-inventario/{{ id }}'
+                    {% else %}
+                        action='/crear-registro-administrativo/'
+                    {% endif %}
+                 method="post" enctype="multipart/form-data" id="createRraaForm">
+                    {% csrf_token %}
+                    <div class="step-content">
+                        
+                        <!-- Paso 1 -->
+                        <div class="step-tab-panel" data-step="step1">
+                            <!-- Identificacion del RRAA -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_title-2">Nombre registro administrativo</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.title }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_record_choice">Registro administrativo activo</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.record_choice}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_objective">Objetivo del registro administrativo (Máximo 300 caracteres)</label>
+                                    <div class="form__element form__element--textarea">
+                                        {{ form_create_inventory.objective }}
+                                        <p class="form__element__info counter" data-maxlength="300">
+                                        </p>
+                                    </div>
+                                </fieldset>
+                                <!-- Nuevo Campo -->
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_target_population">¿Cuál es la población objetivo del registro administrativo?</label>
+                                    <div class="form__element form__element--textarea">
+                                        {{ form_create_inventory.target_population }}
+                                        <p class="form__element__info counter" data-maxlength="150">
+                                        </p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field required">
+                                    <label for="id_inventory_thematic_asociate">Temática del área</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.inventory_thematic_asociate }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field required">
+                                    <label for="id_inventory_theme_asociate">Tema</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.inventory_theme_asociate }}
+                                    </div>
+                                </fieldset>                                
+                            </div>
+                            <!-- End Identificacion del RRAA -->
+                        </div>
+                        <!-- End Paso 1 -->
+
+                        <!-- Paso 2 -->
+                        <div class="step-tab-panel" data-step="step2">
+                            <!-- Caracteristicas del RRAA -->
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Bajo cuál(es) de las siguientes normas, se soporta la creación del RRAA</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_use_laws_decrees">¿Cuál es la base legal o normativa que sustenta la creación del registro administrativo?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.use_laws_decrees }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="C.P">
+                                        <label for="id_political_constitution">Constitución política</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.political_constitution }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="L">
+                                        <label for="id_law">Ley</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.law }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="D">
+                                        <label for="id_decree">Decreto</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.decree }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="O">
+                                        <label for="id_choice_laws_decrees">Resolución, ordenanza, acuerdo</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.choice_laws_decrees }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="O.T">
+                                        <label for="id_decree_other">Otras ¿cuáles?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.decree_other }}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <!-- Nuevo Campo -->
+                            <div class="mt-4">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_year_creation">¿Cuál es el año de creación del registro administrativo? (AAAA)</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.year_creation }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- END Nuevo Campo -->
+                            
+                            <!-- Nuevo Grupo -->
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">El registro administrativo y otras entidades</div>
+                                <div class="form__group--two-col">
+                                    <!-- Nuevo Campo -->
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_provided_government">¿El registro administrativo es proporcionado a otra(s) institución(es) del Estado?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.provided_government }}
+                                        </div>
+                                    </fieldset>
+                                    <!-- END Nuevo Campo -->
+                                    
+                                    <!-- Nuevo Campo Condicional -->
+                                    <fieldset class="form__field w-100 required" data-value="Si">
+                                        <label for="id_provided_government_which">¿Cuál(es) institución(es)?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.provided_government_which }}
+                                        </div>
+                                    </fieldset>
+                                    <!-- END Nuevo Campo Condicional -->
+
+                                </div>
+                            </div>
+                            <!-- END Nuevo Grupo -->
+                            <!-- Nuevo Grupo -->
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">¿Existe alguna restricción  para la entrega de información al INE?</div>
+                                <div class="form__group--two-col">
+                                    <!-- Nuevo Campo -->
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_restriction">¿Existe alguna restricción  para la entrega de información al INE?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.restriction }}
+                                        </div>
+                                    </fieldset>
+                                    <!-- END Nuevo Campo -->
+                                    
+                                    <!-- Nuevo Campo Condicional -->
+                                    <fieldset class="form__field w-100 required" data-value="Si">
+                                        <label for="id_restriction_which">¿Cuál restricción?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.restriction_which }}
+                                        </div>
+                                    </fieldset>
+                                    <!-- END Nuevo Campo Condicional -->
+
+                                </div>
+                            </div>
+                            <!-- END Nuevo Grupo -->
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Indique desde y hasta cuando se ha recolectado el RRAA (estimado)</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_date_start_collection">Fecha de inicio de la última recolección de información</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.date_start_collection}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_date_finish_collection">Fecha de finalización de la última recolección de información</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.date_finish_collection}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_year_creation_bd">¿Desde qué año se dispone del registro administrativo en base de datos?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.year_creation_bd }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Documentos metodológicos o funcionales</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_method_document">¿El RA cuenta con alguno de los documentos metodológicos o funcionales?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.method_document }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="S">
+                                        <label for="id_document_choice">¿Cuáles documentos metodológicos usa?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.document_choice }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="O">
+                                        <label for="id_other_methodologycal_document">Otro ¿cuál?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_methodologycal_document }}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">¿El RRAA utiliza nomenclaturas y/o clasificaciones?</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_nomenclature_choice">¿Utiliza nomenclaturas o clasificaciones?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.nomenclature_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="S">
+                                        <label for="id_yes_nomenclature">Si las usa ¿cuáles son?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.yes_nomenclature}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="N">
+                                        <label for="id_not_nomenclature">Si no las usa ¿por qué?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.not_nomenclature}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">¿Cuál es el medio de obtención o recolección de los datos?</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_method_collections_choice">¿Qué método se utiliza para la recolección de los datos del registro administrativo?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.method_collections_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="Otros">
+                                        <label for="id_other_methods_collections">¿Qué otros métodos de recolección usa?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_methods_collections}}
+                                        </div>
+                                    </fieldset>
+                                    <!-- Nuevo Campo -->
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_defined_form">¿Cuenta el registro administrativo con un formulario definido, que contenga las variables necesarias para su captura?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.defined_form}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Frecuencia de la recolección de datos</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_frequency_choice">¿Con qué frecuencia se realiza la recolección de datos?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.frequency_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="O">
+                                        <label for="id_other_frequency_collections">¿Qué otra frecuencia tiene para la recolección de datos?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_frequency_collections}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Procesamiento de datos:</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_processing_choice">Indique cuáles de las herramientas utiliza para el procesamiento de datos</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.processing_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required" data-value="O">
+                                        <label for="id_other_proccesing_tools">¿Qué otras herramientas utiliza para el procesamiento de datos?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_proccesing_tools}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Seleccione la cobertura geografica del RRAA</div>
+                                <div class="form__group--two-col mb-lg-4">
+                                    <!-- Nuevo Campo -->
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_geographic_coverages_type">¿Cuál es la cobertura geográfica del RRAA?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.geographic_coverages_type}}
+                                        </div>
+                                    </fieldset>
+                                    <!-- Nuevo Campo Condicional -->
+                                    <fieldset class="form__field w-100 required" data-value="Otro">
+                                        <label for="id_other_geographic_coverages_type">¿Otro, cuál cobertura geográfica?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_geographic_coverages_type}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="form__group--two-col" data-tdquantity="{{ tdivipolas_count }}" id="divipolasWrapper">
+                                    {% comment %} 
+                                        <fieldset class="form__field w-100">
+                                            <label for="id_geographic_coverages">País</label>
+                                            <div class="form__element form__element--select">
+                                                <select name="country" id="country-divipola" >
+                                                    {% for divipola in divipolas %}
+                                                        <option value="{{ divipola.id }}">{{ divipola }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </fieldset>
+                                    {% endcomment %}
+                                    <fieldset class="form__field w-100 d-none">
+                                        <label for="id_geographic_coverages">Seleccione la cobertura geografica del RRAA</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.geographic_coverages}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <!-- End Caracteristicas del RRAA -->
+                        </div>
+                        <!-- End Paso 2 -->
+                        
+                        <!-- Paso 3 -->
+                        <div class="step-tab-panel" data-step="step3">
+                            <!-- Identificacion de los responsables del RRAA -->
+                            
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Datos del director</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_dependence_name">Nombre de la dependencia a que pertenece</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.dependence_name }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field required">
+                                        <label for="id_director_name">Nombre del director</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.director_name }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field">
+                                        <label for="id_position">Posición del director</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.position }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_director_email">Correo electrónico del director</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.director_email }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field">
+                                        <label for="id_director_phone">Teléfono del director</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.director_phone }}
+                                        </div>
+                                    </fieldset>
+                                </div>                        
+                            </div>
+                            <!-- Nuevo Campo -->
+                            <div class="mt-4">
+                                <fieldset class="form__field">
+                                    <label for="id_responsible_custody">¿Cuál es el área de su institución,  responsable de gestionar o custodiar los datos del registro administrativo a nivel nacional?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.responsible_custody }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                             <!-- Nuevo Campo -->
+                             <div class="mt-4">
+                                <fieldset class="form__field">
+                                    <label for="id_responsible_report">¿Cuál es la unidad responsable de reportar  los registros administrativos?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.responsible_report }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Datos del responsable / Nombre de los puntos focales del proveedor</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field required">
+                                        <label for="id_responsible_name">Nombre del responsable</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.responsible_name }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field">
+                                        <label for="id_responsible_position">Posición del responsable</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.responsible_position }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_responsible_email">Correo electrónico del responsable</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.responsible_email }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field">
+                                        <label for="id_responsible_phone">Teléfono del responsable</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.responsible_phone }}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <!-- End Identificacion de los responsables del RRAA -->
+                        </div>
+                        <!-- End Paso 3 -->
+    
+                        <!-- Paso 4 -->
+                        <div class="step-tab-panel" data-step="step4">
+                            <!-- Caracteristicas secundarias del RRAA -->
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">Indique si el RRAA utiliza conceptos estandarizados provenientes de alguna fuente</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_international_organization">¿El registro administrativo pertenece a algun organismo internacional?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.international_organization }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_national_organization">¿El registro administrativo pertenece a algun organismo nacional?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.national_organization }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_organism_document_choice">¿El organismo posee leyes o documentos de creación propia?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.organism_document_choice }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100" data-value="S">
+                                        <label for="id_documents_organization">¿Qué documento de creación propia, documentos o leyes usa?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.documents_organization }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100" data-value="O">
+                                        <label for="id_others_standars">Otros estándares ¿cuáles?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.others_standars}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">¿Con cuáles herramientas cuenta para garantizar la seguridad de la información del RRAA?</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_security_choice">¿Con cuál herramienta cuenta para garantizar la seguridad de la información?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.security_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100" data-value="O">
+                                        <label for="id_other_security_imformation">¿Qué otra herramienta cuenta para garantizar la seguridad de la información?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_security_imformation}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="highlight-father">
+                                <div class="highlight-father__title">¿La información recolectada es acopiada o almacenada en una base de datos?</div>
+                                <div class="form__group--two-col">
+                                    <fieldset class="form__field w-100">
+                                        <label for="id_information_stored_choice">¿La información es guardada en una base de datos?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.information_stored_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100" data-value="S">
+                                        <label for="id_information_choice">¿Con qué frecuencia guarda información en la base de datos?</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_inventory.information_choice}}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100" data-value="O">
+                                        <label for="id_other_security_imformations">¿Qué otra frecuencia usa para guardar información en la base de datos?</label>
+                                        <div class="form__element">
+                                            {{ form_create_inventory.other_security_imformations}}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <!-- Nuevo Campo -->
+                            <div class="mt-4">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_centralized">¿Las bases de datos del registro administrativo se encuentran centralizadas o descentralizadas?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.centralized}}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- Nuevo Campo -->
+                            <div class="mt-4">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_object_rra">¿Cuál es la unidad de observación (objeto) del registro administrativo?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.object_rra}}
+                                        <p class="form__element__info counter" data-maxlength="150">
+                                        </p>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- Nuevo Campo -->
+                            <div class="mt-4">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_consistency_review">¿Se efectúa algún análisis de consistencia o de revisión a la base de datos del registro administrativo?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.consistency_review}}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="form__group--two-col mt-5">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_generate_information">¿La entidad hace uso de los datos del RRAA para generar información estadística (Agregados, indicadores, Resultados estadísticos, etc)?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.generate_information}}
+                                    </div>
+                                </fieldset>
+                                <!-- Nuevo Campo -->
+                                <fieldset class="form__field w-100">
+                                    <label for="id_statistics_user">¿Las estadísticas generadas están disponibles para usuarios públicos y/o privados?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.statistics_user}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_external_user">¿Los usuarios externos, tienen acceso a los datos del RRAA?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.external_user}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100" data-value="N">
+                                    <label for="id_main_choice">¿Cuál es la razón principal por la cual no se permite el acceso a los datos del RRAA?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.main_choice}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100" data-value="O">
+                                    <label for="id_other_main_not_permissed">¿Qué otra razón principal tiene para no permitir el acceso a los datos del RRAA?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.other_main_not_permissed}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_observations">Observaciones (Máximo 300 caracteres)</label>
+                                    <div class="form__element form__element--textarea">
+                                        {{ form_create_inventory.observations}}
+                                        <p class="form__element__info counter" data-maxlength="300">
+                                        </p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_requierements_choice">¿Responde a algún requerimiento ODS?</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.requierements_choice}}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100" data-value="S">
+                                    <label for="id_ods_indicator">¿Cuál es el indicador ODS?</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.ods_indicator}}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- End Caracteristicas secundarias del RRAA -->
+                        </div>
+                        <!-- End Paso 4 -->
+
+                        <!-- Paso 5 -->
+                        <div class="step-tab-panel" data-step="step5">
+                            <!-- Sample Data -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_type_format_data_asociate">Tipo de formato</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.type_format_data_asociate }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_seperated_columns_file">
+                                        {{ form_create_inventory.seperated_columns_file.label }}
+                                    </label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.seperated_columns_file }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_transfer_medium_data_asociate">Medio de transferencia:</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_inventory.transfer_medium_data_asociate }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_size_sample_data">Tamaño aproximado de la Base de Datos (MB):</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.size_sample_data }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_count_sample_data">Cantidad de archivos:</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.count_sample_data }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_name-3">Nombre del archivo:</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.name_file }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_theme_shared">Archivo ejemplo Base de Datos:</label>
+                                    <div class="form__element form__element--file">
+                                        {{ form_create_inventory.file_example_sample_data }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_date_load_field">Fecha subida del archivo:</label>
+                                    <div class="form__element">
+                                        {{ form_create_inventory.date_load_field }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_theme">Categoría asociada:</label>
+                                    <div class="form__element form__element--select-multiple">
+                                        {{ form_create_inventory.tag_sample_data_asociate }}
+                                        <p class="form__element__info mt-2">
+                                            Puede seleccionar más de uno.
+                                            <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                        </p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_variables_sample_data_asociate">Variables asociadas:</label>
+                                    <div class="form__element form__element--select-multiple">
+                                        {{ form_create_inventory.variables_sample_data_asociate }}
+                                        <p class="form__element__info mt-2">
+                                            Puede seleccionar más de uno.
+                                            <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                        </p>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- End Sample Data -->
+                        </div>
+                        <!-- End Paso 1 -->
+
+
+                    </div>
+                    <div class="container-buttons step-footer">
+                        <button type="button" data-step-action="prev" class="btn btn-secondary btn-secondary--contour step-btn"><span class="icon-back"></span>Volver</button>
+                        <button type="submit" class="btn btn-secondary btn-secondary--fill step-btn" id="createRraaSubmit"><span class="icon-save"></span> Guardar y salir</button>
+                        <button type="button" data-step-action="next" class="btn btn-secondary btn-secondary--fill step-btn">Continuar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Modal confirmation RRAA -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationRRAA" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Crear registro administrativo</h2>
+            </div>
+            <div class="modal-body">
+                <p class="description">Se ha creado el registro administrativo.</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour create-new" type="button" aria-label="Volver">Nuevo registro</button>
+                    <a class="btn btn-primary btn-primary--contour goto-list" href="{% url 'inventory:inventory_list' %}">Inventarios RRAA</a>
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal d-none" data-bs-dismiss="modal" type="button" aria-label="Volver"  data-bs-toggle="modal"><span class="icon-back"></span>Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation RRAA -->
+
+{% endblock %}

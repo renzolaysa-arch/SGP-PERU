@@ -1,0 +1,207 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Contenido Educativo {% endblock %}
+
+    
+{% block content %}
+  <!-- NEWS-->
+  <main class="news">
+    <section class="container">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contenido Educativo</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+      <!-- Title -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+          <h1 class="block-list-result-header-title">Contenido Educativo</h1>
+        </div>
+      </div>
+      <!-- End Title -->
+    
+      <!-- FEATURED NEWS -->
+      <div class="row news__featured">   
+    {% if new_1 %}
+        {% for new_item1 in new_1 %}
+          <div class="col-12 col-md-6 col-lg-9">
+            <div class="news__item news__item--featured box-shadow-six">
+              <div class="news__item__img">
+                <img src="/media/{{new_item1.main_image_new_desk}}">
+              </div>
+              <div class="news__item__txt">
+                <div class="news__item__tags">
+                  {% for tag in new_item1.tag_asociate.all %}
+                    <span class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</span>
+                  {% endfor %}
+                </div>
+                <p  class="news__item__date">{{new_item1.created_date |date:"d F Y"}}</p>
+                <h3 class="news__item__title cepal-h3"><a href="{% url 'contents:academy_content_detail' new_item1.id %}">{{new_item1.title}}</a></h3>
+                <div class="news__item__desc">{{new_item1.previous_description | safe}}</div>
+                <div class="news__item__call">
+                  <a href="{% url 'contents:academy_content_detail' new_item1.id %}" class="news__item__link">
+                    <span class="news__item__link-txt">Leer más</span><span class="icon-arrow-right-icon"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% if new_2 %}
+          {% for new_item in new_2 %}
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="news__item box-shadow-six">
+              <div class="news__item__img">
+                <img src="/media/{{new_item.main_image_new_desk}}">
+              </div>
+              <div class="news__item__txt">
+                <div class="news__item__tags">
+                    {% for tag in new_item.tag_asociate.all %}
+                    <span class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</span>
+                    {% endfor %}
+                </div>
+                <p class="news__item__date">{{new_item.created_date |date:"d F Y"}}</p>
+                <h3 class="news__item__title cepal-h3"><a href="{% url 'contents:academy_content_detail' new_item.id %}">{{new_item.title}}</a></h3>
+                <div class="news__item__desc">{{new_item.previous_description | safe}}</div>
+                <div class="news__item__call">
+                  <a href="{% url 'contents:academy_content_detail' new_item.id %}" class="news__item__link">
+                    <span class="news__item__link-txt">Leer más</span><span class="icon-arrow-right-icon"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>         
+          {% endfor %}
+        {% endif %} 
+      {% endif %}    
+      </div>
+      <!-- END FEATURED NEWS -->
+
+      <!-- filter form -->
+      <div class="row">
+        <div class="col-12">
+          <div class="filterModal__mobile box-shadow-four" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <span class="icon-filter-icon"></span><span class="txt">Filtros</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filterModal__modal modal modal--closein" id="filterModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-header__title"><span class="icon-filter-icon"></span><span class="txt">Filtros</span></div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form method="get" class="filterModal__form form row" action="/lista-contenido-academico/">
+                <div class="form__group--three-col col-12 col-lg-10 gx-0">
+                  <fieldset class="form__field" id="field-0">
+                    {{ filter.form.title.label_tag }}
+                    <div class="form__element form__element--searchinput">
+                      {{ filter.form.title }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-1">
+                    {{ filter.form.created_date.label_tag }}
+                    <div class="form__element form__element--date">
+                      {{ filter.form.created_date }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-2">
+                    {{ filter.form.tag_asociate.label_tag }}
+                    <div class="form__element form__element--select-multiple-check">
+                      {{ filter.form.tag_asociate }}
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-lg-2 gx-0 text-center">
+                  <input type="submit" value="Buscar" class="btn btn-secondary btn-secondary--fill">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% if new_list %}
+      <!-- END filter form -->      
+        <!-- NEWS LIST -->
+        <div class="row news__list">
+          {% for new_item in new_list %}
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="news__item box-shadow-six">
+                <div class="news__item__img">
+                  <img src="/media/{{new_item.main_image_new_desk}}">
+                </div>
+                <div class="news__item__tags"> 
+                  {% for tag in new_item.tag_asociate.all %}
+                    <span class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</span>
+                  {% endfor %}
+                </div>
+                <p  class="news__item__date">{{new_item.created_date |date:"d F Y"}}</p>
+                <h3 class="news__item__title cepal-h3"><a href="{% url 'contents:academy_content_detail' new_item.id %}">{{new_item.title}}</a></h3>
+                <div class="news__item__desc">{{new_item.previous_description | safe}}</div>
+                <div class="news__item__call">
+                  <a href="{% url 'contents:academy_content_detail' new_item.id %}" class="news__item__link">
+                    <span class="news__item__link-txt">Leer más</span><span class="icon-arrow-right-icon"></span>
+                  </a>
+                </div>
+              </div>
+            </div>      
+          {% endfor %}
+        </div>
+        <!-- END NEWS LIST -->
+        <!-- News pagination -->
+        <div class="row">
+          <div class="col">
+            <div class="pagination">
+              {% if new_list.has_previous %}
+                <a class="prev" href="?page={{new_list.previous_page_number}}" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+                {% else %}
+                <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+              {% endif %}
+            
+              <nav class="pages">
+                <ul class="pages__ul">
+                {% for page_number in new_list.paginator.page_range %}
+                  <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == new_list.number %} page--current{% endif %}">{{page_number}}</a></li>
+                {% endfor %}
+                </ul>
+              </nav>
+            
+              {% if new_list.has_next %}
+                <a class="next" href="?page={{new_list.next_page_number}}" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+                {% else %}
+                <a class="next next--disabled" href="#" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- End News pagination -->
+    {% else %}
+          <p>No hay más artículos para mostrar.</p> 
+    {% endif %}
+
+    </section>
+
+  </main>
+  <!-- END NEWS --> 
+   
+{% endblock %}

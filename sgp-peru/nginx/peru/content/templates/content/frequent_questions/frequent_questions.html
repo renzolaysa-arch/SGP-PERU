@@ -1,0 +1,114 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Preguntas Frecuentes {% endblock %}
+{% block content %}
+<main class="faq bg-int">
+    <div class="container">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-white">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Preguntas Frecuentes</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- TITLE -->
+        <div class="row">
+            <h1 class="cepal-h1">Preguntas Frecuentes</h1>
+        </div>
+        <!-- END TITLE -->
+        <!-- CONTENT -->
+        <div class="row">
+            <div class="col-12 col-lg-10 offset-lg-1">
+                <div class="faq__wrapper">
+                    <div class="faq__list">
+                        <!-- Collapse item -->
+                        {% if faqs_list %}
+                            {% for item in faqs_list %}
+                            <div class="collapse__item box-shadow-six">
+                                <!-- Heading -->
+                                <!-- Equipo Back, importante cambiar en el href, el faq-1 por el id del item -->
+                                <a class="collapse__header" data-bs-toggle="collapse" href="#collapse-faq-{{item.id}}"
+                                role="button" aria-expanded="false" aria-controls="collapse-faq-{{item.id}}">
+                                    <div class="collapse__left">
+                                        <div class="collapse__title">{{item.name_question_faqs}}</div>
+                                    </div>
+                                    <div class="collapse__right">
+                                        <div class="collapse__toggle">
+                                            <span class="btn btn-circular icon-chevron-down-icon"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <!-- Content -->
+                                <!-- Equipo Back, importante cambiar en el faq-1 por el id del item -->
+                                <div class="collapse" id="collapse-faq-{{item.id}}">
+                                    <div class="collapse__content">
+                                        {{item.response_faqs | safe}}
+                                        {% comment %} <p class="collapse__desc">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ligula quis felis aliquam imperdiet eu in erat. Donec pretium placerat dui et luctus. Sed congue massa eget consequat imperdiet. Maecenas vulputate tortor nec sapien viverra accumsan. Duis viverra nisl ac tellus viverra placerat ut eu orci. Curabitur velit diam, consequat in lacus eget, laoreet sollicitudin mauris. Nulla ac congue massa. Vestibulum id elementum nulla. Vivamus molestie diam nulla, vitae aliquet lacus hendrerit ut. Proin blandit tempor venenatis. Pellentesque ut turpis interdum, ultrices libero non, ultrices sapien. Integer dictum tellus at metus facilisis tristique.
+                                        </p>
+                                        <ul class="collapse__list">
+                                            <li class="collapse__li">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ligula quis felis aliquam imperdiet eu in erat. Donec
+                                            </li>
+                                            <li class="collapse__li">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ligula quis felis aliquam imperdiet eu in erat. Donec pretium placerat dui et luctus. Sed congue massa eget consequat imperdiet. Maecenas vulputate tortor nec sapien viverra
+                                            </li>
+                                        </ul> {% endcomment %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        <!-- END Collapse item -->
+                        {% else %}
+                            <p>No hay preguntas frecuentes</p> 
+                        {% endif %} 
+                    </div>
+ <!-- News pagination -->
+        <div class="row">
+          <div class="col">
+            <div class="pagination">
+              {% if faqs_list.has_previous %}
+                <a class="prev" href="?page={{faqs_list.previous_page_number}}" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+                {% else %}
+                <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+              {% endif %}
+            
+              <nav class="pages">
+                <ul class="pages__ul">
+                {% for page_number in faqs_list.paginator.page_range %}
+                  <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == faqs_list.number %} page--current{% endif %}">{{page_number}}</a></li>
+                {% endfor %}
+                </ul>
+              </nav>
+            
+              {% if faqs_list.has_next %}
+                <a class="next" href="?page={{faqs_list.next_page_number}}" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+                {% else %}
+                <a class="next next--disabled" href="#" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- End News pagination -->
+                </div>
+            </div>
+        </div>
+        <!-- END CONTENT -->
+    </div>
+</main>
+{% endblock %}

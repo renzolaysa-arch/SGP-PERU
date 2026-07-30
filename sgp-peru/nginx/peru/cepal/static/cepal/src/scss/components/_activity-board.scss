@@ -1,0 +1,110 @@
+// Heder titulo y descripción
+.block-management-header {
+    color: $color-black-b3;
+    margin-bottom: 5rem;
+
+    &-title {
+        font-weight: $semibold;
+        font-size: 2.5rem;
+        
+        @include media-query(minmobilexl) {
+            font-size: 2.7rem;
+        }
+        @include media-query(mintablet){
+            font-size: 3rem;
+        }
+        @include media-query(mindesktop){
+            font-size: 3.5rem;
+        }
+        @include media-query(mindesktopLS){
+            font-size: 4rem;
+        }
+        @include media-query(mindesktopXL){
+            font-size: 4.5rem;
+        }
+    }
+
+    &-description {
+        font-size: 1.6rem;
+    }
+}
+
+// Tablero actividades
+.block-activity-management {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(28.5rem, 1fr));
+    gap: 1.1rem;
+    padding: 0.5rem 0.5rem 3rem;
+    overflow: auto;
+
+    &-item {
+
+        &-header,
+        &-content {
+            padding: 1.1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0rem 0.3rem 0.6rem #00000024;
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 0.09);
+        }
+
+        &-title {
+            font-weight: $semibold;
+            color: $color-black-b4;
+        }
+
+        &-content {
+            min-height: 44.3rem;
+            height: 100%;
+            gap: 0.8rem;
+
+            .activity-item {
+                border-radius: 1rem;
+                box-shadow: 0rem 0.3rem 0.6rem #00000024;
+                padding: 0.8rem 1.3rem 1rem;
+                display: flex;
+                gap: 1.2rem;
+                align-items: center;
+                justify-content: space-between;
+
+                &-info {
+                    // width: 10rem;
+                    min-width: 58%;
+
+                    &-title {
+                        font-size: 1.7rem;
+                        font-weight: $bold;
+                        margin-bottom: 0;
+                        color: $color-gray-v1;
+                        overflow-wrap: anywhere;
+                    }
+
+                    &-link {
+                        font-size: 1.4rem;
+                        font-weight: $semibold;
+                        color: var(--secondary-color);
+                    }
+                }
+
+                &.box-ini,
+                &.box-pr,
+                &.box-re,
+                &.box-fi {
+                    .activity-item-percentage {
+                        color: var(--primary-color);
+                    }
+                }
+
+                &-percentage {
+                    font-size: 3rem;
+                    font-weight: $semibold;
+                    color: $color-gray-v2;
+                    margin-bottom: 0;
+                }
+            }
+
+            .parent-item {
+                background-color: transparent;
+            }
+        }
+    }
+}

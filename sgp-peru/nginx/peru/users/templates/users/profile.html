@@ -1,0 +1,556 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}Perfil de Proveedor{% endblock title %}
+{% load project_tags %}
+{% block content %}
+
+<section class="container">
+    <!-- BREADCRUMB -->
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mi tablero</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- END BREADCRUMB -->
+</section>
+
+<section class="provider-data">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <div class="card-welcome-provider card-provider box-shadow-primary">
+                    <div class="card-welcome-provider-dataperfil">
+                        <div class="box-data">
+                            <div class="images-perfil-provider">
+                                {% if data.image %}
+                                <img src="/media/{{data.image}}" alt="Foto del perfil">
+                                {% else %}
+                                <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Foto del perfil">
+                                {% endif %}
+                            </div>
+                            <div class="name-perfil-provider">
+                                <p class="text-welcome">Bienvenido,</p>
+                                <h1 class="name-provider">{{data.name}}</h1>
+                            </div>
+                        </div>
+                        <p class="description-provider">{{data.description|slice:":255" }}</p>
+                    </div>
+                    <div class="card-welcome-provider-questions my-4">
+                        {% if not status_profile_completed %}
+                        <div class="questions-complete">
+                            <h2 class="questions-complete-text">¡Aún no has completado tu perfil!</h2>
+                            <div class="questions-complete-input input-range-primary">
+                                <input type="range" name="range-question-perfil" id="range-question-perfil"
+                                    value="{{percentage_profile_completed}}" min="0" max="100">
+                                <div class="value-percentage"></div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="questions-complete">
+                            <h2 class="questions-complete-text">¡Perfil completado!</h2>
+                            <div class="questions-complete-input input-range-primary">
+                                <input type="range" name="range-question-perfil" id="range-question-perfil" value="{{percentage_profile_completed}}" min="0" max="100">
+                                <div class="value-percentage"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- <div class="card-welcome-provider-analysis">
+                        <h3 class="analysis-title">Análisis</h3>
+                        <div class="analysis-boxes">
+                            <div class="analysis-box box-shadow-secondary">
+                                <div class="analysis-box-icon">
+                                    <img src="{% static 'cepal/dist/assets/images/icon-analysis-user.svg' %}" alt="Ícono de usuarios">
+                                </div>
+                                <div class="analysis-box-info">
+                                    <h4 class="analysis-box-info-title mb-0">40 <span>Usuarios</span></h4>
+                                    <p class="analysis-box-info-description mb-0">Han visto tu perfil</p>
+                                </div>
+                            </div>
+                            <div class="analysis-box box-shadow-secondary">
+                                <div class="analysis-box-icon">
+                                    <img src="{% static 'cepal/dist/assets/images/icon-analysis-appearances.svg' %}" alt="Ícono de apariciones">
+                                </div>
+                                <div class="analysis-box-info">
+                                    <h4 class="analysis-box-info-title mb-0">30 <span>Apariciones</span></h4>
+                                    <p class="analysis-box-info-description mb-0">Has aparecido en resultados de búsqueda</p>
+                                </div>
+                            </div>
+                            <div class="analysis-box box-shadow-secondary">
+                                <div class="analysis-box-icon">
+                                    <img src="{% static 'cepal/dist/assets/images/icon-analisys-comment.svg' %}" alt="Ícono de comentarios">
+                                </div>
+                                <div class="analysis-box-info">
+                                    <h4 class="analysis-box-info-title mb-0">10 <span>Usuarios</span></h4>
+                                    <p class="analysis-box-info-description mb-0">Han estando interactúando con tus comentarios</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="col-12 col-md-5 mt-4 pt-3 m-md-0 p-md-0">
+                <div class="card-myregisters-provider card-provider box-shadow-primary">
+                    <h2 class="card-myregisters-title">Mis Registros</h2>
+                    <p class="card-myregisters-description">Creé y terminé de editar la información de los registros administrativos de su organización.</p>
+                    <div class="box-registers-provider mt-5">
+                        <h3 class="total-registers">{{total_inventory}} Registros</h3>
+                        <div class="container projects-call my-4">
+                            <!--hay que enviar el {user_provider_entity} para que en crear sólo muestre el select determinado-->
+                            <a href="{% url 'inventory:inventory_create' %}" class="btn btn-white-bordered">
+                                Crear inventario
+                            </a>
+                        </div>
+                        <div class="container-registers style-scrooll">
+                            {% if custom_my_rraa %}
+                            {% for item in custom_my_rraa %}
+                            <div class="box-register-provider box-shadow-third mb-3">
+                                <div class="row">
+                                    <div class="col-12 col-xl-7">
+                                        {% if item.record_choice == "S" %}
+                                        <span class="box-register-provider-tag">Solicitud de RRAA</span>
+                                        {% endif %}
+                                        <p class="box-register-provider-description">{{item.name_rraa}}</p>
+                                        <div class="box-register-complete-input input-range-secondary">
+                                            <input type="range" value="{{item.percentage}}" min="0" max="100">
+                                            <div class="value-percentage"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-5 d-flex mt-4 mb-3 my-xl-0 justify-content-center align-items-xl-center">
+                                        <!-- {% if item.status_completed %}
+                                        <a href="{% url 'inventory:edit_inventory' item.id %}"
+                                            class="btn btn-white-bordered-restart">Completado</a>
+                                        {% else %}
+                                        <a href="{% url 'inventory:edit_inventory' item.id %}"
+                                            class="btn btn-white-bordered-restart">Reanudar</a>
+                                        {% endif %} -->
+                                        {% if item.percentage == 100 %}
+                                            <a href="{% url 'inventory:edit_inventory' item.id %}" class="btn btn-white-bordered-restart">Completado</a>
+                                        {% else %}
+                                            <a href="{% url 'inventory:edit_inventory' item.id %}" class="btn btn-white-bordered-restart">Reanudar</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p>No hay registros adminitrativos registrados</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row my-4 pt-3">
+            <div class="col-12 col-md-7">
+                <div class="card-qualitytest-provider card-provider box-shadow-primary">
+                    <div class="loading loading--absolute d-none">
+                        <div class="loader"></div>
+                        <p class="loading__text">Cargando...</p>
+                    </div>
+                    <fieldset class="form__field required">
+                        <div class="form__element form__element--select">
+                            <select id="select-quality" name="" class="">
+                                {% for item in inventory_entity_provider %}
+                                <option value="{{item.id}}">{{item.title}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </fieldset>
+                    <h2 class="card-qualitytest-title">Test de Calidad</h2>
+                    <div id="form-qualitytest"></div>
+                    <div  class="form-qualitytest form-testexample box-shadow-primary box-shadow-secondary" id="form-qualitytext">
+                        <div class="form-qualitytest-header">
+                          <p class="qualitytest-number-current"></p>
+                          <p class="qualitytest-text">¡Recuerde!</p>
+                        </div>
+                        <div class="all-questions">
+                            <div class="form-qualitytest-questionary mt-4 quest-1">
+                                <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+                                    <div class="label-question">
+                                        Información
+                                    </div>
+                                    <div class="assessment-criteria content-radio">
+                                        <p>Para realizar un test de calidad seleccione en la casilla superior el registro que desea evaluar.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 d-flex flex-column mt-4 pt-3 m-md-0 p-md-0">
+                <div class="card-qualityrraa-provider card-provider box-shadow-primary mb-3">
+                    <!-- <div class="qualityrraa-percentage">
+                            <img src="{% static 'cepal/dist/assets/images/icon-qualityrraa-percentage.svg' %}" alt="imagen percentage">
+                        </div> -->
+
+                    {% for multiple_average, value in multiple_averages.items %}
+                        <div class="quality-info" data-demand="{{ multiple_average.id }}">
+                            <div class="circlechart" data-percentage="{{ value }}"></div>
+                            <div class="qualityrraa-info">
+                                <h3 class="qualityrraa-info-text">Calidad de Registro: <br /><span> {{ multiple_average.title }}
+                                    </span></h3>
+                                <p class="qualityrraa-info-description">Tus Registros están en un {{ value }} / 5.0 de calidad, aún estas a tiempo de corregirlos.</p>
+                                <fieldset class="form__field required">
+                                    <div class="form__element form__element--select">
+                                        <select name="demand-average" class="demand-quality">
+                                            {% for options in multiple_averages %}
+                                            <option value="{{ options.id }}">{{ options.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="card-notifications-provider card-provider mt-4 mt-md-0">
+                    <div class="notifications-header">
+                        <div class="notifications-header-first d-flex align-items-center">
+                            <div class="notifications-header-info">
+                                <h3 class="notifications-header-info-title">Notificaciones</h3>
+                                <h4 class="notifications-header-info-subtitle"> </h4>
+                            </div>
+                            <div class="notifications-header-icon">
+                                <span class="icon-icon-bell-notificacions"></span>
+                                <span class="number-of-notifications">{{cont}}</span>
+                            </div>
+                        </div>
+                        <div class="notifications-header-filters">
+                            Filtrar por: 
+                            <a class="notifyfilter allnotify active" href="#" >Todas</a>
+                            <a class="notifyfilter newnotify" href="#">No leídas</a>
+                            <a class="notifyfilter readnotify" href="#">Leídas</a>
+                        </div>
+                    </div>
+
+                    <div class="notifications-content style-scrooll">
+                        {% if notification_list %}
+                        {% for data in notification_list %}
+                        <div class="notifications-content-item d-flex justify-content-between {% if data.hidden == True %}read{% endif %}" data-notifyid="{{data.id}}">
+                            <div class="colum-left">
+                                <p class="description">{{data.name|safe}}</p>
+                                <span class="time">{{data.hour}}</span>
+                            </div>
+                            <div class="colum-right">
+                                {% if data.hidden == False %}
+                                    <button type="button" data-action="/usuario/ocultar-notificacion/{{data.id}}"
+                                        class="btn-notificacions hide-notification">
+                                        <span class="icon-icon-bell-notificacion-read"></span>
+                                    </button>
+                                {% endif %}
+                                <form action="/usuario/{{data.id}}/eliminar-notificacion" method="POST">
+                                    <!-- Security token by Django -->
+                                    {% csrf_token %}
+                                    <button type="button" class="btn-notificacions delete-notification"
+                                        data-action="/usuario/{{data.id}}/eliminar-notificacion">
+                                        <span class="icon-icon-bell-notificacion-remove"></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="notifications-content-item d-flex justify-content-between">
+                            <p>No tiene notificaciones</p>
+                        </div>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="inventory-provider mt-1 mb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 col-xxl-3 inventory-followed">
+                <h3 class="inventory-followed-title">Inventario de registros que sigues</h3>
+                <p class="inventory-followed-description">Estos son los registros de su interés siga las actualizaciones
+                    que se realizan de cada uno de estos registros.</p>
+                <div class="container-buttons">
+                    <a href="{% url 'inventory:inventory_list' %}" class="btn btn-blue">Ir al inventario</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-8 col-xxl-9 inventory-followed-cards">
+                {% if inventory_page_obj %}
+                <div class="content-cards-activity" id="requestCardList">
+                    {% for obj in inventory_page_obj %}
+                    <div class="cards-activity-item">
+                        <div class="cards-activity-item-header d-flex justify-content-between align-items-center flex-wrap gap-3 {% if obj.checked %}active{% endif %}" data-idinventario="{{ obj.id }}">
+                            <span class="tag">Actividades</span>
+                            {% if request.user|has_group:"Funcionario" or request.user|has_group:"Proveedor" %}
+                            <div class="content-option">
+                                <span class="content-option-text">Seguir inventario</span>
+                                <label class="button-slider">
+                                    <input type="checkbox" class="button-slider-input" data-follow="{{ obj.checked }}"
+                                        {% if obj.checked %} checked {% endif %}>
+                                    <span class="button-slider-switch"></span>
+                                </label>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="cards-activity-item-body">
+                            <p class="item-description">{{ obj.name_rraa }}</p>
+                            <ul class="data-list">
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Cobertura</p>
+                                    {% if obj.coverage is not None%}
+                                    <p class="data-list-item-value">{{ obj.coverage}}</p>
+                                    {% endif %}
+                                </li>
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Proveedor</p>
+                                    <p class="data-list-item-value">{{ obj.provider }}</p>
+                                </li>
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Fecha de actualización</p>
+                                    <p class="data-list-item-value">{{ obj.date_modified |date:"d F Y" }}</p>
+                                </li>
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Fecha de publicación</p>
+                                    <p class="data-list-item-value">{{ obj.date_request |date:"d F Y" }}</p>
+                                </li>
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Estado</p>
+                                    <p class="data-list-item-value">{{ obj.status }}</p>
+                                </li>{% comment %}
+                                <li class="data-list-item">
+                                    <p class="data-list-item-title">Métricas de calidad</p>
+                                    <p class="data-list-item-value">7%</p>
+                                </li>
+                                 <li class="data-list-item">
+                                    <ul class="data-list-aditional style-scrooll">
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Cobertura</p>
+                                            <p class="data-list-aditional-item-value">4%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Usabilidad</p>
+                                            <p class="data-list-aditional-item-value">2%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Difusión</p>
+                                            <p class="data-list-aditional-item-value">1%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Usabilidad</p>
+                                            <p class="data-list-aditional-item-value">2%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Difusión</p>
+                                            <p class="data-list-aditional-item-value">1%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Usabilidad</p>
+                                            <p class="data-list-aditional-item-value">2%</p>
+                                        </li>
+                                        <li
+                                            class="data-list-aditional-item d-flex justify-content-between align-items-center">
+                                            <p class="data-list-aditional-item-title">Difusión</p>
+                                            <p class="data-list-aditional-item-value">1%</p>
+                                        </li>
+                                    </ul>
+                                </li> {% endcomment %}
+                            </ul>
+
+                        </div>
+
+                        <div class="cards-activity-item-footer">
+                            <div class="container-buttons my-4">
+                                <a href="{% url 'inventory:detail_inventory' obj.id %}"
+                                    class="btn btn-white-bordered">Ver más</a>
+                                <button type="button" data-action="{% url 'notify_to_provider' obj.id %}"
+                                    class="btn btn-red-with-white confirm-contact"><span
+                                        class="icon-icon-person"></span>Contactar Proveedor</button>
+                            </div>
+                            <div class="date-update pt-3">
+                                <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última
+                                    actualización: <span class="time">{{ obj.date_modified |date:"d F Y" }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No hay registros Administrativos que sigas
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="related-projects">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 col-xxl-3">
+                <div class="block-description">
+                    <h3 class="block-description-title">Proyectos relacionados</h3>
+                    <p class="block-description-description">Estos son los registros de su interés siga las
+                        actualizaciones que se realizan de cada uno de estos registros.</p>
+                    <div class="container-buttons">
+                        <a href="{% url 'projects:list_projects' %}" class="btn">
+                            Ver todos los proyectos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8 col-xxl-9 related-projects-list">
+                {% if project_list %}
+                <div class="related-projects-list-provider card-list-project">
+                    <!-- PROJECT ITEM -->
+                    {{data1}}
+                    {% for project_item in project_list %}
+
+                    <div class="card-list-project-item">
+                        <h3 class="card-list-project-item-title cepal-h3"><a
+                                href="{% url 'projects:project' project_item.id %}">{{ project_item.name }}</a></h3>
+                        <div class="card-list-project-item-desc">{{ project_item.description_uno | safe}}</div>
+                        <div class="card-list-project-item-taxonomies">
+                            {% for tag in project_item.tag_project.all %}
+                            <a class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag_project}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- FIN PROJECT ITEM -->
+                </div>
+                {% else %}
+                <div class="container">
+                    <p>No hay proyectos asociados para mostrar.</p>
+                    <div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+</section>
+
+<!-- Modal Confirmar seguir inventario -->
+<dialog class="modal fade modal-primary-style" id="follow-demand" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Seguir Inventario</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="description">Está seguro que quiere seguir el inventario <strong><span>Primer
+                            Inventario</span></strong></p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-white-bordered btn-acept-modal" type="button"
+                        aria-label="Aceptar">Aceptar</button>
+                    <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button"
+                        aria-label="Close">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- END Modal Confirmar seguir inventario -->
+
+<!-- Modal confirmation contact -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationContact" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-vieta"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Contactar Proveedor</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="description">¿Está seguro de querer contactar al proveedor propietario del RRAA?</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal"
+                        type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour contact-provider"><span
+                            class="icon-icon-person"></span>Contactar Proveedor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation contact -->
+
+<!-- Modal server response -->
+<dialog class="modal fade modal-finalized-transfer" id="modalServerContact" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-vieta"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Contactar Proveedor</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="description">Respuesta del servidor al contactar proveedor</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal"
+                        type="button" aria-label="Cerrar">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal server response -->
+
+<!-- Modal confirmation notification -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationNotify" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Eliminar notificación</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="loading loading--absolute d-none">
+                    <div class="loader"></div>
+                    <p class="loading__text">Cargando...</p>
+                    <p class="loading__text loading__text--error d-none"></p>
+                </div>
+                <p class="description">¿Está seguro de eliminar la notificación?</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal"
+                        type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour action-notification-delete"><span
+                            class="icon-icon-bell-notificacion-remove"></span>Eliminar</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour action-notification-hide"><span
+                            class="icon-icon-bell-notificacion-read"></span>Marcar leída</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation notification -->
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Editar perfil {% endblock %}
+{% block content %}
+
+    <form method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+
+        {% if form.errors %}
+           {{ form.errors}} 
+        {% endif %}
+
+        {% if profile_form.errors %}
+            {{ profile_form.errors }}
+        {% endif %}
+
+        {% if change_password.errors %}
+            {{ change_password.errors }}
+        {% endif %}
+
+        {% if form %}
+            {{ form }}
+        {% endif %}
+
+        {% if profile_form %}
+            {{ profile_form.as_div }}
+        {% endif %}
+
+        {% if change_password %}
+            {{ change_password.as_div }}
+        {% endif %}
+        
+        {% if not change_password %}
+            <a href="{% url 'edit_password' %}">Cambiar contraseña</a> 
+        {% endif %}
+            
+        <input type="submit" value="Actualizar">
+    </form>
+
+{% endblock %}

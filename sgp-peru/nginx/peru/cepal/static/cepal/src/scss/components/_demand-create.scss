@@ -1,0 +1,10 @@
+.demand-create{
+    .form{
+        .container-buttons{
+            margin-top: 1.5rem;
+            @include media-query(mindesktop){
+                margin-top: 4rem;
+            }
+        }
+    }
+}

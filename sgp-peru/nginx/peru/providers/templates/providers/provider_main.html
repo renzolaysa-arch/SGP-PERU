@@ -1,0 +1,192 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% load users_extras %}
+{% block title %} Proveedores {% endblock %}
+
+{% block content %}
+
+<main class="provider-main bg-int">
+  <div class="container">
+    <!-- BREADCRUMB -->
+    <div class="row">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-white">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">CRM proveedores</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- END BREADCRUMB -->
+    <!-- TITLE -->
+    <div class="row">
+      <h1 class="cepal-h1">Base de datos de proveedores</h1>
+    </div>
+    <!-- END TITLE -->
+    <!-- FILTER FORM -->
+    <div class="row">
+      <div class="col-12">
+        <div class="filterModal__mobile box-shadow-four" data-bs-toggle="modal" data-bs-target="#providerMainModal">
+          <span class="icon-filter-icon"></span><span class="txt">Filtros</span>
+        </div>
+      </div>
+    </div>
+    <section class="filterModal__modal modal modal--closein" id="providerMainModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-header__title"><span class="icon-filter-icon"></span><span class="txt">Filtros</span></div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form action="/lista-proveedores/" method="get" class="filterModal__form form row">
+              <div class="form__group col-12 col-lg-10 gx-0">
+                <fieldset class="form__field" id="field-0">
+                  {{ form_filter_provider.name.label_tag}}
+                  <div class="form__element form__element--searchinput">
+                    {{ form_filter_provider.name }}
+                  </div>
+                </fieldset>
+                <fieldset class="form__field" id="field-1">
+                  {{ form_filter_provider.type.label_tag}}
+                  <div class="form__element form__element--select">
+                    {{ form_filter_provider.type }}
+                  </div>
+                </fieldset>
+                <fieldset class="form__field" id="field-2">
+                  {{ form_filter_provider.status.label_tag}}
+                  <div class="form__element form__element--select">
+                    {{ form_filter_provider.status }}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-12 col-lg-2 gx-0 text-center">
+                <input type="submit" value="Buscar" class="btn btn-blue">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END FILTER FORM -->
+    <section class="row provider-main-best">
+      <!-- BEST PROVIDERS -->
+      <div class="col-12 col-md-7">
+        <div class="best-providers box-shadow-four">
+          <h4 class="secondary-title-card">
+            Mejores proveedores
+          </h4>
+          <ul class="list-block style-scrooll">
+            <li class="list-header">
+              <div class="col-left">Proveedor</div>
+              <div class="col-right">RRAA</div>
+            </li>
+             {% for key, value in sorted_best_providers.items %}
+
+            <li class="list-item">
+              <div class="col-left">{{ key }}</div>
+              <div class="col-right">{{ value }}</div>
+            </li>
+            {% endfor %}
+
+          </ul>
+        </div>
+      </div>
+      <!-- END BEST PROVIDERS -->
+      <!-- REGISTERED PROVIDERS -->
+      <div class="col-12 col-md-5 ps-md-0">
+        <div class="registered-providers figures-card-2 box-shadow-four">
+          <h4 class="secondary-title-card">
+            Proveedores registrados
+          </h4>
+          <div class="figures-card-content">
+            <p class="figures-card-num">{{ total }}</p>
+            <div class="figures-card-graph stats-bars">
+              <div class="bar bar-1"></div>
+              <div class="bar bar-2"></div>
+              <div class="bar bar-3"></div>
+              <div class="bar bar-4"></div>
+              <div class="bar bar-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END REGISTERED PROVIDERS -->  
+    </section>
+    <section class="row provider-main-figures">
+      <!-- FIGURES ITEM -->
+      <div class="col-12 col-md-6 col-lg-3 pe-md-0">
+        <div class="figures-card-1 figures-card-primary box-shadow-four">
+          <h3 class="cepal-title figures-card-title">
+              <span class="cepal-title-normal s">Proyectos </span>Realizados
+          </h3>
+          <p class="figures-card-num">{{project_total}}</p>
+          <a href="{% url 'projects:list_projects' %}" class="btn btn-white-bordered">   
+              Ver todos los proyectos
+          </a>
+        </div>
+      </div>
+      <!-- END FIGURES ITEM -->
+      <!-- FIGURES ITEM -->
+      <div class="col-12 col-md-6 col-lg-3 pe-lg-0">
+        <div class="figures-card-1  figures-card-secondary box-shadow-four">
+          <h3 class="cepal-title figures-card-title">
+              <span class="cepal-title-normal">Registros </span>administrativos
+          </h3>
+          <p class="figures-card-num">{{rraa_total}}</p>
+          <a href="/lista-registros/" class="btn btn-white-bordered">
+              Ver todos los RRAA
+          </a>
+        </div>
+      </div>
+      <!-- END FIGURES ITEM -->
+      <!-- NEW PROVIDERS -->
+      <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+        <div class="new-providers box-shadow-four">
+          <h4 class="secondary-title-card">
+            Nuevos proveedores
+          </h4>
+          <ul class="list-block style-scrooll">
+            <li class="list-header">
+              <div class="col-left">Proveedor</div>
+              <div class="col-right">RRAA</div>
+            </li>
+             {% for key, value in providers_inventory.items %}
+            <li class="list-item">
+              <div class="col-left">{{ key }}</div>
+              <div class="col-right">{{ value }}</div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- END NEW PROVIDERS -->
+    </section>
+    <!-- Del día: {{ total_day }} -->
+    <!-- INDICADOR -->
+    <section class="row provider-main-indicators">
+      <div class="col-12">
+        <div class="card-type-list-primary box-shadow-four">
+            <h4 class="secondary-title-card">
+                Proveedores de registro según sector
+            </h4>
+            <ul class="list-block style-scrooll">
+                <li class="list-header">
+                    <div class="col-left">Sector</div>
+                    <div class="col-right">Proveedor</div>
+                </li>
+                {% for provider_sector in sector %}
+                  <li class="list-item">
+                    <div class="col-left"> <a href="{% url 'providers:provider_list' %}?sector={{provider_sector.id}}">{{ provider_sector.nombre }}</a></div>
+                    <div class="col-right">{{ provider_sector.valor }}</div>
+                  </li>
+                {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </section>
+    <!-- END INDICADOR -->
+  </div>
+</main>
+
+{% endblock %}

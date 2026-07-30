@@ -1,0 +1,130 @@
+.demand-transfer {
+  .result-box-body {
+    .accordion-item {
+      // .accordion-body {
+      //   .highlight-list {
+      //     grid-template-columns: repeat(3, 1fr);
+
+      //     &-item.w-100 {
+      //       grid-column: 1 / -1;
+      //     }
+      //   }
+      // }
+
+      // Acordeon "Inicio"
+      &[data-accordion-item="inicio"]{
+        .accordion-body{
+          padding-bottom: 2.1rem;
+          @include media-query(mindesktop){
+            padding-bottom: 4rem;
+          }
+        }
+      }
+
+      // Acordeon "En Proceso"
+      // &[data-accordion-item="proceso"]{
+        
+      // }
+
+      // Formulario Inicio
+      .demand-transfer__beginform{
+        .highlight-list{
+
+          // Actualizar Transferencia
+          &:nth-child(2){
+            row-gap: 0;
+
+            .content-buttons{
+              margin-top: 3.5rem;
+              justify-content: center;
+              @include media-query(mintablet){
+                justify-content: flex-end;
+              }
+              .btn {
+                width: 18.8rem;
+              }
+            }
+          }
+
+          // Listado de Transferencias
+          &:nth-child(3){
+            row-gap: 0;
+            @include media-query(mindesktop){
+              row-gap: 4rem;
+            }
+            .content-buttons{
+              margin-top: 2.1rem;
+            }
+          }
+
+        }
+
+        .highlight-list-item-form .inputs-fields .input-field{
+          position: relative;
+
+          // Alertas Errores validación
+          p.error-validacion{
+            position: absolute;
+            top: 100%;
+            right: 0;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: $color-error-forms;
+            margin-bottom: 0;
+          }
+        }
+        
+      }
+
+      // Acordeon "Finalizado"
+      // &[data-accordion-item="finalizado"]{
+        // Modal para finalizar Transferencia
+        // .modal-finalized-transfer{
+        //   .modal-content{
+        //     padding: 1.5rem 2rem;
+
+        //     .form__call{
+        //       display: flex;
+        //       justify-content: center;
+        //       margin-top: 3rem;
+        //       @include media-query(mintablet){
+        //         justify-content: flex-end;
+        //       }
+        //       .btn{
+        //         width: 100%;
+        //         @include media-query(mindesktop){
+        //           width: auto;
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+      // }
+
+      // Select filtro mes
+      .form__element.form__element--select:has(#filterTransferList){
+        display: inline-block;
+        min-width: 140px;
+      }
+      
+      // Navegacion "Volver" / "Continuar"
+      .content-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        @include media-query(mindesktop){
+          margin-top: 4.5rem;
+        }
+
+        .btn {
+          width: 100%;
+          @include media-query(mintablet){
+            width: 18.8rem;
+          }
+        }
+      }
+      
+    }
+  }
+}

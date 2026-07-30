@@ -1,0 +1,184 @@
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    @include media-query(mindesktop){
+        font-size: 1.6rem;
+    }
+
+    a{
+        color: inherit;
+        font-size: inherit;
+        text-decoration: none;
+    }
+
+    .first, .prev, .next, .last{
+        opacity: 0.55;
+        color: var(--secondary-color);
+
+        // Iconos flechas
+        span[class*="icon"]{
+            font-size: 1rem;
+            vertical-align: middle;
+            font-size: 0.6rem;
+            margin-top: 0.1rem;
+        }
+
+        // Texto
+        &__text{
+            display: none;
+            margin: 0 2px;
+            @media only screen and (min-width: 400px) {
+                display: inline;
+            }
+            // @include media-query(mintablet){
+            //     display: inline;
+            // }
+        }
+
+        // Deshabilitado
+        &--disabled{
+            color: $color-gray-v1;
+            pointer-events: none;
+        }
+
+        &:hover{
+            opacity: 1;
+        }
+    }
+
+    .first, .last{
+        span[class*="icon"]{
+            font-size: 1rem;
+        } 
+    }
+
+    .first, .prev{
+        margin-right: 7px;
+    }
+
+    .next, .last{
+        margin-left: 7px;
+    }
+
+    .prev,
+    .next {
+        display: flex;
+        align-items: center;
+    }
+
+    .prev {
+        span::before {
+            transform: rotate(90deg);
+            display: inline-block;
+        }
+    }
+
+    .next {
+        span::before {
+            transform: rotate(-90deg);
+            display: inline-block;
+        }
+    }
+
+    // Páginas
+    .pages{
+        margin: 0 auto;
+
+        &__ul{
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 13px;
+            @include media-query(mindesktop){
+                gap: 0;
+            }
+        }
+
+        &__li{
+            display: inline-block;
+
+            // Link
+            .page{
+                width: 24px;
+                height: 24px;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--secondary-color);
+                @include media-query(mindesktop){
+                    width: 35px;
+                    height: 35px;
+                }
+                @include media-query(mindesktopLS){
+                    width: 48px;
+                    height: 48px;
+                }
+                
+                &:hover{
+                    text-decoration: underline;
+                }
+                
+                &--current{
+                    background-color: var(--primary-color);
+                    border-radius: 50%;
+                    color: $color-white;
+                }
+
+            }
+        }
+    }
+}
+
+.provider-list-pagination,
+.request-list-pagination {
+    .col-pagination {
+        display: flex;
+        justify-content: center;
+
+        @include media-query(tablet) {
+           justify-content: space-between;
+        }
+
+        .pagination {
+            margin-bottom: 13rem;
+            width: auto;
+        
+            @include media-query(desktopL) {
+                margin-bottom: 10rem;
+            }
+            @include media-query(tablet) {
+                font-size: 1.6rem;
+                width: 100%;
+            }
+        
+            .pages {
+                margin: 0 3rem;
+
+                @include media-query(tablet) {
+                    margin: 0 auto;
+                }
+                
+                &__ul {
+                    gap: 0;
+                }
+        
+                &__li {
+                    .page {
+                        @include media-query(desktopLS){
+                            width: 40px;
+                            height: 40px;
+                        }
+                        @include media-query(desktop){
+                            width: 35px;
+                            height: 35px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

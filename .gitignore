@@ -1,0 +1,43 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+sgp-peru/nginx/peru/prueba.py
+sgp-peru/nginx/peru/send.py
+
+# Database dumps and local databases
+*_backup.sql
+*.dump
+*.sqlite3
+
+# User-uploaded and runtime-generated data
+**/media/uploads/
+sgp-peru/nginx/peru/static/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+
+# Logs, crash dumps, and temporary files
+core.*
+*.log
+*.tmp
+~$*
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

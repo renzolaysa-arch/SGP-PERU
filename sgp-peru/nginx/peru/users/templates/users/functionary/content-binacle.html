@@ -1,0 +1,71 @@
+<div class="loading loading--absolute d-none">
+    <div class="loader"></div>
+    <p class="loading__text">Cargando...</p>
+    <p class="loading__text loading__text--error d-none"></p>
+</div>
+<div class="tab-pane fade show active" id="nav-item-{{item.id}}" role="tabpanel" aria-labelledby="tab-item-{{item.id}}" tabindex="0">
+    <div class="binacle__thread-info">
+        <div class="binacle__thread-info__left">
+            <h3 class="binacle__thread-info__title">Información del Hilo</h3>
+            <p class="binacle__thread-info__desc">{{item_thread.content_thread}}</p>
+            <p class="card-type-notes-list-item-description"> <b>Escrito por:</b> {{item_thread.user_functionary_created}}</p>
+        </div>
+        {% if owner_thread %}
+        <form action="/bitacora/eliminar-tema/{{item_thread.id}}/" method="POST" data-threadid="{{item_thread.id}}">
+            <!-- Security token by Django -->
+            {% csrf_token %}
+            <button type="button" class="binacle__thread-info__delete">
+                <span class="icon-icon-bell-notificacion-remove"></span>
+            </button>
+        </form>
+        {% endif %}
+    </div>
+    {% if comments_for_tread|length == 0 %}
+        <p class="fw-bold">Este tema aún no tiene comentarios, puede comentar en la siguiente caja de texto</p>
+    {% else %}
+        <div class="card-type-notes box-shadow-primary">
+            <!-- List commentary -->
+            <div class="card-type-notes-list style-scrooll">
+                <!-- Commentary Item -->
+                {%for item in comments_for_tread %}
+                <div class="card-type-notes-list-item" data-commentid="{{item.id}}" >
+                    <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Avatar"
+                        class="card-type-notes-list-item-image">
+                    <div class="card-type-notes-list-item-dat mt-4">
+                        <h3 class="card-type-notes-list-item-name">{{item.functionary_commented}}</h3>
+                        {% if item.hour < 1 %}
+                        <span class="card-type-notes-list-item-date">Escrito hace menos de 1 hora</span>
+                        {% else %}
+                        <span class="card-type-notes-list-item-date">Escrito hace {{item.hour}} horas</span>
+                        {% endif %}
+                    </div>
+                    <p class="card-type-notes-list-item-description">{{item.commentary}}</p>
+
+                    {% if item.owner_comment %}
+                    <form action="/bitacora/eliminar-comentario/{{item.id}}/" method="POST" data-commentid="{{item.id}}">
+                        {% csrf_token %}
+                        <button type="button" class="binacle__comment__delete">                                        
+                            <span class="icon-icon-bell-notificacion-remove"></span>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <!-- End Commentary Item -->
+            </div>
+            <!-- End List commentary -->
+        </div>
+    {% endif %}
+
+    <div class="block-form-notes mt-4">
+        <form method="post" action='/bitacora/crear-comentario/{{id_thread}}/{{id_functionary}}' enctype="multipart/form-data">
+        {% csrf_token %}            
+        {{form_create_comments.commentary}}
+            <!--<textarea name="commentary" cols="100" rows="8" placeholder="Realizar un comentario" id="id_commentary" required></textarea>-->
+            <div class="block-form-notes__call">
+                <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Comentar">
+            </div>
+        </form>
+    </div>
+    <p class="text-informative-notes my-4">Los comentarios realizados, se notificarán vía correo electrónico a los funcionarios y unidades participantes.</p>
+</div>

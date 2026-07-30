@@ -1,0 +1,372 @@
+.testimonials-home {
+    position: relative;
+    margin: 5rem 0;
+
+    @include media-query(mintablet) {
+        margin: 6rem 0;
+        padding-bottom: 6.6rem; //66px
+    }
+
+    @include media-query(mindesktop) {
+        margin: 7.2rem 0;
+    }
+
+    @include media-query(mindesktopL) {
+        margin: 8.4rem 0;
+    }
+
+    // Imagen Fondo
+    &::before {
+        content: "";
+        position: absolute;
+        top: 12.15%; //7.5%
+        right: 0;
+        z-index: -1;
+        width: 79.71%;
+        height: 38%;
+        background-image: var(--bg-testimonials-home);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+
+        @include media-query(minmobile) {
+            top: 10.5%;
+            height: 40%;
+        }
+
+        @include media-query(mintablet) {
+            width: 50%;
+            height: 70%;
+            top: unset;
+            right: unset;
+            left: 0;
+            bottom: 0;
+
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+    }
+
+    &-img {
+        position: absolute;
+        top: 7.5%; //13.5%
+        right: 0;
+        z-index: -1;
+        object-fit: cover;
+        width: 79.71%;
+        height: 40%;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+
+
+        @include media-query(mintablet) {
+            width: 50%;
+            height: 70%;
+            top: unset;
+            right: unset;
+            left: 0;
+            bottom: 0;
+
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        // @include media-query(mindesktop) {
+        //     width: 65.93%;
+        // }
+    }
+
+    // Contenido
+    .testimonials-home-cont {
+
+        // Titulo
+        .cepal-h2 {
+            color: $color-black-b3;
+            margin-bottom: 0;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+
+            @include media-query(mindesktop) {
+                padding-top: 4.5rem;
+                padding-bottom: 4.5rem;
+            }
+        }
+
+        // Listado items
+        .testimonials-home-list {
+            margin-top: 55px;
+
+            @include media-query(mintablet) {
+                margin-top: 0;
+            }
+
+            // Items(row)
+            .testimonials-home-item {
+                @include media-query(mintablet) {
+                    align-items: center;
+                }
+
+                // Contenedor imagen
+                &-imgcont {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+
+                    img {
+                        @include media-query(mintablet) {
+                            border-radius: 20px;
+                            object-fit: cover;
+                            // min-height: 507px;
+                            min-height: 420px;
+                        }
+                    }
+
+                    &.isvideo {
+
+                        // Boton play
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 74px;
+                            height: 74px;
+                            background-image: url("./assets/images/play_btn-white.svg");
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            transition: all 300ms;
+                        }
+
+                        // Efecto boton play agrandar
+                        &:hover::after {
+                            transform: translate(-50%, -50%) scale(1.1);
+                        }
+                    }
+                }
+
+                // Columna de texto
+                &-txtcol {
+                    position: relative;
+                    z-index: 2;
+
+                    @include media-query(mintablet) {
+                        margin-left: -8.33333333%;
+                    }
+
+                    // Contenedor texto
+                    .testimonials-home-item-txtcont {
+                        box-shadow: 0px 3px 6px #00000029;
+                        border-radius: 20px;
+                        background-color: $color-white;
+                        display: flex;
+                        flex-direction: column;
+
+                        padding: 31px 20px 56px;
+                        margin: -34px 15px 0;
+
+                        @include media-query(mintablet) {
+                            padding: 4.8rem 3.2rem 7.8rem; // 48px 32px 78px
+                            margin: 0;
+                        }
+
+                        @include media-query(mindesktopLS) {
+                            padding-bottom: 11.8rem; //118px
+                        }
+
+                        // Header
+                        .testimonials-home-item-header {
+                            text-align: center;
+                            border-bottom: 1px solid $color-lightgray;
+                            min-height: 85px;
+                            padding-bottom: 15px;
+
+                            @include media-query(mintablet) {
+                                text-align: left;
+                                // min-height: 105px;
+                                min-height: 22.92%;
+                                padding-bottom: 2rem; //20px
+                            }
+
+                            // Logo
+                            &-logo {
+                                max-width: 125px;
+                                display: inline-block;
+
+                                // @include media-query(mintablet) {
+                                //     max-width: 155px;
+                                // }
+                            }
+
+                            // Titulo
+                            .cepal-title {
+                                color: $color-black-b3;
+                                margin: 20px 0 0;
+                            }
+                        }
+
+                        // Descripcion
+                        .testimonials-home-item-desc {
+                            margin: 20px 0;
+                            font-weight: $regular;
+                            color: $color-gray;
+                            // display: -webkit-box;
+                            // -webkit-box-orient: vertical;
+                            // -webkit-line-clamp: 3;
+                            // overflow: hidden;
+                            min-height: 7.7rem;
+                            font-size: 1.2rem;
+                            line-height: 2.4rem; //24px
+
+                            @include media-query(minmobilexl) {
+                                font-size: 1.4rem;
+                            }
+
+                            @include media-query(mintablet) {
+                                margin: 2.5rem 0 3.3rem; //25px 0 33px
+                            }
+
+                            @include media-query(mindesktop) {
+                                font-size: 1.6rem;
+                                line-height: 2.6rem;
+                            }
+                        }
+
+                        // Autor
+                        .testimonials-home-item-autor {
+                            font-weight: $bold;
+                            color: #454545;
+                            font-size: 1.2rem;
+
+                            @include media-query(minmobilexl) {
+                                font-size: 1.4rem;
+                            }
+
+                            @include media-query(mintablet) {
+                                color: $color-gray;
+                                font-weight: $semibold;
+                                font-size: 1.1rem;
+                            }
+
+                            @include media-query(mindesktop) {
+                                font-size: 1.6rem;
+                            }
+
+                            // Fecha
+                            .testimonials-home-item-date {
+                                padding-left: 1.2rem;
+                                margin-left: 1.2rem;
+                                border-left: 1px solid rgba($color: $color-gray-v1, $alpha: 0.23);
+
+                                @include media-query(mindesktop) {
+                                    padding-left: 1.55rem;
+                                    margin-left: 1.55rem;
+                                }
+                            }
+                        }
+
+                        b {
+                            display: flex;
+                            justify-content: flex-start;
+                        }
+                    }
+                }
+            }
+
+            // Estilos para que no corte los box shadow de las cards
+            .owl-stage-outer {
+                margin: -6px;
+                padding: 6px; // esta medida depende de la medida de la sombra de las cards X2
+            }
+
+            // .owl-stage-outer { 
+            //     overflow: visible;
+            // }
+            // Estilos owl para hacer los items del mismo alto
+            .owl-stage {
+                display: flex;
+            }
+
+            .owl-item {
+                display: flex;
+                flex-shrink: 0;
+                // Estilos para que no se corte el box shadow ni se vean los items laterales
+                opacity: 0;
+                transition: opacity 300ms;
+
+                &.active {
+                    opacity: 1;
+                }
+            }
+
+            // Navegación Owl slider bullets
+            .owl-dots {
+                position: absolute;
+                bottom: 5.63%;
+                left: 50%;
+                transform: translateX(-50%);
+
+                @include media-query(mintablet) {
+                    // bottom: 18.35%;
+                    // bottom: 21.55%;
+                    // left: 61.85%;
+                    left: 64.85%;
+                    bottom: 12.55%;
+                    transform: translateX(0);
+                }
+
+                @include media-query(mindesktop) {
+                    // bottom: 20.35%;
+                    bottom: 14.35%;
+                    left: 63.25%;
+                }
+
+                @include media-query(mindesktopL) {
+                    left: 62.35%;
+                }
+
+                .owl-dot {
+                    background-color: var(--primary-color) !important;
+
+                    @include media-query(mintablet) {
+                        background-color: var(--secondary-color) !important;
+                    }
+                }
+            }
+
+            // Navegación slider owl carousel (prev, next)
+            .owl-nav {
+                position: absolute;
+                // bottom: 18.35%;
+                right: 2.35%;
+                bottom: 9.55%;
+
+                @include media-query(mindesktop) {
+                    // bottom: 16.55%;
+                    bottom: 10.55%;
+                }
+
+                .owl-prev,
+                .owl-next {
+                    box-sizing: border-box;
+
+                    // navegación deshabilitada
+                    &.disabled {
+                        &::after {
+                            // filter: grayscale(100%);
+                            color: $color-gray-v2;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

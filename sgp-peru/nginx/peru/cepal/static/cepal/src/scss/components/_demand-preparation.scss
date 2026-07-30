@@ -1,0 +1,295 @@
+.consistency-quality-cuestions {
+    margin: 10% auto;
+    border-radius: 2rem;
+    box-shadow: 0rem 1.6rem 4rem #00000024;
+    padding: 3rem 1.5rem 1rem 3rem;
+    background-color: #fff;
+
+    // Contenedor pregunta y radios con label
+    .question {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 1% 2%;
+        align-items: center;
+
+        .label-question {
+            font-weight: $semibold;
+        }
+
+        .assessment-criteria {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            .filter-radio {
+                label {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    align-items: center;
+                    margin: 0px 10px;
+                    .radioinput{
+                        margin: 0 5px;
+                    }
+                }
+            }
+        }
+
+        &:nth-child(odd) {
+            background-color: rgba(var(--secondary-rgb), 5%);
+        }
+    }
+
+}
+
+
+.demand-preparation {
+
+    .accordion-body{
+        .content-buttons{
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-direction: column;
+            @include media-query(mintablet){
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+            .btn{
+                width: 100%;
+                @include media-query(mintablet){
+                    width: auto;
+                }
+            }
+        }
+    }
+
+    // Acordeon "Inicio"
+    &__begin {
+        .form {
+            margin-top: 2.4rem;
+            display: grid;
+            column-gap: 2rem;
+
+            @include media-query(mintablet) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @include media-query(mindesktop) {
+                row-gap: 2.5rem;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, auto);
+                grid-template-areas: "uno . ."
+                    "dos tres cuatro"
+                    "comentario comentario comentario"
+                    ". . call";
+            }
+
+            // Conjuntos formulario (label/campo)
+            .form__field {
+                justify-content: flex-start;
+                @include media-query(mintablet) {
+
+                    // Comentario
+                    &:nth-child(5) {
+                        grid-column: 1 / 3;
+                    }
+                }
+
+                @include media-query(mindesktop) {
+                    &:nth-child(1) {
+                        grid-area: uno;
+                    }
+
+                    &:nth-child(2) {
+                        grid-area: dos;
+                    }
+
+                    &:nth-child(3) {
+                        grid-area: tres;
+                    }
+
+                    &:nth-child(4) {
+                        grid-area: cuatro;
+                    }
+
+                    &:nth-child(5) {
+                        grid-area: comentario;
+                    }
+                }
+
+                // Enlace ir a MP Transferencia
+                .form__element__info.transferlink{
+                    margin-top: 1.4rem;
+                }
+            }
+
+            .form__call {
+                display: flex;
+                justify-content: center;
+
+                @include media-query(mintablet) {
+                    grid-column: 1 / 3;
+                    justify-content: flex-end;
+                }
+
+                @include media-query(mindesktop) {
+                    grid-area: call;
+                }
+
+                .btn {
+                    width: 100%;
+
+                    @include media-query(mintablet) {
+                        width: auto;
+                    }
+                }
+            }
+
+        }
+
+        // Tabla Preparaciones
+        .highlight-list-item .list-of-transfer--style-one .list-of-transfer-item{
+            @include media-query(mindesktopL){
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    }
+
+    // Acordeon "En Proceso" // Acordeon "En Revisión" // Acordeon "Finalizado"
+    &__process, &__revision, &__finalized  {
+
+        .highlight-list-item{
+            .field-informative-text{
+                width: 100%;
+                .form__element--select{
+                    position: relative;
+                    &::after {
+                        right: 0;
+                    }
+                }
+                select{
+                    width: 100%;
+                    appearance: none;
+                    outline: none;
+                    border: none;
+                    padding-left: .5rem;
+                }
+            }
+        }
+    }
+
+    // Acordeon "En Proceso"
+    &__process {
+
+        .container-responsible-functionary {
+            padding: 0% 0 7%;
+        }
+
+        // Contenedor preguntas radios
+        .all-questions {
+            margin: 7% 0 0;
+
+            // Contenedor pregunta y radios con label
+            .question {
+                margin-bottom: 2rem;
+                display: flex;
+                justify-content: space-between;
+                padding: 4% 2%;
+                align-items: center;
+
+                &:nth-child(odd) {
+                    background-color: rgba(var(--secondary-rgb), 5%);
+                }
+
+                // Pregunta
+                .label-question {
+                    font-weight: 600;
+                    color: $color-black-b4;
+                }
+            }
+        }
+    }
+
+    // Acordeon "En Revisión"
+    &__revision {
+        .accordion-body {
+
+            // Destacado
+            .highlight-father {
+                .highlight-list {
+                    max-height: 160px;
+                    overflow-y: auto;
+                    padding-top: 1rem;
+                    margin-top: 2rem;
+                }
+            }
+
+            // Formulario
+            .form {
+                .form__group--three-col {
+                    margin-bottom: 2.5rem;
+                }
+
+                // "Call to action" Submit
+                &__call {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                    flex-direction: column;
+                    @include media-query(mintablet){
+                        flex-direction: row;
+                        justify-content: flex-end;
+                    }
+
+                    @include media-query(mindesktop) {
+                        margin-top: 4.5rem;
+                    }
+
+                    .btn {
+                        width: 100%;
+
+                        @include media-query(mintablet) {
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Acordeon "Finalizado"
+    &__finalized {
+
+        // Formulario
+        .form {
+
+            // "Call to action" Submit
+            &__call {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                gap: 1.5rem;
+                flex-direction: column;
+                @include media-query(mintablet){
+                    flex-direction: row;
+                    justify-content: flex-end;
+                }
+
+                @include media-query(mindesktop) {
+                    margin-top: 2.5rem;
+                    margin-bottom: 2.5rem;
+                }
+
+                .btn {
+                    width: 100%;
+
+                    @include media-query(mintablet) {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+
+}

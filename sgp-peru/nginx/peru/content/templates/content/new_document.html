@@ -1,0 +1,103 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}
+Nuevo Documento
+{% endblock %}
+
+{% block content %}
+
+<!-- NEW DOCUMENT-->
+<main class="createform">
+    <section class="container createform__header">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Crear Documento</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+         <!-- Title -->
+         <div class="row justify-content-center mt-4 mb-5">
+            <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+                <h1 class="cepal-h1 createform__title">Formulario de creación de documentos</h1>
+                <p class="createform__desc">
+                    En el siguiente formulario encontrará los campos necesarios para crear un documento. 
+                </p>
+                <p class="createform__desc">Los campos marcados con (<span class="cepal-alert__text">*</span>) son obligatorios o requeridos.</p>
+            </div>
+        </div>
+        <!-- End Title -->
+    </section>
+
+    <section class="container">
+        <div class="row">            
+            <div class="col-md-8 offset-md-2">
+                <form method="POST" enctype="multipart/form-data" class="createform__form projects-create__form form box-shadow-five margin-form" id="createNewDocument">
+                    {% if form.errors %}
+                    <div class="errors">
+                        {{ form.errors }}
+                    </div>
+                    {% endif %}
+                    {% csrf_token %}
+                    
+                    <div class="loading z-index-3 d-none">
+                        <div class="loader"></div>
+                        <p class="loading__text">Enviando...</p>
+                    </div>
+
+                    <div class="form__group--two-col">
+                        <fieldset class="form__field w-100 required">
+                            <label for="title">Título</label>
+                            <div class="form__element">
+                                {{ form.title }}
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form__field w-100 required">
+                            <label for="document">Documento</label>
+
+                            <div class="form__element form__element--file">
+                                {{ form.document }}
+                            </div>
+                            <p class="form__element__info mt-2">El formato permitido es: PDF</p>
+                        </fieldset>
+
+                        <fieldset class="form__field w-100 required">
+                            <label for="document">Asignado a</label>
+
+                            <div class="form__element">
+                                {{ form.assigned_to }}
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form__field w-100 required">
+                            <label for="document">Con copia a</label>
+
+                            <div class="form__element">
+                                {{ form.copy_to }}
+                                <p class="form__element__info mt-2">
+                                    Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno.
+                                </p>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="id_requires_approval" name="requires_approval" value="aprobacion">
+                            <label class="form-check-label" for="requires_approval">Requiere aprobación</label>
+                            <!--{{ form.requires_approval }}-->
+                        </div>
+
+                    </div>
+                    <div class="container-buttons button-submit-margin">
+                        <input class="btn btn-secondary btn-secondary--fill" type="submit" value="Guardar">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

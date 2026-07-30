@@ -1,0 +1,139 @@
+.card-list-project {
+
+  &-item {
+    width: 336px;
+    background-color: $color-white;
+    box-shadow: 0px 3px 6px rgba($color: #000000, $alpha: 8%);
+    border-radius: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    padding: 47px 24px 29px;
+
+    @include media-query(mobilexl) {
+      width: 308px;
+      padding: 36px 23px 28px;
+    }
+
+
+    &-title {
+      min-height: 60px;
+      margin-bottom: 2rem;
+      line-height: 3rem;
+
+      a {
+        color: $color-black-b3;
+        font-size: 2rem;
+        font-weight: $bold;
+        text-decoration: none;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+
+        @include media-query(tablet) {
+          font-size: 1.8rem;
+        }
+
+        &:hover {
+          text-decoration: underline;
+          color: var(--primary-color);
+        }
+      }
+    }
+
+    &-desc {
+      color: $color-gray;
+      font-size: 1.6rem;
+      margin-bottom: 4rem;
+      min-height: 100px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+
+      @include media-query(tablet) {
+        font-size: 1.4rem;
+      }
+    }
+
+    &-taxonomies {
+      // display: flex;
+      // flex-flow: row wrap;
+      // row-gap: 8px;
+      // column-gap: 4px;
+      margin-top: auto;
+      border-top: 1px solid $color-lightgray;
+      padding-top: 20px;
+      position: relative;
+
+      @include media-query(mindesktop) {
+        padding-top: 28px;
+      }
+
+      // Links
+      .badge {
+        color: $color-white;
+      }
+
+      // Navegacion slider tags
+      .owl-nav {
+        $icon-font-size: 1.4rem;
+        width: 100%;
+        max-width: 100%;
+        position: static;
+        left: unset;
+        top: unset;
+
+        .owl-prev,
+        .owl-next {
+          width: 21px;
+          height: 25px;
+          position: absolute;
+          bottom: 0;
+
+          &::after {
+            font-size: $icon-font-size;
+            color: var(--secondary-color);
+
+            @include media-query(mindesktopLS) {
+              font-size: $icon-font-size;
+            }
+          }
+
+          // navegación deshabilitada
+          &.disabled {
+            display: none;
+
+            &::after {
+              color: $color-gray-v2;
+            }
+          }
+        }
+
+        .owl-prev {
+          left: -5px;
+          margin-right: 0;
+          padding-right: 42px;
+          background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0px, white 50%) !important;
+
+          &::after {
+            content: "\e90e";
+          }
+        }
+
+        .owl-next {
+          right: -5px;
+          background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0px, rgb(255, 255, 255) 50%) !important;
+          padding-left: 42px;
+
+          &::after {
+            content: "\e90f";
+          }
+        }
+      }
+    }
+
+  }
+
+
+}

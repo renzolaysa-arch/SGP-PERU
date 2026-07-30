@@ -1,0 +1,371 @@
+.create-provider {
+    .main-title {
+        margin: 0 auto;
+        max-width: 84rem;
+        text-align: center;
+        padding: 4rem 0 2rem 0;
+        .title-provider {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            @include media-query(desktopLS) {
+                font-size: 3rem;
+            }
+        }
+        p {
+            @include media-query(desktopLS) {
+                font-size: 1.3rem;
+            }
+            &.subtitle-request {
+                margin: 0 auto;
+                width: 60%;
+                @include media-query(desktopLS) {
+                    width: 50%;
+                }
+            }
+        }
+    }
+    .container {
+        margin-bottom: 6rem;
+        .row {
+            gap: 3rem;
+            .col-md-4 {
+                &.steps-card {
+                    height: 64rem;
+                    background-color: $color-white;
+                    padding-top: 3rem;
+                    border-radius: 2rem;
+                    box-shadow: 0rem 0.3rem 1.5rem #00000014;
+                }
+                .container-steps {
+                    padding-top: 2rem;
+                    &.demand-create {
+                        .step {
+                            &::after {
+                                top: 24%;
+                                left: 6.9%;
+                                transform: translate(-6.9%, -24%);
+                            }
+                        }
+                    }
+                    .step {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        width: 100%;
+                        padding-bottom: 6rem;
+                        position: relative;
+                        &::after {
+                            content: "";
+                            width: 0.1rem;
+                            height: 100%;
+                            background-color: $color-gray-line-provider;
+                            position: absolute;
+                            top: -5%;
+                            left: 9.5%;
+                            transform: translate(-9.5%, -5%);
+                        }
+                        &:last-child {
+                            &::after {
+                                display: none;
+                            }
+                        }
+                        .step-number,
+                        .step-title {
+                            p {
+                                margin: 0;
+                            }
+                        }
+                        .step-number {
+                            width: 6rem;
+                            background-color: $color-white;
+                            height: 6rem;
+                            border-radius: 50%;
+                            box-shadow: 0rem 0.3rem 0.6rem #00000014;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 2;
+                            @include media-query(desktopLS) {
+                                width: 5rem;
+                                height: 5rem;
+                            }
+                            p {
+                                font-size: 2.5rem;
+                                font-weight: $semibold;
+                            }
+                        }
+                        .step-title {
+                            cursor: pointer;
+                            width: 25rem;
+                            height: 4.4rem;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            transform: translateX(-6%);
+                            z-index: 1;
+                            border-top-right-radius: 4rem;
+                            border-bottom-right-radius: 4rem;
+                            background-color: transparent;
+                            @include media-query(desktopLS) {
+                                width: 22rem;
+                            }
+                            p {
+                                color: $color-black;
+                                font-size: 1.6rem;
+                                width: 25rem;
+                                font-weight: $regular;
+                                padding-left: 3.5rem;
+                                @include media-query(desktopLS) {
+                                    font-size: 1.4rem;
+                                    padding-left: 2.5rem;
+                                }
+                            }
+                        }
+
+                        &.active {
+                            .step-title {
+                                background-color: var(--primary-color);
+                                p {
+                                    color: $color-white;
+                                }
+                            }
+
+                            &::before {
+                                content: "";
+                                background-image: url("./assets/images/active__icon.svg");
+                                background-position: center;
+                                background-repeat: no-repeat;
+                                background-size: contain;
+                                width: 2.5rem;
+                                height: 2.5rem;
+                                position: absolute;
+                                top: 18%;
+                                right: 0;
+                                transform: translate(0, -18%);
+                                @include media-query(desktopLS) {
+                                    top: 14%;
+                                    transform: translate(0, -14%);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .col-md-7 {
+                &.form-card {
+                    background-color: $color-white;
+                    padding: 3rem 0;
+                    border-radius: 2rem;
+                    box-shadow: 0rem 0.3rem 1.5rem #00000014;
+                }
+                form {
+                    width: 85%;
+                    margin: 0 auto;
+                    .container-step {
+                        display: none;
+                        &.active {
+                            display: block;
+                        }
+
+                        &.step2.active {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            grid-template-areas:
+                                "prove prove"
+                                "catego catego"
+                                "geo geo"
+                                "pais depart"
+                                "muni loca";
+                            gap: 0 1.2rem;
+                            .proveedor {
+                                grid-area: prove;
+                            }
+                            .category {
+                                grid-area: catego;
+                            }
+                            .geographic_coverage {
+                                grid-area: geo;
+                            }
+                            .country {
+                                grid-area: pais;
+                            }
+                            .department {
+                                grid-area: depart;
+                            }
+                            .city {
+                                grid-area: muni;
+                            }
+                            .location {
+                                grid-area: loca;
+                            }
+                        }
+                    }
+                    .input-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: flex-start;
+                        flex-direction: column;
+                        width: 100%;
+                        gap: 4px;
+                        position: relative;
+                        padding-bottom: 8px;
+                        p.auth-error {
+                            bottom: -11%;
+                            right: 0;
+                            transform: translate(0, 11%);
+                            font-size: 1.2rem;
+                            font-weight: $regular;
+                            color: $color-error-forms;
+                            display: none;
+                            position: absolute;
+                            &.active {
+                                display: block;
+                            }
+                        }
+                        label {
+                            font-weight: $semibold;
+                            color: $color-gray;
+                        }
+                        label.error {
+                            position: absolute;
+                            bottom: -11%;
+                            right: 0;
+                            transform: translate(0, 11%);
+                            font-size: 1.2rem;
+                            font-weight: $regular;
+                            color: $color-error-forms;
+                            display: none;
+                        }
+                        input.error,
+                        select.error {
+                            border-color: $color-error-forms;
+                            background-color: rgba($color: $color-error-input-fill, $alpha: 0.05);
+                        }
+                        input,
+                        select {
+                            width: 100%;
+                            height: 50px;
+                            border-radius: 5px;
+                            border: 1px solid $color-lightgray;
+                            padding: 0 12px;
+                            color: $color-gray-v1;
+                            font-weight: $regular;
+                            font-size: 16px;
+                            @include media-query(desktopLS) {
+                                height: 35px;
+                                font-size: 14px;
+                            }
+                            &:focus-visible {
+                                outline: none;
+                                border: 1px solid $color-gray-v1;
+                            }
+                        }
+                        &__select {
+                            position: relative;
+                            select {
+                                cursor: pointer;
+                                -webkit-appearance: none;
+                                background: transparent;
+                            }
+                            &::after {
+                                z-index: -1;
+                                font-family: "icomoon";
+                                content: "\e90d";
+                                display: inline-block;
+                                margin-left: 0.255em;
+                                vertical-align: middle;
+                                color: var(--secondary-color);
+                                border: 0;
+                                transition: all 300ms;
+                                // font-size: pxTOem(5.7px);
+                                font-size: 1rem;
+                                position: absolute;
+                                bottom: 22%;
+                                right: 5%;
+                                transform: translate(-5%, -22%);
+                            }
+                        }
+                    }
+                    .container-buttons {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .cotainer-btn-options {
+                            input#volver {
+                                display: none;
+                                &.active {
+                                    display: block;
+                                }
+                            }
+                        }
+                        input {
+                            width: 25%;
+                            height: 4.5rem;
+                            border: 0.1rem solid var(--secondary-color);
+                            border-radius: 3rem;
+                            color: #fff;
+                            position: relative;
+                            font-weight: 600;
+                            min-width: 12rem;
+                            font-size: 1.2rem;
+                            &::after {
+                                display: none;
+                            }
+                            &#enviar {
+                                display: none;
+                            }
+                        }
+                    }
+                    label {
+                        font-weight: $semibold;
+                        color: $color-gray;
+                    }
+                    textarea {
+                        width: 100%;
+                        height: 80px;
+                        border-radius: 5px;
+                        border: 1px solid $color-lightgray;
+                        padding: 0 12px;
+                        color: $color-gray-v1;
+                        font-weight: $regular;
+                        font-size: 16px;
+                        @include media-query(desktopLS) {
+                            height: 35px;
+                            font-size: 14px;
+                        }
+                        &:focus-visible {
+                            outline: none;
+                            border: 1px solid $color-gray-v1;
+                        }
+                    }
+                    input,
+                    select {
+                        width: 100%;
+                        height: 5rem;
+                        border-radius: 0.5rem;
+                        border: 0.1rem solid $color-lightgray;
+                        padding: 0 1.2rem;
+                        margin-bottom: 1.6rem;
+                        color: $color-gray-v1;
+                        font-weight: $regular;
+                        font-size: 1.6rem;
+                        @include media-query(desktopLS) {
+                            height: 3.5rem;
+                            font-size: 1.4rem;
+                        }
+                        &:focus-visible {
+                            outline: none;
+                            border: 0.1rem solid $color-gray-v1;
+                        }
+                    }
+                    select {
+                        position: relative;
+                        cursor: pointer;
+                        -webkit-appearance: none;
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+}

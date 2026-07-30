@@ -1,0 +1,148 @@
+.stepWizard{
+
+    $step-content-width: 12rem !default; // ancho pasos
+    $step-content-padding-top: 2.1rem !default;
+    $step-gutter: 1.6rem !default;
+
+    // Circulo
+    $step-circle-size: 1.1rem !default; // ancho y alto circulo
+    $step-circle-border-width: 1px !default; // borde circulo
+
+    // Por Defecto
+    $step-default-circle-color: $color-black-b4 !default; // color letra # dentro de circulo
+    $step-default-circle-bg-color: $color-lightgray !default; // color fondo circulo
+    $step-default-circle-border-color: $color-lightgray !default; // color borde circulo
+    $step-default-text-color: $color-lightgray !default; // color letra paso
+
+    // Activo
+    $step-active-circle-color: $color-white !default; // color letra # dentro del circulo
+    $step-active-circle-bg-color: var(--primary-color) !default; // color fondo circulo
+    $step-active-circle-border-color: var(--primary-color) !default; // color borde circulo
+    $step-active-text-color: var(--primary-color) !default; // color letra paso
+    $step-active-circle-bshadow-color: var(--primary-rgb) !default; // color box sahdow
+
+    // Completado
+    $step-success-circle-color: $color-white !default;
+    $step-success-circle-bg-color: var(--primary-color) !default;
+    $step-success-circle-border-color: var(--primary-color) !default;
+    $step-success-text-color: var(--primary-color) !default;
+
+    // ul
+    &__steps{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        overflow-x: auto;
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    // li
+    &__step{
+        &:first-child {
+            margin-left: auto;
+        }
+        &:last-child {
+            margin-right: auto;
+        }
+        // Quitar linea riel primer item
+        &:first-of-type {
+            .stepWizard__circle::before {
+                display: none;
+            }
+        }
+        &:last-of-type {
+            .stepWizard__content {
+                padding-right: 0;
+            }
+        }
+
+        // Paso activo
+        &--active{
+            // Circulo
+            .stepWizard__circle{
+                color: $step-active-circle-color;
+                background-color: $step-active-circle-bg-color;
+                border-color: $step-active-circle-border-color;
+                box-shadow: 0px 0px 0px 4px rgba($color: $step-active-circle-bshadow-color, $alpha: 0.2), 0px 0px 0px 8px rgba($color: $step-active-circle-bshadow-color, $alpha: 0.1);
+                // Linea riel
+                &::before {
+                    color: $step-active-circle-border-color;
+                }
+            }
+            // Texto paso
+            .stepWizard__text{
+                color: $step-active-text-color;
+                font-weight: $semibold;
+            }
+        }
+
+        // Paso completado
+        &--success {
+            // Circulo
+            .stepWizard__circle {
+                color: $step-success-circle-color;
+                background-color: $step-success-circle-bg-color;
+                border-color: $step-success-circle-border-color;
+                &::before {
+                    color: $step-success-circle-border-color;
+                }
+            }
+            // Texto paso
+            .stepWizard__text {
+                color: $step-success-text-color;
+                font-weight: $semibold;
+            }
+        }
+    }
+    // contenido
+    &__content{
+        box-sizing: content-box;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: $step-content-width;
+        min-width: $step-content-width;
+        max-width: $step-content-width;
+        padding-top: $step-content-padding-top;
+        padding-right: $step-gutter;
+    }
+    // circulo
+    &__circle{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $step-circle-size;
+        height: $step-circle-size;
+        color: $step-default-circle-color;
+        border: $step-circle-border-width solid $step-default-circle-border-color;
+        border-radius: 100%;
+        background-color: $step-default-circle-bg-color;
+        
+        // Linea riel
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: -$step-circle-border-width; //- ancho borde
+            width: calc(#{$step-content-width} + #{$step-gutter} - #{$step-circle-size});
+            height: $step-circle-border-width;
+            transform: translate(-100%, -50%);
+            color: $step-default-circle-border-color;
+            background-color: currentColor;
+        }
+    }
+    // Texto paso
+    &__text{
+        color: $step-default-text-color;
+        word-break: break-all;
+        margin-top: 2rem;
+    }
+}

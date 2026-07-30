@@ -1,0 +1,349 @@
+.demand-relation{
+    // Acordeon "Inicio"
+    &__begin{
+        .form{
+            margin-top: 2.4rem;
+
+            .link-new-provider {
+                font-weight: 600;
+                color: var(--secondary-color);
+                margin-top: 2rem;
+                width: fit-content;
+                
+                @include media-query (mintablet) {
+                    margin-top: 1rem;
+                }
+            }
+        }
+        // Contenedor boton cargar documento
+        .action-load{
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            margin-top: 5rem;
+            // margin-bottom: 4.6rem;
+            @include media-query(mindesktop){
+                flex-flow: row wrap;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
+
+            // Contenedor tipo archivo y boton
+            .load-files{
+                display: flex;
+                flex-direction: column;
+                gap: 2.5rem;
+                @include media-query(mindesktop){
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .load-files-description-size{
+                    margin-bottom: 0;
+                }
+            }
+
+            // Listado documentos
+            .list-of-documents {
+                padding-right: 1rem;
+                width: 100%;
+                @include media-query(mindesktop){
+                    overflow: auto;
+                    max-height: 16rem;                    
+                }
+        
+                &-item {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 2rem;
+                  padding: 1.8rem 1.5rem;
+        
+                  &:nth-child(odd) {
+                    background-color: rgba(var(--secondary-rgb), 5%);
+                  }
+        
+                  &-preview {
+                    width: 4.8rem;
+                    height: 4.8rem;
+                  }
+        
+                  &-content {
+                    width: 57%;
+        
+                    &-send {
+                      font-size: 1.4rem;
+                      color: $color-gray-v1;
+                      background-color: $color-lightgray-v2;
+                      display: inline-block;
+                      padding: 0.1rem 0.5rem;
+                      border-radius: 0.5rem;
+                    }
+        
+                    &-namedocument {
+                      color: $color-black-b4;
+                      font-weight: 600;
+                    }
+                  }
+        
+                  &-state {
+                    width: fit-content;
+        
+                    &-title,
+                    &-required {
+                      color: $color-black-b4;
+                    }
+        
+                    &-title {
+                      font-weight: 600;
+                    }
+        
+                    &-required {
+                      font-weight: 300;
+                    }
+                  }
+                }
+            }
+        }
+        // Contenedor "Submit"
+        .form__call{
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            @include media-query(mintablet){
+                justify-content: flex-end;
+            }
+            .btn{
+                width: 100%;
+                @include media-query(mindesktop){
+                    width: auto;
+                }
+            }
+        }
+    }
+
+    // Acordeon "En Proceso"
+    &__process{
+
+        // Paso 1
+        .step-1{
+            .agreement__list{
+                @include media-query(mindesktop){
+                    max-height: 290px;
+                }
+            }
+            // Info tipo y tamaño documento
+            .load-files-description{
+                width: auto;
+            }
+        }
+
+        // Paso 2
+        .step-2{
+            .agreement__list{
+                @include media-query(mindesktop){
+                    max-height: 562px;
+                }
+            }
+            // Formulario
+            .form-stpe-2{
+                margin-top: 6.4rem;
+
+                .demand-relation__short-block{
+                    .btn{
+                        font-size: 1.4rem;
+                        padding: 1rem 1.6rem;
+                    }
+                }
+            }
+        }
+
+        // Contenedor navegación botones "volver" "continuar"
+        .content-buttos{
+            margin-top: 3rem;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+    }
+
+    // Acordeon "En Revisión"
+    &__revision{
+        // Listado documentos
+        .list-of-documents {
+            @include media-query(mindesktop){
+                max-height: 16rem;
+            }
+        }
+    }
+
+    // Acuerdos
+    .agreement{
+        // Listado tarjetas "Acuerdo"
+        &__list{
+            overflow-y: auto;
+            padding: 3px;
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+        }
+        // Item card
+        &__card{
+            padding: 3.4rem 0 2rem;
+            border-top: 1px solid $color-lightgray;
+
+            @include media-query(mindesktop){
+                padding: 3.4rem 2.5rem 2rem;
+                border-radius: 2rem;
+                box-shadow: 0rem 0.3rem 0.6rem #00000024;
+                border-top: 0;
+            }
+
+            // Contenedor inputs
+            .inputs-fields{
+                margin-bottom: 2rem;
+                flex-direction: column;
+                @include media-query(mintablet){
+                    flex-direction: row;
+                }
+            }
+        }
+
+        // Header
+        &__header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.8rem;
+
+            &__right{
+                .checkboxinput{
+                    margin-right: 0;
+                    vertical-align: middle;
+                    cursor: pointer;
+                }
+                // Boton Crear Solicitud
+                .btn{
+                    font-size: 1.4rem;
+                    padding: 0.8rem 1.5rem;
+                }
+                .checkboxinput,.btn{
+                    &.hide{
+                        display: none;
+                    }
+                }
+            }
+        }
+        // Titulo card
+        &__title{
+            font-weight: $semibold;
+            font-size: 2rem;
+            color: $color-black-b4;
+            margin-bottom: 0;
+            @include media-query(mindesktop){
+                font-weight: $bold;
+            }
+        }
+
+        // Footer
+        &__footer{
+            padding-top: 1.8rem;
+            border-top: 1px solid $color-lightgray-v2;
+        }
+
+        // Contenedor tags y dropdown
+        &__tags-wrapper{
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        // Tag item
+        &__tag{
+            display: flex;
+            align-items: baseline;
+            gap: 0.8rem;
+            color: $color-white;
+            font-size: 1.4rem;
+            padding: 0.4rem 0.5rem;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+        }
+        
+        // Boton cancelar o borrar tag
+        &__cancel{
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        // Contenedor dropdown y btn
+        &__dropdown-wrapper{
+            position: relative;
+            
+            // "call to action "
+            .btn{
+                padding: 0.7rem 2.2rem;
+                font-weight: $light;
+                &.dropdown-toggle{
+                    &::after{
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        // Dropdown
+        &__dropdown{
+            padding: 3.2rem 3.2rem 3.2rem 2.2rem;
+            border: 1px solid $color-gray-v2;
+            border-radius: 2.5rem;
+            background-color: $color-white;
+            min-width: 218px;
+            @include media-query(minmobilex){
+                min-width: 272px;
+            }
+            @include media-query(minmobilexl){
+                min-width: 310px;                
+            }
+
+            label.radiolabel{
+                display: flex;
+                align-items: center;
+                font-weight: $light;
+                font-size: 1.6rem;
+                color: $color-gray-v2;
+                margin-bottom: 1rem;
+                cursor: pointer;
+
+                &.hide{
+                    display: none;
+                }
+            }
+
+            // Contenedor "call to action"
+            &-call{
+                margin-top: 1.1rem;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+
+    // Seccion corta con descripción y call to action
+    &__short-block{
+        display: flex;
+        justify-content: space-between;
+
+        &__description {
+            width: 50%;
+        }
+
+        &__right {
+          width: auto;
+        }
+    }
+}

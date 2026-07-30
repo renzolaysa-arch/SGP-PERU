@@ -1,0 +1,54 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Notificaciones {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="notifications-header">
+    <div class="notifications-header-first d-flex align-items-center">
+        <div class="notifications-header-info">
+            <h2 class="notifications-header-info-title">Notificaciones</h2>
+            <h4 class="notifications-header-info-subtitle">Ten presente tus notificaciones</h4>
+        </div>
+        <div class="notifications-header-icon">
+            <span class="icon-icon-bell-notificacions"></span>
+            <span class="number-of-notifications">{{cont}}</span>
+        </div>
+    </div>
+    <div class="notifications-header-filters">
+        Filtrar por: 
+        <a class="notifyfilter allnotify active" href="#" >Todas</a>
+        <a class="notifyfilter newnotify" href="#">No leídas</a>
+        <a class="notifyfilter readnotify" href="#">Leídas</a>
+    </div>
+</div>
+
+<div class="notifications-content style-scrooll mt-4">
+    {% if notification_list %}
+    {% for data in notification_list %}
+    <div class="notifications-content-item d-flex justify-content-between {% if data.hidden == True %}read{% endif %}" data-notifyid="{{data.id}}">
+        <div class="colum-left">
+            <p class="description">{{data.name|safe}}</p>
+            <span class="time">{{data.hour}}</span>    
+        </div>
+        <div class="colum-right">
+            {% if data.hidden == False %}
+                <button data-action="/usuario/ocultar-notificacion/{{data.id}}" class="btn-notificacions hide-notification"><span class="icon-icon-bell-notificacion-read"></span></button>
+            {% endif %}
+
+            <form action="/usuario/{{data.id}}/eliminar-notificacion" method="POST">
+                <!-- Security token by Django -->
+                {% csrf_token %}
+                <button type="button" class="btn-notificacions delete-notification" data-action="/usuario/{{data.id}}/eliminar-notificacion">                                        
+                    <span class="icon-icon-bell-notificacion-remove"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <div class="notifications-content-item d-flex justify-content-between">
+            <p>No tiene notificaciones</p>
+        </div>
+    {% endif %}
+</div>

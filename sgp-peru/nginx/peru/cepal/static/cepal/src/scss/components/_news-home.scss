@@ -1,0 +1,117 @@
+.news-home {
+    margin: 5rem 0;
+
+    @include media-query(mintablet) {
+        margin: 6rem 0;
+    }
+
+    @include media-query(mindesktop) {
+        margin: 7.2rem 0;
+    }
+
+    @include media-query(mindesktopL) {
+        margin: 8.4rem 0;
+    }
+
+    // Titulo
+    .cepal-h2 {
+        color: $color-black-b3;
+    }
+
+    // Listado
+    &-list {
+        @include media-query(mindesktopLS) {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        @media only screen and (min-width: 1800px) {
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+        }
+
+        // Item
+        // Estilos en archivo "_news.scss"
+
+        // Estilos para que no corte los box shadow de las cards
+        &>.owl-stage-outer {
+            margin: -12px;
+            padding: 12px; // esta medida depende de la medida de la sombra de las cards X2
+
+            // Estilos owl para hacer los items del mismo alto
+            &>.owl-stage {
+                display: flex;
+                padding: 5px 0;
+                margin-bottom: 20px;
+
+                @include media-query(mindesktop) {
+                    margin-bottom: 30px;
+                }
+
+                &>.owl-item {
+                    display: flex;
+                    flex: 1 0 auto;
+                }
+            }
+        }
+
+        // Navegación slider owl carousel (prev, next)
+        &>.owl-nav {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 40%;
+            margin: 0 auto;
+            max-width: 1920px;
+
+            .owl-prev,
+            .owl-next {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 4;
+                box-sizing: border-box;
+
+                // navegación deshabilitada
+                &.disabled {
+                    &::after {
+                        // filter: grayscale(100%);
+                        color: $color-gray-v2;
+                    }
+                }
+            }
+
+            .owl-prev {
+                left: -7.33333333vw;
+                margin-right: 0;
+
+                @include media-query(mindesktopLS) {
+                    left: -1.5vw;
+                }
+
+                @media only screen and (min-width: 1800px) {
+                    left: -5.33333333vw;
+                }
+
+            }
+
+            .owl-next {
+                right: -7.33333333vw;
+
+                @include media-query(mindesktopLS) {
+                    right: -1.5vw;
+                }
+
+                @media only screen and (min-width: 1800px) {
+                    right: -5.33333333vw;
+                }
+            }
+        }
+
+        // Navegación Owl slider bullets
+        &>.owl-dots {
+            margin-bottom: 1rem;
+        }
+    }
+
+}

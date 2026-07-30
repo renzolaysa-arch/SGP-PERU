@@ -1,0 +1,458 @@
+footer.footer {
+    background-color: $color-white-w2;
+
+    .first-footer {
+        padding: 3.5rem 0 .8rem;
+        position: relative;
+
+        @include media-query(mindesktop) {
+            padding: 4.5rem 0 2rem;
+        }
+
+        // Columna Logo y redes
+        .branding-col-footer {
+            align-self: center;
+        }
+
+        .branding-region-footer {
+            .brand-content {
+                // width: 150px;
+                // height: 50px;
+                margin: 0 auto 2.5rem; //0 auto 25px;
+                text-align: center;
+
+                @include media-query(mintablet) {
+                    margin: 0 0 2.5rem;
+                    text-align: left;
+                }
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: var(--logo-footer-w-mob);
+                    height: var(--logo-footer-h-mob);
+                    background-image: var(--logo-footer);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+
+                    @include media-query(mindesktop) {
+                        width: var(--logo-footer-w-des);
+                        height: var(--logo-footer-h-des);
+                    }
+                }
+            }
+
+            .share-in {
+                margin: 1.5rem 0; //15px 0
+                padding: 1.5rem 0;
+                border-top: 1px solid $color-lightgray;
+
+                @include media-query(mintablet) {
+                    margin-right: 3rem; //30px
+                }
+
+                .social-media-menu {
+                    padding-left: 0;
+                    list-style: none;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    margin: 1.6rem 0;
+
+                    @include media-query(mintablet) {
+                        justify-content: flex-start;
+                        gap: 2.4rem; //24px
+                    }
+
+                    .social-media {
+
+                        // width: 34px;
+                        // height: 34px;
+                        // margin-right: 0.938rem; //15px
+                        .social-media_link {
+                            text-decoration: none;
+
+                            span {
+                                color: $color-black-b3;
+                                transition: all 300ms;
+                                font-size: 3.4rem; //34px
+                            }
+
+                            &:hover {
+                                span {
+                                    color: var(--primary-color);
+                                    transition: all 300ms;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .branding-col-footer {
+            &+ .col-md-4 {
+                @include media-query (mindesktopL) {
+                    width: 30%;
+                }
+            }
+        }
+
+        .footer-menu {
+            .footer-menu-title {
+                margin-bottom: 2.5rem; //25px
+                font-weight: $semibold;
+                font-size: 1.6rem;
+
+                @include media-query(minmobilexl) {
+                    font-size: 1.8rem;
+                }
+
+                @include media-query(mindesktop) {
+                    font-size: 2rem;
+                }
+
+                .footer-menu-titlebtn {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    text-decoration: none;
+                    cursor: pointer;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid $color-lightgray;
+
+                    @include media-query(mintablet) {
+                        cursor: auto;
+                        border-bottom: 0;
+                        padding-bottom: 0;
+                    }
+
+                    &:active,
+                    &:hover {
+                        color: var(--primary-color);
+                    }
+
+                    // Cuando esta cerrado
+                    &[aria-expanded="false"] {
+                        span.icon-chevron-up-icon {
+                            transform: rotate(180deg);
+                        }
+                    }
+
+                    span.icon-chevron-up-icon {
+                        vertical-align: middle;
+                        color: $color-black-b3;
+                        transition: all 300ms;
+                        font-size: 1rem;
+
+                        @include media-query(mintablet) {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            .footer-menu-region {
+                list-style: none;
+                padding-left: 0;
+
+                @include media-query(mintablet) {
+                    display: block;
+                    height: auto !important;
+                    visibility: visible;
+                }
+
+                .footer-menu-item {
+                    padding-bottom: 1.9rem; //19px
+
+                    .footer-menu-link {
+                        color: $color-gray;
+                        text-decoration: underline;
+                        font-family: 'Open Sans', sans-serif;
+                        font-weight: $regular;
+                        transition: all 300ms;
+                        font-size: 1.2rem;
+
+                        @include media-query(minmobilexl) {
+                            font-size: 1.4rem;
+                        }
+
+                        @include media-query(mindesktop) {
+                            font-size: 1.6rem;
+                        }
+
+                        &:hover {
+                            transition: all 300ms;
+                            color: var(--primary-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        .newsletter-footer {
+            position: relative;
+
+            @include media-query(mindesktop) {
+                position: static;
+            }
+
+            @include media-query(mindesktopXL) {
+                position: relative;
+                overflow: visible;
+            }
+
+            .newsletter-region {
+                color: $color-white;
+                padding-top: 3.5rem; //35px
+                padding-bottom: 3.9rem; //39px
+
+                @include media-query(mintablet) {
+                    padding: 3.5rem 10%; //35px 10%
+                }
+
+                @include media-query(mindesktop) {
+                    padding: 0;
+                }
+
+                .newsletter-title {
+                    font-weight: $semibold;
+                    position: relative;
+                    font-size: 1.8rem; //18px
+
+                    @include media-query(mindesktop) {
+                        font-size: 2rem; //20px
+                    }
+                }
+
+                // Descripción
+                span {
+                    font-weight: $regular;
+                    position: relative;
+                    font-size: 1.6rem; //16px
+                }
+
+                // Formulario
+                .newsletter-form {
+                    padding-top: 2.5rem; //25px
+                    position: relative;
+
+                    display: grid;
+                    grid-template-columns: repeat(2, auto) 1fr;
+                    grid-template-rows: repeat(2, auto 1fr);
+                    gap: 5px;
+
+                    @include media-query(mintablet) {
+                        grid-template-columns: 13px auto 31.6%;
+                        grid-template-rows: auto 1fr auto;
+                    }
+
+                    // Label
+                    label[for="id_mail"] {
+                        width: 100%;
+                        margin-bottom: 0;
+                        padding-bottom: 2px;
+                        font-weight: bold;
+                        font-size: 1.4rem; //14px
+                        grid-column: 1 / 4;
+                        grid-row: 1 / 2;
+
+                        @include media-query(mindesktop) {
+                            font-size: 1.6rem; //16px
+                        }
+                    }
+
+                    // Input
+                    input#id_mail {
+                        width: 100%;
+                        padding: 1.2rem; //12px
+                        border-radius: 10px;
+                        box-shadow: 0 0 4px 0 rgba($color: #000, $alpha: 0.5);
+                        color: $color-gray-v1;
+                        border: 0;
+                        font-size: 1.4rem; //14px
+                        grid-column: 1 / 4;
+                        grid-row: 2 / 3;
+
+                        @include media-query(mintablet) {
+                            grid-column: 1 / 3;
+                        }
+
+                        @include media-query(mindesktop) {
+                            font-size: 1.6rem; //16px
+                        }
+
+                        &::placeholder {
+                            font-family: 'Open Sans', sans-serif;
+                            color: $color-gray-v1;
+                            // font-size: 1rem;
+                        }
+                    }
+
+                    // Checkbox
+                    input[type="checkbox"]#id_terms {
+                        grid-column: 1 / 2;
+                        grid-row: 3 / 4;
+                        align-self: baseline;
+                        justify-self: start;
+                        margin-top: 2.4rem; //24px
+                        font-size: 1.4rem; //14px
+
+                        @include media-query(mintablet) {
+                            margin-top: 1.4rem; //14px
+                        }
+
+                        @include media-query(mindesktop) {
+                            font-size: 1.6rem; //16px
+                        }
+                    }
+
+                    // Politicas de privacidad
+                    label[for="id_terms"],
+                    .newsletter-policy {
+                        font-weight: $regular;
+                        font-size: 1.1rem; //11px
+                        margin: 2.4rem 0 2.2rem; // 24px 0 22px
+                        grid-row: 3 / 4;
+                        grid-column: 2 / 4;
+
+                        @include media-query(mintablet) {
+                            margin: 1.1rem 0 0; // 11px 0 0
+                        }
+
+                        @include media-query(mindesktop) {
+                            font-size: 1.3rem; //13px
+                        }
+
+                        a {
+                            color: $color-white;
+                            text-decoration: underline;
+
+                            &:hover {
+                                -webkit-text-stroke: 0.5px #fff;
+                            }
+                        }
+                    }
+
+                    // Boton sumbit
+                    .btn-newsletter {
+                        min-width: auto;
+                        grid-column: 1 / 4;
+                        grid-row: 4 / 5;
+
+                        @include media-query(mintablet) {
+                            grid-column: 3 / 4;
+                            grid-row: 2 / 3;
+                        }
+                    }
+                }
+
+                //NEWSLETTER BACKGROUND
+                &::before {
+                    content: "";
+                    height: 105%;
+                    position: absolute;
+                    background-color: var(--secondary-color);
+                    border-top-left-radius: 15px;
+                    border-top-right-radius: 15px;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+
+                    @include media-query(mindesktop) {
+                        width: 37%;
+                        right: 0;
+                        top: -10%;
+                        left: unset;
+                        height: 110%;
+                    }
+
+                    @include media-query(mindesktopL) {
+                        width: 40%;
+                    }
+
+                    @include media-query(mindesktopXL) {
+                        width: 38vw;
+                        left: -36.5px;
+                        top: -35%;
+                        height: 141%;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .second-footer {
+        background-color: $color-greyshade;
+        padding: 20px 0;
+
+        .col-md-6 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .policy-content {
+                width: 100%;
+                text-align: center;
+
+                @include media-query(mintablet) {
+                    text-align: left;
+                }
+
+                .policy-description {
+                    color: $color-gray;
+                    font-family: 'Open Sans', sans-serif;
+                    font-weight: 300;
+                    font-size: 1.4rem; //14px
+
+                    @include media-query(mindesktop) {
+                        font-size: 1.6rem; //16px
+                    }
+                }
+            }
+
+            .terms-policy-content {
+                width: 100%;
+
+                .terms-and-policy {
+                    list-style: none;
+                    justify-content: flex-end;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 0;
+                    margin-top: 20px;
+                    padding: 0;
+                    gap: 20px;
+
+                    @include media-query(mindesktop) {
+                        flex-direction: row;
+                        margin-top: 0;
+                    }
+
+                    .menu-item {
+                        .menu-link {
+                            color: $color-gray;
+                            text-decoration: underline;
+                            font-family: 'Open Sans', sans-serif;
+                            font-weight: 300;
+                            font-size: 1.4rem; //14px
+
+                            @include media-query(mindesktop) {
+                                font-size: 1.6rem; //16px
+                            }
+
+                            &:hover {
+                                color: var(--primary-color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{% if filter_inventory %}
+    <form class="container" method="get" id="form-inventory" action="/lista-registros/">
+        <div class="row">
+            <div class="col-lg-3">
+                <fieldset class="form__field">
+                    <label class="search__field__title" for="id_entity_provider">Proveedor</label>
+                    <div class="form__element form__element--select">
+                        {{ filter_inventory.form.entity_provider }}
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-lg-3">
+                <fieldset class="form__field">
+                    <label class="search__field__title" for="id_theme_inventory">Tema</label>
+                    <div class="form__element form__element--select">
+                        {{ filter_inventory.form.theme_inventory }}
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-lg-3">
+                <fieldset class="form__field">
+                    <label class="search__field__title" for="id_name_thematic_inventory">Temática del área</label>
+                    <div class="form__element form__element--select">
+                        {{ filter_inventory.form.name_thematic_inventory }}
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="container-button">
+                  <input type="submit" value="Buscar" class="btn btn-secondary btn-secondary--fill">
+                </div>
+            </div>
+        </div>
+
+        {% comment %}
+            <div class="col-lg-3">
+                <fieldset class="search__field">
+                    <h3 class="search__field__title">Fecha de creación</h3>
+                    <div class="form__element form__element--date">
+                        {{ filter_inventory.form.created_date }}
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-lg-3">
+                <fieldset class="search__field">
+                    <h3 class="search__field__title">Fecha de publicación</h3>
+                    <div class="form__element form__element--date">
+                        {{ filter_inventory.form.publicated_date }}
+                    </div>
+                </fieldset>
+            </div>
+        {% endcomment %}
+        
+    </form>
+{% endif %}

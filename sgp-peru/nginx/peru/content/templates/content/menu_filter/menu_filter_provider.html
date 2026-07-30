@@ -1,0 +1,32 @@
+{% if filter_provider %}
+  <form class="container" method="get" id="form-provider" action="/lista-proveedores/">
+    <div class="row">
+
+      <div class="col-lg-3">
+        <fieldset class="search__field">
+            <h3 class="search__field__title">Tipo de empresa</h3>
+            <div class="search__field__form-element">
+              {{ filter_provider.form.type }}
+            </div>
+        </fieldset>
+      </div>
+
+      <div class="col-lg-3">
+        <fieldset class="search__field">
+            <h3 class="search__field__title">Estado</h3>
+            <div class="search__field__form-element">
+              {{ filter_provider.form.status }}
+            </div>
+        </fieldset>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="container-button">
+          <input type="submit" value="Buscar" class="btn btn-secondary btn-secondary--fill">
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+{% endif %}

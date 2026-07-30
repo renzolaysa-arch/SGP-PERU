@@ -1,0 +1,206 @@
+.detail_inventory,
+.modal--reply-commnets {
+
+  .container-comment,
+  .comment-current {
+
+    &.comment-initial,
+    &.comment-children,
+    .comment-children-container {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      min-width: 40rem;
+
+      @include media-query(desktop) {
+        min-width: initial;
+      }
+    }
+
+    &.comment-initial {
+      padding: 0;
+
+      &>.icon-comment {
+        flex: 0 0 4rem;
+      }
+
+      &>.data-comment {
+        &>.data-comment-body {
+          padding-bottom: 1.5rem;
+          margin-bottom: 3rem;
+          border-bottom: 1px solid rgb(112 112 112 / 28%);
+        }
+      }
+    }
+
+    &.comment-children {
+      flex-direction: column;
+
+      @include media-query(desktop) {
+        padding: 0;
+      }
+
+      .icon-comment {
+        @include media-query(desktop) {
+          margin-top: 2.2rem;
+        }
+
+        .lineleft {
+          display: block;
+          background-color: #C1C1C1;
+          width: calc(100% + 2rem);
+          height: 1px;
+          position: absolute;
+          top: 50%;
+          left: -5rem;
+          z-index: -1;
+
+          @include media-query(desktop) {
+            display: none;
+          }
+        }
+      }
+
+      .comment-children {
+        padding-left: 7rem;
+
+        @include media-query(desktop) {
+          padding-left: 0;
+        }
+      }
+    }
+
+    .comment-children-container {
+      .data-comment-body {
+        @include media-query(desktop) {
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid rgb(112 112 112 / 28%);
+          margin-bottom: 2rem;
+        }
+      }
+    }
+
+    .icon-comment {
+      width: 4rem;
+      height: 4rem;
+      background-color: var(--primary-color);
+      color: $color-white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      .linedown {
+        display: block;
+        background-color: #C1C1C1;
+        width: 1px;
+        position: absolute;
+        top: 2.1rem;
+        left: 50%;
+        z-index: -1;
+
+        @include media-query(desktop) {
+          display: none;
+        }
+      }
+    }
+
+    .data-comment {
+      flex: 1;
+
+      &-header {
+        &-user {
+          font-size: 1.8rem;
+          font-weight: 600;
+          font-family: 'Open Sans';
+          color: #454545;
+          margin-bottom: 0.2rem;
+          word-break: break-word;
+        }
+
+        &-hour,
+        &-reply {
+          color: #777777;
+          font-size: 1.3rem;
+          font-weight: 700;
+          font-family: 'Open Sans';
+        }
+
+        &-reply {
+          margin-bottom: 0.3rem;
+        }
+      }
+
+      &-body {
+        padding-bottom: 1.5rem;
+
+        &-comment {
+          font-size: 1.6rem;
+          color: #565654;
+        }
+
+        .reply-comment {
+          a {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-right: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .create-comment {
+    margin-top: 2rem;
+
+    form {
+      textarea {
+        background-color: rgb(221 221 221 / 15%);
+        border: 0;
+        border-radius: 2rem;
+        outline: none;
+        resize: none;
+        width: 100%;
+        height: 15rem;
+        padding: 2rem 2.5rem;
+        color: #565654;
+        font-size: 1.5rem;
+
+        &:focus {
+          border: 1px solid rgb(0 119 168 / 15%);
+        }
+
+        &::placeholder {
+          color: #707070;
+        }
+      }
+
+      label.error {
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: $color-error-forms;
+        margin-bottom: 1rem;
+      }
+
+      .block-form-notes__call {
+        margin-top: 1rem;
+        text-align: right;
+
+        .btn {
+          padding: 1.1rem clamp(2rem, 6%, 4rem);
+        }
+      }
+
+    }
+
+    p {
+      margin-top: 1.5rem;
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+    }
+  }
+
+}

@@ -1,0 +1,12 @@
+.document-detail {
+    .form-detail-document {
+        .form-detail-document-content {
+            .django-ckeditor-widget {
+                background-color: aqua;
+                #cke_id_comment {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}

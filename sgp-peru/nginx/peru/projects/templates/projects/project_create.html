@@ -1,0 +1,303 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Crear Proyecto {% endblock %}
+
+{% block content %}
+<main class="projects-create createform">
+    <section class="container createform__header">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Crear Proyecto</li>
+            </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- Title -->
+        <div class="row justify-content-center mt-4 mb-5">
+            <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+                <h1 class="cepal-h1 createform__title">Formulario de registro de proyectos</h1>
+                <p class="createform__desc">
+                    En esta sección puede editar la información completa de un proyecto.
+                </p>
+                <p class="createform__desc">Los campos marcados con (<span class="cepal-alert__text">*</span>) son obligatorios o requeridos.</p>
+            </div>
+        </div>
+        <!-- End Title -->
+    </section>
+    
+    <section class="container">
+        <div class="row">            
+            <div class="col-md-8 offset-md-2">
+                <form class="createform__form projects-create__form form box-shadow-five" id="createNewProject" 
+                    {% if edit %}
+                        action='/editar-proyecto/{{ id }}'
+                    {% else %}
+                        action='/crear-proyecto/'
+                    {% endif %}
+                 method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="loading z-index-3 d-none">
+                        <div class="loader"></div>
+                        <p class="loading__text">Enviando...</p>
+                    </div>
+                    <div class="form__group--two-col">
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_name_project">Nombre proyecto</label>
+                            <div class="form__element">
+                                {{ form_create_project.name }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_objetive_project">Objetivo general del proyecto</label>
+                            <div class="form__element">
+                                {{ form_create_project.objetive_project }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_tag_project">Asociar Tags</label>
+                            <div class="form__element form__element--select-multiple">
+                                {{ form_create_project.tag_project }}
+                                <p class="form__element__info">
+                                    Puede seleccionar más de uno.
+                                    <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_provider_any_project">Proveedores</label>
+                            <div class="form__element form__element--select-multiple">
+                                {{ form_create_project.provider_any_project }}
+                                <p class="form__element__info">
+                                    Puede seleccionar más de uno.
+                                    <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field required">
+                            <label for="id_category_project">Categoría</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_project.category_project }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field">
+                            <label for="id_area_in_charge">Área a cargo del proyecto</label>
+                            <div class="form__element">
+                                {{ form_create_project.area_in_charge }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100">
+                            <label for="id_related_statistical">Investigación estadística relacionada</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_project.related_statistical}}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field required">
+                            <label for="id_theme_project">Temática</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_project.theme_project }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field required">
+                            <label for="id_state_project">Estado</label>
+                            <div class="form__element form__element--select">
+                                {{ form_create_project.state_project }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_rraa_asociate">Registros administrativos relacionados</label>
+                            <div class="form__element form__element--select-multiple">
+                                {{ form_create_project.rraa_asociate }}
+                                <p class="form__element__info">
+                                    Puede seleccionar más de uno.
+                                    <!-- Mantenga presionado "Control" en Windows o "Comando" en Mac, para seleccionar más de uno. -->
+                                </p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_sub_title">Subtítulo</label>
+                            <div class="form__element">
+                                {{ form_create_project.sub_title }}
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_description_uno">Descripción del proyecto</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_project.description_uno }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="highlight-father">
+                        <div class="highlight-father__title">Imagen Contenido Proyecto</div>
+                        <div class="form__group--two-col">
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_project_desk">Imagen Desktop</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_project_desk }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 1170x660 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_project_mob">Imagen Mobile</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_project_mob }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 370x230 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_author_cita_imagen">Autor o Cita de la Imagen</label>
+                                <div class="form__element">
+                                    {{ form_create_project.author_cita_imagen }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form__group--two-col">
+                        <fieldset class="form__field w-100 required">
+                            <label for="id_description_dos">Principales indicadores obtenidos</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_project.description_dos }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="highlight-father">
+                        <div class="highlight-father__title">Cita del contenido</div>
+                        <div class="form__group--two-col">
+                            <fieldset class="form__field w-100">
+                                <label for="id_cita_contenido">Texto cita</label>
+                                <div class="form__element">
+                                    {{ form_create_project.cita_contenido }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_author_cita_contenido">Autor cita</label>
+                                <div class="form__element">
+                                    {{ form_create_project.author_cita_contenido }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="highlight-father">
+                        <div class="highlight-father__title">Imagen Columna Izquierda</div>
+                        <div class="form__group--two-col">
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_left_project_desk">Imagen Desktop</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_left_project_desk }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 600x350 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_left_project_mob">Imagen Mobile</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_left_project_mob }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 370x230 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_author_cita_imagen_left">Autor o Cita de la Imagen</label>
+                                <div class="form__element">
+                                    {{ form_create_project.author_cita_imagen_left }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="highlight-father">
+                        <div class="highlight-father__title">Imagen Columna Derecha</div>
+                        <div class="form__group--two-col">
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_right_project_desk">Imagen Desktop</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_right_project_desk }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 600x350 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_image_right_project_mob">Imagen Mobile</label>
+                                <div class="form__element form__element--file">
+                                    {{ form_create_project.image_right_project_mob }}
+                                </div>
+                                <p class="form__element__info">
+                                    La imagen es de 370x230 Pixeles.
+                                </p>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_author_cita_imagen_right">Autor o Cita de la Imagen</label>
+                                <div class="form__element">
+                                    {{ form_create_project.author_cita_imagen_right }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form__group--two-col">
+                        <fieldset class="form__field w-100">
+                            <label for="id_description_tres">Alcance o tiempo del proyecto</label>
+                            <div class="form__element form__element--textarea">
+                                {{ form_create_project.description_tres }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="highlight-father">
+                        <div class="highlight-father__title">Video de Youtube</div>
+                        <div class="form__group--two-col">
+                            <fieldset class="form__field w-100">
+                                <label for="id_youtube">Código del video de Youtube</label>
+                                <div class="form__element">
+                                    {{ form_create_project.youtube }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="form__field w-100">
+                                <label for="id_cita_youtube">Información o Cita del video</label>
+                                <div class="form__element">
+                                    {{ form_create_project.cita_youtube }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                                                                                     
+                    <div class="container-buttons">
+                        <input class="btn btn-secondary btn-secondary--fill" type="submit" value="Enviar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modal confirmation Proyecto -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationProject" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Crear proyecto</h2>
+            </div>
+            <div class="modal-body">
+                <p class="description">Se ha creado el proyecto.</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour create-new" type="button" aria-label="Volver">Nuevo Proyecto</button>
+                    <a class="btn btn-primary btn-primary--contour goto-list" href="{% url 'projects:list_projects' %}">Ver Proyectos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation Proyecto -->
+
+{% endblock %}

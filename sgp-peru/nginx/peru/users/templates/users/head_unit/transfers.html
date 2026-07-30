@@ -1,0 +1,47 @@
+<div class="user-list-header mb-4">
+   <h2 class="user-list-header-title" id="title-today">Transferencias programadas para el día de hoy</h2>
+   <h2 class="user-list-header-title d-none" id="title-others">Transferencias programadas para el día {{ date }}</h2>
+</div>
+
+
+<div class="user-list-body list-transfers">
+   <section class="show-user-list transfer-table-container">
+      <div class="table-responsive style-scrooll">
+         {% if transfer_list|length > 0 %}
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th scope="col">Fecha acordada</th>
+                     <th scope="col">Proveedor</th>
+                     <th scope="col">ID</th>
+                     <th scope="col">Canal</th>
+                     <th scope="col">Solicitud</th>
+                     <th scope="col">Fecha de entrega</th>
+                     <th scope="col">Estado</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for transfers in transfer_list %}
+                  <tr>
+                     <td class="transfer-date-agreed">{{ transfers.frequency_date_delivery }}</td>
+                     <td class="transfer-provider">{{ transfers.provider }}</td>
+                     <td class="transfer-id"><p>{{ transfers.id }}</p></td>
+                     <td class="transfer-channel">{{ transfers.channel }}</td>
+                     <td class="transfer-frequency">{{ transfers.demand }}</td>
+                     <td class="transfer-date-delivery">{{ transfers.date_delivery }}</td>
+                     <td class="transfer-status"><div class="status-data-container"><div class="circle-status" data-status="{{ transfers.status_transfer }}"></div><p>{{ transfers.status_transfer }}</p></div></td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         {% else %}
+            <p class="mt-4">No hay transferencias programas para este día</p>
+         {% endif %}
+      </div>
+   </section>
+
+   <section class="list-transfers-buttons owl-nav">
+      <button type="button" role="presentation" class="btn-prev owl-prev" data-button="prev"></button>
+      <button type="button" role="presentation" class="btn-next owl-next" data-button="next"></button>
+   </section>
+</div>

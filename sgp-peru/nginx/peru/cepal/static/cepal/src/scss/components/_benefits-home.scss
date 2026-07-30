@@ -1,0 +1,237 @@
+.benefits-home{
+    margin: 5rem 0;
+    @include media-query(mintablet){
+        margin: 6rem 0;
+    }
+    @include media-query(mindesktop){
+        margin: 7.2rem 0;
+    }
+    @include media-query(mindesktopL){
+        margin: 8.4rem 0;
+    }
+
+    // Titulo
+    .cepal-h2-normal{
+        @include media-query(mintablet){
+            display: inline;
+        }
+    }
+    
+    // Contenedor tarjetas
+    .benefits-items{
+        @include media-query(mindesktopLS) {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+    
+        @media only screen and (min-width: 1800px) {
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+        }
+
+        .benefits-card{
+            width: 100%;
+            display: inline-flex;
+            flex-direction: column;
+            background-color: $color-white;
+            padding-top: 33px;
+            padding-bottom: 28px;
+            border-radius: 20px;
+            box-shadow: 0px 3px 6px #00000029;
+
+            // Linea inferior
+            &::after{
+                content: "";
+                width: 100%;
+                height: 1px;
+                margin: auto auto 0;
+                background-color: $color-lightgray;
+                display: block;
+            }
+
+            .benefits-card-header{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 8px;
+                min-height: 60px;
+                @include media-query(mindesktop) {
+                    gap: 15px;
+                    margin-bottom: 10px;
+                }
+                @include media-query(mindesktopLS){
+                    gap: 20px;
+                }
+                // Contenedor icono
+                .benefits-card-iconcontainer{
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-shrink: 0;
+                    width: 58px;
+                    height: 58px;
+                    // width: 52px;
+                    // height: 52px;
+                    // border-radius: 50%;
+                    // background-color: var(--primary-color);
+                    // box-shadow: 0px 0px 0px 5px rgba(var(--primary-rgb), 0.15);
+                    // @include media-query(mindesktop) {
+                    //     width: 58px;
+                    //     height: 58px;
+                    // }
+                    // Icono
+                    .benefits-card-icon{
+                        // max-width: 30px;
+                        max-width: 58px;
+                    }
+                }
+                // Titulo
+                .benefits-card-title{
+                    margin: 0;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    overflow: hidden;
+
+                    // font-size: 1.4rem;
+                    // line-height: 2.4rem;
+                    // @include media-query(mindesktop){
+                    //     font-size: 1.6rem;
+                    //     line-height: 2.2rem;
+                    // }
+                    // @include media-query(mindesktopLS){
+                    //     font-size: 1.8rem;
+                    //     line-height: 2.8rem;
+                    // }
+                    // @include media-query(mindesktopXL){
+                    //     font-size: 2rem;
+                    //     line-height: 3rem;
+                    // }
+                }
+            }
+            // Descripción
+            .benefits-card-desc{
+                text-align: left;
+                color: $color-gray;
+                margin-bottom: 26px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4; 
+                overflow: hidden;
+                font-size: 1.2rem;
+                @include media-query(minmobilexl){
+                    font-size: 1.4rem;
+                }
+                @include media-query(mindesktopLS){
+                    font-size: 1.6rem;
+                }
+            }
+        }
+    }
+
+    // Estilos para que no corte los box shadow de las cards
+    .owl-carousel .owl-stage-outer {
+        margin: -6px; padding: 6px; // esta medida depende de la medida de la sombra de las cards X2
+    }
+
+    // Estilos owl para hacer los items del mismo alto
+    .owl-stage{
+		display: flex;
+	}
+	.owl-item {
+		display: flex;
+		flex: 1 0 auto;
+	}
+
+    // Navegación slider owl carousel (prev, next)
+    .owl-nav {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(50% - 24px);
+        margin: 0 auto;
+        max-width: 1920px;
+
+        .owl-prev,
+        .owl-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 4;
+            box-sizing: border-box;
+            width: 4.2rem;
+            height: 4.2rem;
+            
+            @include media-query(mindesktopLS) {
+                width: 5.6rem; //56px
+                height: 5.6rem;
+            }
+
+            &::after {
+                color: var(--primary-color);
+                font-size: 4.2rem;
+                
+                @include media-query(mindesktopLS) {
+                    font-size: 5.6rem; //56px
+                }
+
+            }
+
+            &:hover::after {
+                transform: scale(.9);
+                transition: all 300ms;
+            }
+
+            // navegación deshabilitada
+            &.disabled {
+                &::after {
+                    // filter: grayscale(100%);
+                    color: $color-gray-v2;
+                }
+            }
+        }
+
+        .owl-prev {
+            left: -7.33333333vw;
+            margin-right: 0;
+
+            @include media-query(mindesktopLS) {
+                left: -1.5vw;
+            }
+            
+            @media only screen and (min-width: 1800px) {
+                left: -5.33333333vw;
+            }
+        }
+
+        .owl-next {
+            right: -7.33333333vw;
+
+            @include media-query(mindesktopLS) {
+                right: -1.5vw;
+            }
+            @media only screen and (min-width: 1800px) {
+                right: -5.33333333vw;
+            }
+        }
+    }
+    // Navegación Owl slider bullets
+    .owl-dots {
+        margin-top: 1.5rem;
+    }
+
+    // "Call to action" General
+    .benefits-call{
+        .btn-white-bordered{
+            padding: 1rem 4rem;
+            font-size: 1.4rem;
+            @include media-query(minmobile){
+                font-size: 1.4rem;
+            }
+            @include media-query(mindesktop) {
+                font-size: 1.6rem;
+                padding: 1.2rem 4rem;
+            }
+        }
+    }
+}

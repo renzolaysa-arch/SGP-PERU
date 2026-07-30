@@ -1,0 +1,257 @@
+.update-user{
+    // Datos izquierda
+    &__left{
+        background-color: rgba(var(--secondary-rgb), $alpha: 0.05);
+
+        .data-profile {
+            &-name {
+                color: $color-black-b4;
+            }
+        }
+    }
+
+    // Titulo
+    &__title{
+        font-weight: $bold;
+        color: $color-black-b4;
+        text-align: center;
+        font-size: 3rem;
+        margin-bottom: 2.1rem;
+        @include media-query(mintablet){
+            font-size: 3.5rem;
+        }
+        @include media-query(mindesktop){
+            font-size: 4rem;
+            text-align: left;
+        }
+    }
+
+    // Tarjeta datos usuario
+    &__datacard{
+        // padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        @include media-query(mintablet){
+            padding: 3.5rem;
+            box-shadow: 0px 3px 6px rgba(112, 144, 176, 0.16);
+        }
+        @include media-query(mindesktop){
+            padding: 4rem;
+            flex-direction: row;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+        @include media-query(mindesktopL){
+            gap: 6rem;
+        }
+        &--modal{
+            @extend .update-user__datacard;
+            padding: 0;
+            @include media-query(mintablet){
+                box-shadow: none;
+            }
+        }
+
+        &__left{
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 3.2rem;
+            align-items: center;
+            @include media-query(mindesktop){
+                max-width: 168px;
+            }
+        }
+
+        &__image{
+            width: 168px;
+            height: 168px;
+            padding: 1.2rem;
+            border-radius: 50%;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+
+            img{
+                border-radius: 50%;
+            }
+        }
+
+        // Información tamaño imagenes
+        &__info{
+            font-size: 1.4rem;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        // Contenedor btn
+        &__actions{
+
+            .form__actions-wrapper{
+                display: flex;
+                min-width: 130px;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+            .btn{
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        &__right{
+            width: 100%;
+        }
+
+        &__tag{
+            margin-top: 1.2rem;
+            margin-bottom: 1.4rem;
+
+            .badge{
+                font-size: 1.2rem;
+                color: $color-black-b4;
+            }
+        }
+
+        &__name{
+            color: $color-black-b4;
+            font-weight: $bold;
+            font-size: 2rem;
+            text-align: left;
+        }
+
+        &__items{
+            margin-top: 3.3rem;
+            display: grid;
+            row-gap: 3.3rem;
+            column-gap: 4rem;
+            grid-template-columns: repeat(2, 1fr);
+            @include media-query(mindesktop){
+                grid-template-columns: auto minmax(10ch, auto) auto;
+                max-width: 500px;
+            }
+        }
+
+        &__item{
+            display: flex;
+            flex-direction: column;
+            color: $color-black-b4;
+            font-size: 1.6rem;
+            &__title,
+            &__value{
+                color: inherit;
+                font-size: inherit;
+            }
+            &__title{
+                font-weight: $bold;
+            }
+            &__value{
+                font-weight: $regular;
+                word-break: break-all;
+            }
+
+            // Correo(1) - Tipo de identificación(2) - Número de identificación(5)
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(5){
+                grid-column: 1 / 3;
+            }
+            // Estado(3)
+            &:nth-child(3){
+                grid-column: 1 / 2;
+            }
+            // Data(4)
+            &:nth-child(4){
+                grid-column: 2 / 3;
+            }
+            // Correo(1)
+            &:nth-child(1){
+                @include media-query(mintablet){
+                    grid-column: 1 / 2;
+                }
+                @include media-query(mindesktop){
+                    grid-column: 1 / 3;
+                }
+            }
+            &:nth-child(2){
+                @include media-query(mintablet){
+                    grid-column: 2 / 3;
+                }
+            }
+
+
+            // Tipo de identificación(2) - Número de identificación(5)
+            &:nth-child(2),
+            &:nth-child(5){
+                @include media-query(mindesktop){
+                    grid-column: 3 / 4;
+                }
+            }
+        }
+    }
+
+    // Formulario
+    &__form{
+        padding: 1.5rem;
+        @include media-query(mintablet){
+            padding: 2rem;
+        }
+        @include media-query(mindesktop){
+            padding: 3rem;
+        }
+        @include media-query(mindesktopLS){
+            padding: 6rem;
+            padding-bottom: 4rem;
+        }
+
+        &__actions{
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-direction: column;
+            margin-top: 2.5rem;
+            @include media-query(mintablet){
+                flex-direction: row;
+            }
+            @include media-query(mindesktop){
+                margin-top: 4rem;
+            }
+
+            .btn {
+                width: 100%;
+                @include media-query(mintablet){
+                    width: auto;
+                    min-width: 196px;
+                }
+            }
+        }
+    }
+
+    // Modal tomar foto
+    .modal-finalized-transfer{
+        .modal-body{
+            text-align: center;
+
+            .description.hidden{
+                display: none;
+            }
+        }
+
+        // Contenedor vídeo
+        #video{
+            background-color: $color-black;
+            border: 1px solid $color-black;
+            width: 150px;
+            height: 150px;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        .camera {
+            width: 150px;
+            display: inline-block;
+        }
+    }
+}

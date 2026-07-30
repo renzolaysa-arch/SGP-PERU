@@ -1,0 +1,146 @@
+.block-main {
+  @include media-query(desktop) {
+    position: relative;
+  }
+
+}
+
+.provider-list-result {
+
+  .block-show-result {
+    .card-list {
+      
+      &-item {
+        background-color: $color-white;
+        border-radius: 20px;
+        box-shadow: 0 3px 6px #7090B033;
+        padding: 3.4rem 2.7rem 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &-tag {
+          display: inline-block;
+          color: $color-black-b4;
+          background-color: rgba($color: #5B569E, $alpha: 30%);
+          font-size: 1.2rem;
+          border-radius: 5px;
+          padding: .32rem .8rem;
+          margin-bottom: 2rem;
+          width: fit-content;
+        }
+
+        &-name {
+          color: $color-black-b4;
+          font-size: 2rem;
+          font-weight: $semibold;
+          line-height: 1.5;
+          margin-bottom: 2rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+
+          @include media-query(tablet) {
+            font-size: 1.8rem;
+          }
+        }
+
+        .list-data-provider {
+          list-style: none;
+          padding: 0;
+          margin: 2rem 0 5rem;
+
+          &-item {
+            font-size: 1.4rem;
+            font-weight: $semibold;
+            padding: 1.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+
+            &:nth-child(odd) {
+              background-color: rgba(var(--secondary-rgb), 5%);
+            }
+
+            p {
+              margin-bottom: 0;
+            }
+
+            &-title {
+              color: $color-black-b4;
+            }
+
+            &-value {
+              color: var(--secondary-color);
+            }
+          }
+        }
+
+        .container-button {
+          .btn {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+#modalFilterMobile {
+  background-color: transparent;
+  border: 0;
+
+  .modal-dialog {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 1rem;
+    margin: 0;
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .modal-content {
+    padding: 20% 0 0;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .modal-header {
+      position: relative;
+      border: 0;
+
+      .btn-close-modal {
+        position: absolute;
+        color: #454545;
+        min-width: auto;
+        width: 20px;
+        height: 20px;
+        font-size: 1.8rem;
+        top: 3.5rem;
+        right: 2.5rem;
+        padding: 0;
+        cursor: pointer;
+        z-index: 30;
+      }
+    }
+
+    .container-button {
+      position: fixed;
+      bottom: 0;
+      padding: 0;
+      width: 100%;
+      left: 0;
+
+      .btn {
+        border-radius: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,116 @@
+.faq{
+    // Imagen fondo
+    &::before{
+        height: 380px;
+    }
+
+    // Titulo
+    .cepal-h1{
+        color: $color-white;
+        text-align: left;
+        margin-top: 17.1rem;
+        margin-bottom: 17.1rem;
+        font-size: 2.3rem; 
+        @include media-query(minmobilexl){
+            font-size: 3rem;
+        }
+        @include media-query(mintablet){
+            text-align: center;
+            margin-top: 10rem;
+            margin-bottom: 15.7rem;
+            font-size: 3.5rem;
+        }
+        @include media-query(mindesktopLS){
+            font-size: 4rem;
+        }
+        @include media-query(mindesktopXL){
+            font-size: 4.5rem;
+        }
+        
+        @media only screen and (min-width: 1800px) {
+            font-size: 5rem;
+        }
+    }
+
+    // Contenedor Listado items y paginador
+    &__wrapper{
+        margin-bottom: 10rem;
+    }
+
+    // Listado items
+    &__list{
+        margin-bottom: 6rem;
+        .collapse{
+            &__item{
+                background-color: $color-white;
+                padding: 2.7rem 2.5rem 2.7rem 3rem;
+                margin-bottom: 1.6rem;
+            }
+            &__header{
+                text-decoration: none;
+                gap: 1rem;
+                &[aria-expanded="true"]{
+                    .collapse__toggle{
+                        .btn-circular::before{
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+            // Contenedor boton flecha abajo
+            &__toggle{
+                .btn-circular{
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    font-size: 1rem;
+                    color: var(--secondary-color);
+                    &::before{
+                        transition: all 300ms;
+                    }
+                }
+            }
+            // Titulo
+            &__title{
+                color: $color-black-b4;
+                font-weight: $medium;
+                font-size: 1.4rem;
+                @include media-query(minmobilexl){
+                    font-size: 1.6rem;
+                }
+                @include media-query(mindesktop){
+                    font-size: 1.8rem;
+                }
+                @include media-query(mindesktopLS){
+                    font-size: 2rem;
+                }
+            }
+            // Contenido
+            &__content{
+                margin: 4rem auto 0;
+                font-size: 1.2rem;
+                font-weight: $regular;
+                color: $color-gray-v1;
+                max-width: 930px;
+                @include media-query(minmobilexl){
+                    font-size: 1.4rem;
+                }
+                @include media-query(mindesktop){
+                    font-size: 1.6rem;
+                }
+            }
+            // Descripción y lista no ordenada
+            &__desc, &__list, &__li{
+                color: inherit;
+                font-size: inherit;
+            }
+            &__li{
+                margin-top: 2.1rem;
+            }
+        }
+    }
+
+    // Paginador
+    .pagination{
+        margin-top: 6rem;
+    }
+}

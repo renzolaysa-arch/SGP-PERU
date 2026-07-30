@@ -1,0 +1,174 @@
+// FIGURES CARDS (CIFRAS)
+.figures-card {
+    // Tarjetas "estilo 1" como las del home
+    &-1 {
+        background-color: $color-white;
+        // box-shadow: 0px 3px 6px #00000029;
+        border-radius: 20px;
+        margin-bottom: 14px;
+        padding: 20px 15px 20px 26px;
+        display: grid;
+        grid-template-columns: 1fr 36.6%;
+        grid-template-rows: repeat(2, 1fr);
+        column-gap: clamp(10px, 5%, 2rem);
+        justify-items: start;
+
+        @include media-query(mintablet) {
+            margin-bottom: 0;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(3, auto);
+            justify-items: center;
+            align-items: center;
+            padding: 16% clamp(15px, 8%, 45px);
+            height: 100%;
+        }
+
+        @include media-query(mindesktopLS) {
+            padding: 45px 45px 67px;
+        }
+
+        // Color primario Número
+        &.figures-card-primary {
+            .figures-card-num {
+                color: var(--primary-color);
+            }
+        }
+
+        // Color primario Número
+        &.figures-card-secondary {
+            .figures-card-num {
+                color: var(--secondary-color);
+            }
+        }
+
+        // Titulo
+        .figures-card-title {
+            text-align: left;
+            margin-bottom: 0;
+
+            @include media-query(mintablet) {
+                text-align: center;
+                min-height: 80px;
+                max-width: 215px;
+            }
+        }
+
+        // Numero
+        .figures-card-num {
+            grid-row: 1 / 3;
+            grid-column: 2 / 3;
+            align-self: center; // alineacion vertical
+            justify-self: center;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-weight: $bold;
+            font-size: 4.75rem; // antes 3.75rem
+            @include media-query(minmobilex) {
+                font-size: 6rem;
+            }
+
+            @include media-query(mintablet) {
+                // grid-row: 2 / 3;
+                // grid-column: 1 / 2;
+                // line-height: 7rem;
+                grid-row: 2/3;
+                grid-column: 1/2;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 7rem;
+                line-height: normal;
+            }
+
+            @include media-query(mindesktopL) {
+                font-size: 7.5rem;
+            }
+
+            @include media-query(mindesktopXL) {
+                font-size: 8rem;
+            }
+
+            @media only screen and (min-width: 1800px) {
+                font-size: 9rem;
+            }
+        }
+
+        // Icono (YA NO USADO)
+        .figures-card-icon {
+            grid-row: 1 / 3;
+            grid-column: 2 / 3;
+            align-self: center; // alineacion vertical
+            justify-self: center;
+            max-width: 140px;
+
+            @include media-query(mintablet) {
+                grid-row: 2 / 3;
+                grid-column: 1 / 2;
+                max-width: 194px;
+            }
+        }
+
+        // call to action
+        .btn-white-bordered {
+            align-self: flex-end;
+            margin-top: 1.563rem;
+            padding: 8px clamp(8px, 5%, 40px);
+            width: 100%;
+            max-width: 220px;
+            font-weight: $regular;
+            min-width: unset;
+
+            @include media-query(mintablet) {
+                font-weight: $semibold;
+                font-size: 1.3rem;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    // Tarjetas "estilo 2" Número y grafico de barras
+    &-2 {
+        // Contenedor Número y barras
+        .figures-card-content {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            @include media-query(mintablet) {
+                align-items: center;
+            }
+            // Numero
+            .figures-card-num {
+                font-weight: $bold;
+                font-size: 7rem;
+                color: var(--primary-color);
+                margin: 0;
+                @include media-query(minmobilexl) {
+                    font-size: 8rem;
+                }
+                @include media-query(mintablet) {
+                    font-size: 6.5rem;
+                }
+                @include media-query(mindesktop) {
+                    font-size: 8rem;
+                }
+                @include media-query(mindesktopL) {
+                    font-size: 9rem;
+                }
+                @include media-query(mindesktopLS) {
+                    font-size: 10rem;
+                }
+                @include media-query(mindesktopXL) {
+                    font-size: 11rem;
+                }
+                @media only screen and (min-width: 1800px) {
+                    font-size: 12rem;
+                }
+            }
+            // Barras se manejan en componente stats-bars
+        }
+    }
+}

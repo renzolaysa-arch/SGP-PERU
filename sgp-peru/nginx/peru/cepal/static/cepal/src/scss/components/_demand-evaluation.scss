@@ -1,0 +1,397 @@
+.demand-evaluation {
+
+    // Acordeon "Inicio"
+    &__begin {
+        #evaluation_init {
+            margin-top: 2.5rem;
+
+            // Contenedor "call to action"
+            .form__call {
+                display: flex;
+
+                @include media-query(mintablet) {
+                    justify-content: end;
+                    align-items: center;
+                }
+
+                @include media-query(mindesktop) {
+                    margin-top: 2.5rem;
+                }
+
+                // Boton
+                .btn {
+                    width: 100%;
+
+                    @include media-query(mintablet) {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+
+    // Listado evaluaciones
+    .list-of-evaluation {
+        overflow: auto;
+        max-height: 35rem;
+        padding-right: 2rem;
+        width: 100%;
+
+        // Item
+        &-item {
+            $col-gap: 2.4rem;
+            width: 100%;
+            column-gap: $col-gap;
+            row-gap: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+
+            @include media-query(mindesktop) {
+                flex-wrap: nowrap;
+                width: max-content;
+            }
+
+            &:nth-child(odd) {
+                background-color: rgba(var(--secondary-rgb), 5%);
+            }
+
+            &-column {
+                width: 100%;
+
+                @include media-query(minmobilexl) {
+                    $mid-col-gap : calc(#{$col-gap} / 2);
+                    width: calc(50% - #{$mid-col-gap});
+                }
+
+                @include media-query(mintablet) {
+                    $mid-col-gap : calc(#{$col-gap} / 1.5);
+                    width: calc(33.33% - #{$mid-col-gap});
+                }
+
+                @include media-query(mindesktop) {
+                    width: unset;
+                }
+
+                &:nth-child(1) {
+                    @include media-query(mindesktop) {
+                        width: 5rem;
+                    }
+                }
+
+                &:nth-child(2) {
+                    @include media-query(mindesktop) {
+                        width: 100px;
+                    }
+                }
+
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(5),
+                &:nth-child(7) {
+                    @include media-query(mindesktop) {
+                        min-width: 155px;
+                    }
+                }
+
+                // Columna observaciones
+                &:nth-child(6) {
+                    width: 100%;
+
+                    @include media-query(mindesktop) {
+                        min-width: 250px;
+                        max-width: 250px;
+                    }
+                }
+
+                // Columna botones acción
+                &.col-buttons {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    @include media-query(mindesktop) {
+                        max-width: 180px;
+                    }
+
+                    .btn {
+                        width: 100%;
+
+                        @include media-query(mintablet) {
+                            width: auto;
+                        }
+                    }
+                }
+            }
+
+            &-title {
+                color: var(--secondary-color);
+                font-size: 1.1rem;
+                font-weight: $regular;
+                margin-bottom: 0;
+                order: 2;
+
+                @include media-query(mindesktop) {
+                    font-size: 1.4rem;
+                }
+
+                @include media-query(mindesktopL) {
+                    text-align: left;
+                }
+            }
+
+            &-text {
+                color: $color-black-b3;
+                margin-bottom: 0.4rem;
+                font-size: 1.4rem;
+                font-weight: $semibold;
+                order: 1;
+
+                @include media-query(mindesktop) {
+                    font-size: 1.6rem;
+                }
+            }
+        }
+    }
+
+    // Contenedor boton continuar o volver
+    .content-buttons {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        gap: 1.5rem;
+        @include media-query(mintablet) {
+          justify-content: flex-end;
+          flex-direction: row;
+          margin-top: 4rem;
+        }
+
+        .btn {
+            width: 100%;
+
+            @include media-query(mintablet) {
+                width: auto;
+            }
+        }
+    }
+    
+    // Contenedor Cargar Documentos
+    .load-files {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        @include media-query(mintablet) {
+            justify-content: space-between;
+            flex-direction: row;
+        }
+
+        @include media-query(mindesktop) {
+            flex-direction: column;
+        }
+
+        @include media-query(mindesktopL) {
+            flex-direction: row;
+        }
+
+        &-description {
+            color: $color-black-b4;
+            font-weight: $regular;
+            font-size: 1.4rem;
+
+            @include media-query(mintablet) {
+                width: 50%;
+            }
+
+            @include media-query(mindesktop) {
+                width: 100%;
+            }
+
+            @include media-query(mindesktop) {
+                font-size: 1.6rem;
+            }
+
+            @include media-query(mindesktopL) {
+                width: 50%;
+            }
+        }
+
+        // Contenedor btn
+        .input-field {
+            width: auto;
+            align-items: center; // para que el btn no se expanda
+
+            @include media-query(mindesktopL) {
+                width: calc(50% - 1.5rem); // se resta gap contenedor flex
+                align-items: unset;
+            }
+
+            .btn {
+                padding: 1rem clamp(6%, 1rem, 4rem);
+                min-width: 175px;
+
+                @include media-query(mindesktop) {
+                    padding: 1.2rem clamp(6%, 1rem, 4rem);
+                }
+            }
+        }
+    }
+
+    // Contenedor listado documentos subidos
+    .list-of-documents {
+        @include media-query(mindesktop) {
+            max-height: 26rem;
+            overflow: auto;
+            padding-right: 1rem;
+        }
+
+        &-item {
+            justify-content: space-between;
+            align-items: center;
+            // display: flex;
+            // gap: 2rem;
+            padding: 1.8rem 1.5rem;
+
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: 48px 1fr 40px;
+            column-gap: 1.6rem;
+
+            @include media-query(minmobilex) {
+                column-gap: 2rem;
+            }
+
+            @include media-query(mindesktopLS) {
+                grid-template-rows: 1fr;
+                grid-template-columns: 48px repeat(2, minmax(0, 1fr)) 40px;
+            }
+
+            &:nth-child(odd) {
+                background-color: rgba(var(--secondary-rgb), 5%);
+            }
+
+            &-preview {
+                width: 4.8rem;
+                height: 4.8rem;
+                grid-row: 1 / 3;
+                grid-column: 1 / 2;
+
+                @include media-query(mindesktopLS) {
+                    grid-row: 1 / 2;
+                }
+            }
+
+            &-content {
+                // width: 57%;
+                grid-row: 1 / 2;
+                grid-column: 2 / 3;
+
+                &-send {
+                    font-size: 1.4rem;
+                    color: $color-gray-v1;
+                    background-color: rgba(var(--secondary-rgb), 0.3);
+                    display: inline-block;
+                    padding: 0.1rem 0.5rem;
+                    border-radius: 0.5rem;
+                }
+
+                &-namedocument {
+                    color: $color-black-b4;
+                    font-weight: $semibold;
+                    font-size: 1.6rem;
+                    margin-bottom: 1rem;
+
+                    @include media-query(mindesktop) {
+                        font-weight: $bold;
+                    }
+
+                    @include media-query(mindesktopLS) {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            &-state {
+                // width: 15.6rem;
+                grid-row: 2 / 3;
+                grid-column: 2 / 3;
+                align-self: flex-start;
+
+                @include media-query(mindesktopLS) {
+                    grid-row: 1 / 2;
+                    grid-column: 3 / 4;
+                    align-self: unset;
+                    justify-self: flex-end;
+                }
+
+                &-title,
+                &-required {
+                    color: $color-black-b4;
+                }
+
+                &-title {
+                    font-weight: $semibold;
+                    font-size: 1.6rem;
+
+                    @include media-query(mindesktop) {
+                        font-weight: $bold;
+                    }
+                }
+
+                &-required {
+                    font-weight: $regular;
+                    font-size: 1.6rem;
+
+                    @include media-query(mindesktop) {
+                        font-weight: $light;
+                    }
+                }
+            }
+
+            // Contenedor boton eliminar
+            &-delete {
+                grid-row: 1 / 3;
+                grid-column: 3 / 4;
+
+                @include media-query(mindesktopLS) {
+                    grid-row: 1 / 2;
+                    grid-column: 4 / 5;
+                }
+
+                a {
+                    text-decoration: none;
+                    font-size: 4rem;
+                    color: var(--secondary-color);
+                }
+            }
+        }
+    }
+
+    // Formulario paso "Finalizado"
+    #formFinalize{
+        .form__call{
+            width: 100%;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            gap: 1.5rem;
+            @include media-query(mintablet) {
+              justify-content: flex-end;
+              flex-direction: row;
+              margin-top: 4rem;
+            }
+    
+            .btn {
+                width: 100%;
+    
+                @include media-query(mintablet) {
+                    width: auto;
+                }
+            }
+        }
+    }
+
+}

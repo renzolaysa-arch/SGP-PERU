@@ -1,0 +1,14 @@
+<svg id="Componente_8_8" data-name="Componente 8 – 8" xmlns="http://www.w3.org/2000/svg" width="142" height="136" viewBox="0 0 142 136">
+  <text id="Procesando" transform="translate(0 129)" fill="#707070" font-size="25" font-family="OpenSans-Semibold, Open Sans" font-weight="600"><tspan x="0" y="0">Procesando</tspan></text>
+  <g id="Grupo_35312" data-name="Grupo 35312">
+    <g id="Grupo_35311" data-name="Grupo 35311" transform="translate(18)">
+      <g id="Elipse_1277" data-name="Elipse 1277" transform="translate(8)" fill="none" stroke="#707070" stroke-width="3">
+        <circle cx="44.432" cy="44.432" r="44.432" stroke="none"/>
+        <circle cx="44.432" cy="44.432" r="42.932" fill="none"/>
+      </g>
+      <circle id="Elipse_1287" data-name="Elipse 1287" cx="2.932" cy="2.932" r="2.932" transform="translate(31.5 41.5)" fill="#777"/>
+      <circle id="Elipse_1288" data-name="Elipse 1288" cx="2.932" cy="2.932" r="2.932" transform="translate(49.5 41.5)" fill="#777"/>
+      <circle id="Elipse_1289" data-name="Elipse 1289" cx="2.932" cy="2.932" r="2.932" transform="translate(67.5 41.5)" fill="#777"/>
+    </g>
+  </g>
+</svg>

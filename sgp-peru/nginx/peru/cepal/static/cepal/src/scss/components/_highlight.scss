@@ -1,0 +1,37 @@
+// Componente como un floating label
+/*
+    <div class="highlight-father">
+        <div class="highlight-father__title">Floating Label ejemplo</div>
+        <cualquier otro elemento>
+    </div>
+*/
+
+// Contenedor para contener lo que sea
+.highlight-father {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid $color-lightgray;
+    border-radius: 5px;
+    padding: 2.5rem 1.5rem;
+    margin-top: 2.5rem; //para que el titulo no se solape sobre el elemento HTML anterior (min: 1.2rem)
+
+    // Titulo
+    &__title {
+        // position: absolute;
+        // top: -1.3rem;
+        // left: 1rem;
+        // background-color: $color-white;
+        backdrop-filter: blur(100px); //en vez de fondo difumina el borde del item que esta debajo
+        color: $color-black-b4;
+        font-weight: $bold;
+        font-size: 1.6rem;
+        // Se cambio "absolute" por "margin negativo" para que no solape el contenido cuando el titulo es muy largo
+        margin-top: -3.8rem; // 1.3rem(top de absolute) + 2.5rem(padding top container)
+        margin-left: -1rem;
+        margin-bottom: 1.5rem;
+    }
+}

@@ -1,0 +1,66 @@
+// ==================== BREADCRUMB ====================
+nav[aria-label="breadcrumb"]{
+    // Cambiamos la separación por defecto por la flecha de iconfonts
+    --bs-breadcrumb-divider: "\e90f";
+    display: none;
+
+    @include media-query(mindesktop){
+        display: block;
+    }
+    
+
+    .breadcrumb{
+        margin: 2.9rem 0;
+
+        // Items
+        &-item{
+            font-size: 1.6rem;
+            a{
+                color: $color-gray-v2;
+                text-decoration: none;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+            // Item activo
+            &.active{
+                font-weight: bold;
+                color: var(--secondary-color);
+            }
+        }
+
+        &-item+.breadcrumb-item{
+            // Separador
+            &::before{
+                font-family: 'icomoon';
+                font-size: 1.1rem;
+                float: none;
+                vertical-align: middle;
+                color: $color-gray-v2;
+            }
+        }
+
+        // Variante color blanco, para usar sobre imagen fondo
+
+        &-white{
+            color: $color-white;
+             // Items
+            .breadcrumb-item{
+                a{
+                    color: $color-white;
+                }
+                // Item activo
+                &.active{
+                    color: $color-white;
+                }
+            }
+            .breadcrumb-item+.breadcrumb-item{
+                // Separador
+                &::before{
+                    color: $color-white;
+                }
+            }
+        }
+        
+    }
+}

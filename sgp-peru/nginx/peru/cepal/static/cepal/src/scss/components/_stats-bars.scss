@@ -1,0 +1,84 @@
+// STATS BARS
+// Barras de estadistica animadas
+
+@keyframes animate-width {
+    0% {
+      width: 0;
+    }
+    100% {
+      visibility: visible;
+    }
+}
+
+@keyframes animate-height {
+    0% {
+      height: 0;
+    }
+    100% {
+      visibility: visible;
+    }
+}
+
+// Animation Mixin 
+@mixin bar-animation($time, $dimension) {
+    visibility: hidden;
+    @if $dimension == width {
+      width: 0;
+      animation: animate-width;
+    }
+    @if $dimension == height {
+      height: 0;
+      animation: animate-height;
+    }
+    animation-timing-function: cubic-bezier(.35,.95,.67,.99);
+    animation-duration: $time*2;
+    animation-fill-mode: forwards;
+}
+
+$default-delay: .2s;
+
+
+.stats-bars{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    position: relative;
+    height: 227px;
+    max-width: 171px;
+    @include media-query(mindesktop){
+        height: 292px;
+        max-width: 221px;
+    }
+
+    .bar{
+        width: 15.78%;
+        @include bar-animation($default-delay, height);
+
+        &-1{
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 0.2);
+            height: 26.71%;
+        }
+
+        &-2{
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 0.4);
+            height: 36.98%;
+        }
+
+        &-3,&-5{
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 0.6);
+            height: 74.31%;
+        }
+
+        &-4{
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 1.0);
+            height: 100%;
+        }
+    }
+    @for $i from 1 through 5 {
+        .bar-#{$i} {
+          animation-delay: $default-delay+.1*$i;
+        }
+    }
+}

@@ -1,0 +1,263 @@
+.filter-primary {
+
+  // Boton Filtros Mobile
+  &-filtermobile {
+    border-radius: 5px;
+    color: var(--secondary-color);
+    padding: 1rem 0;
+    // padding: 1.3rem 2.3rem;
+    font-size: 1.6rem;
+    margin-bottom: 2.7rem;
+    display: none;
+
+    @include media-query(desktop) {
+      display: block;
+    }
+
+    .btn-filter-mobile {
+      color: var(--secondary-color);
+      width: calc(50% - 10px);
+      height: 4rem;
+      font-size: 1.6rem;
+      text-align: center;
+      border-radius: 5px;
+      background-color: $color-white;
+      box-shadow: 0px 8px 15px #45454526;
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+      justify-content: flex-start;
+      min-width: unset;
+
+      @include media-query(mintablet) {
+        width: 150px;
+      }
+
+      .icon-filter-icon {
+        margin-right: 1rem;
+      }
+
+      .icon-icon-arrow-up-dropdown {
+        margin-left: auto;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  &-filterdesktop {
+    border-radius: 20px;
+    background-color: $color-white;
+    padding: 2rem 1.7rem 2rem 2rem;
+
+    @include media-query(tablet) {
+      padding: 2.5rem 1.7rem 6rem 2rem;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 992px) {
+      display: none;
+      position: relative;
+      top: -9.3rem;
+      margin-bottom: -4rem;
+      z-index: 20;
+
+    }
+
+
+    .filter-primary-form {
+      .accordion-item {
+        border: 0;
+        border-radius: 0;
+        padding: 0 0 8%;
+
+        @include media-query(desktop) {
+          position: relative;
+        }
+
+        .accordion-header {
+          width: 100%;
+
+        }
+
+        .accordion-button {
+          color: var(--secondary-color);
+          border-radius: 0;
+          border: 0;
+          box-shadow: none;
+          padding: 0;
+          background: transparent;
+          position: relative;
+
+          @include media-query(desktop) {
+            pointer-events: none;
+          }
+
+          .icon-filter-icon {
+            font-size: 1.9rem;
+            margin-right: 1.4rem;
+          }
+
+          &-text {
+            font-size: 2.5rem;
+            font-weight: $semibold;
+
+            @include media-query(desktop) {
+              font-size: 2rem;
+            }
+          }
+
+          &::after {
+            content: "\e921";
+            background-image: none;
+            font-family: "icomoon";
+            color: inherit;
+            font-size: 1rem;
+            width: 1.7rem;
+            height: 1rem;
+            position: absolute;
+            right: 0;
+            top: 50%;
+
+            @include media-query(desktop) {
+              display: none;
+            }
+          }
+
+          &:not(.collapsed)::after {
+            background-image: none;
+            color: inherit;
+          }
+        }
+
+        .accordion-body {
+          padding: 0;
+        }
+
+        .form-element-search {
+          position: relative;
+          margin: 1.7rem 0 2rem;
+
+          input[type="text"] {
+            border: 1px solid $color-lightgray;
+            border-radius: 5px;
+            width: 100%;
+            height: 5rem;
+            padding: 0.5rem 6rem 0.5rem 1.6rem;
+            outline: none;
+
+            @include media-query(tablet) {
+              height: 4rem;
+            }
+            &::placeholder{
+              color: $color-black;
+            }
+          }
+
+          // &.input-search 
+          .btn-submit {
+            background-color: var(--primary-color);
+            position: absolute;
+            width: 4rem;
+            height: 4rem;
+            right: 1rem;
+            top: 50%;
+            border-radius: 50%;
+            border: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $color-white;
+            font-size: 1.7rem;
+            transform: translateY(-50%);
+
+            @include media-query(tablet) {
+              width: 3rem;
+              height: 3rem;
+              font-size: 1.4rem;
+            }
+
+            &::after {
+              font-family: "icomoon";
+              content: "\e919";
+              color: inherit;
+              font-size: inherit;
+            }
+          }
+          
+        }
+
+        .btn-close-filter {
+          position: absolute;
+          background-color: $color-white;
+          color: $color-black-b4;
+          min-width: auto;
+          width: 20px;
+          height: 20px;
+          top: 0;
+          right: 1rem;
+          padding: 0;
+          cursor: pointer;
+          z-index: 30;
+
+          span {
+            font-size: 1.8rem;
+          }
+        }
+
+        &.form-field {
+          .accordion-button {
+            border-bottom: 1px solid $color-lightgray;
+            color: $color-gray;
+            font-size: 1.8rem;
+            font-weight: $semibold;
+            padding-bottom: .3rem;
+            margin-bottom: 0rem;
+            padding-top: 0.5rem;
+
+            &::after {
+              color: var(--secondary-color);
+              font-weight: $regular;
+            }
+          }
+
+          .accordion-body {
+            label {
+              display: flex;
+              align-items: center;
+              margin-bottom: 1rem;
+              color: $color-gray-v1;
+            }
+          }
+        }
+      }
+
+      .input-field {
+        &-title {
+          width: 100%;
+          border-bottom: 1px solid $color-lightgray;
+          color: $color-gray;
+          font-size: 1.8rem;
+          font-weight: 600;
+          padding-bottom: 0.3rem;
+          margin-bottom: 2rem;
+        }
+
+        label {
+          display: flex;
+          align-items: center;
+          margin-bottom: 1rem;
+          color: $color-gray-v1;
+        }
+      }
+
+      .container-button {
+        margin-top: 5rem;
+        padding-bottom: 1.7rem;
+
+        input {
+          width: 100%;
+          height: 5rem;
+        }
+      }
+    }
+
+  }
+}

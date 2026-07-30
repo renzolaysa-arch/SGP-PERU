@@ -1,0 +1,148 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}Perfil{% endblock title %}
+{% block content %}
+    <main class="create-user bg-int">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 ">
+                    <div class="create-user__wrapper box-shadow-primary">
+                        <h1 class="create-user__title text-center">Crear usuario</h1>
+                        <p class="create-user__desc text-center">
+                            Crear un nuevo usuario y asignar un rol.
+                        </p>
+                        <!-- FORM -->
+                        <form method="POST" enctype="multipart/form-data" class="create-user__form form" id="createUser">
+                            {% csrf_token %}
+                            {% if form %}
+                                <div class="form__group--two-col">
+                                    {% if form.errors %}
+                                        <div class="error-forms w-100">
+                                            {{ form.errors }} 
+                                        </div>
+                                    {% endif %}
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="nombre">Nombre</label>
+                                        <div class="form__element">
+                                          <input type="txt" name="nombre"> 
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="apellido">Apellido</label>
+                                        <div class="form__element">
+                                            <input type="txt" name="apellido"> 
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_username">Correo</label>
+                                        <div class="form__element">
+                                            {{ form.username }}
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_password1">Contraseña</label>
+                                        <div class="form__element">
+                                            {{ form.password1 }}
+                                            <div class="form__element__info">
+                                                {{ form.password1.help_text }}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="id_password2">Confirmar contraseña</label>
+                                        <div class="form__element">
+                                            {{ form.password2 }}
+                                            <div class="form__element__info">
+                                                {{ form.password2.help_text }}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="group">Seleccione el rol</label>
+                                        <div class="form__element form__element--select">
+                                            <select name="group" id="group">
+                                                <option value="Unidad Central">Unidad Central</option>
+                                                <option value="Proveedor">Usuario Proveedor</option>
+                                                <option value="Funcionario">Funcionario</option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="create-user__call">
+                                    <input type="submit" value="Siguiente" class="btn btn-secondary btn-secondary--fill">
+                                </div>
+                                
+                            {% elif form_group %}
+                                <div class="form__group--two-col">
+                                    {% if form_group.errors %}
+                                        <div class="error-forms w-100">
+                                            {{ form_group.errors }}
+                                        </div>
+                                    {% endif %}
+                                        
+                                    <input type="hidden" name="{{ form_group.user.name }}" id="{{ form_group.user.id_for_label }}" value="{{ form_group.instance.id }}">
+
+                                    <fieldset class="form__field w-100 required">
+                                        <label for="group">Seleccione imagen de perfil</label>
+                                        <div class="form__element form__element--file">
+                                            {{ form_group.profile_image }}
+                                        </div>
+                                        <p class="form__element__info">
+                                            El tamaño de la imagen debe ser de: 150 x 150 pixeles.
+                                        </p>
+                                    </fieldset>
+                                    
+                                   
+                                    {% if form_group.document_type %}
+                                    <fieldset required class="form__field w-100 required">
+                                        <label for="nombre">Tipo documento</label>
+                                        <div class="form__element">
+                                            {{ form_group.document_type }}
+                                        </div>
+                                    </fieldset>                                     
+                                    {% endif %}
+                                        
+                                    {% if form_group.identification_number %}
+                                    <fieldset required class="form__field w-100 required">
+                                        <label for="nombre">Número de identificación</label>
+                                        <div class="form__element">
+                                            {{ form_group.identification_number }}
+                                        </div>
+                                    </fieldset>                                       
+                                        
+                                    {% endif %}
+                        
+                                    {% if form_group.entity_provider %}
+                                    <fieldset required class="form__field w-100 required">
+                                        <label for="nombre">Entidad proveedora</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_group.entity_provider }}
+                                        </div>
+                                    </fieldset> 
+                                       
+                                    {% endif %}
+                        
+                                    {% if form_group.valid_data %}
+                                    <fieldset required class="form__field w-100 required">
+                                        <label for="id_valid_data">Data verificada</label>
+                                        <div class="form__element form__element--checkbox">
+                                            {{ form_group.valid_data }} Verificada
+                                        </div>
+                                    </fieldset> 
+                                       
+                                       
+                                    {% endif %}
+                                </div>
+                                <div class="create-user__call">
+                                    <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                                </div>
+                            {% endif %}
+                                
+                        </form>
+                        <!-- END FORM -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

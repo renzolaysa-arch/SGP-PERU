@@ -1,0 +1,503 @@
+// Tarjetas con lista informativa
+.card-type-list-primary {
+  background-color: $color-white;
+  overflow: hidden;
+  padding: 3rem 1.2rem 3rem 2.3rem;
+
+  @include media-query(mintablet) {
+    padding: 3rem 3.4rem;
+    height: 100%;
+  }
+
+  .list-block {
+    overflow-y: auto;
+    max-height: 29.2rem;
+    padding-right: 1.3rem;
+
+    @include media-query(mintablet) {
+      max-height: 25rem;
+      padding-right: clamp(1.3rem, calc(0.8125rem + ((1vw - 7.68px) * 3.125)), 4.9rem);
+    }
+
+    @include media-query(mindesktop) {
+      max-height: 28rem;
+    }
+  }
+}
+
+// Tarjetas con Número y grafico de barras
+.card-type-graphic-columns {
+  margin: 3.2rem 0;
+  background-color: $color-white;
+  padding: 3.8rem 1.9rem 5rem;
+  height: 100%;
+
+  @include media-query(mintablet) {
+    margin: 0;
+    padding: 3rem 3.5rem 5rem;
+  }
+
+  // Contenedor Número y barras
+  .figures-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    @include media-query(mintablet) {
+      align-items: center;
+    }
+
+    // Numero
+    .figures-card-num {
+      font-weight: $bold;
+      font-size: 7rem;
+      color: var(--primary-color);
+      margin: 0;
+
+      @include media-query(minmobilexl) {
+        font-size: 8rem;
+      }
+
+      @include media-query(mintablet) {
+        font-size: 6.5rem;
+      }
+
+      @include media-query(mindesktop) {
+        font-size: 8rem;
+      }
+
+      @include media-query(mindesktopL) {
+        font-size: 9rem;
+      }
+
+      @include media-query(mindesktopLS) {
+        font-size: 10rem;
+      }
+
+      @include media-query(mindesktopXL) {
+        font-size: 11rem;
+      }
+
+      @media only screen and (min-width: 1800px) {
+        font-size: 12rem;
+      }
+    }
+
+    // Barras se manejan en componente stats-bars
+  }
+}
+
+// Tarjetas con grafico redonda y boton
+.card-type-graphic-round {
+  .figures-card {
+    background-color: $color-white;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    padding: 20px 15px 20px 26px;
+    display: grid;
+    grid-template-columns: 1fr 36.6%;
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: clamp(10px, 5%, 2rem);
+    justify-items: start;
+
+    @include media-query(mintablet) {
+      margin-bottom: 0;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, auto);
+      justify-items: center;
+      align-items: center;
+      padding: 16% clamp(15px, 8%, 45px);
+      height: 100%;
+    }
+
+    @include media-query(mindesktopLS) {
+      padding: 45px 45px 67px;
+    }
+
+    // Color primario Número
+    &.figures-card-primary {
+      .figures-card-num {
+        color: var(--primary-color);
+      }
+    }
+
+    // Color primario Número
+    &.figures-card-secondary {
+      .figures-card-num {
+        color: var(--secondary-color);
+      }
+    }
+
+    // Titulo
+    .figures-card-title {
+      text-align: left;
+      margin-bottom: 0;
+
+      @include media-query(mintablet) {
+        text-align: center;
+        min-height: 80px;
+        max-width: 215px;
+      }
+    }
+
+    // Numero
+    .figures-card-num {
+      grid-row: 1 / 3;
+      grid-column: 2 / 3;
+      align-self: center; // alineacion vertical
+      justify-self: center;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-weight: $bold;
+      font-size: 3.76rem;
+
+      @include media-query(minmobilexl) {
+        font-size: 6rem;
+      }
+
+      @include media-query(mintablet) {
+        grid-row: 2 / 3;
+        grid-column: 1 / 2;
+        line-height: 7rem;
+      }
+
+      @include media-query(mindesktop) {
+        font-size: 7rem;
+        line-height: normal;
+      }
+
+      @include media-query(mindesktopL) {
+        font-size: 7.5rem;
+      }
+
+      @include media-query(mindesktopXL) {
+        font-size: 8rem;
+      }
+
+      @media only screen and (min-width: 1800px) {
+        font-size: 9rem;
+      }
+    }
+
+    // Icono (YA NO USADO)
+    .figures-card-icon {
+      grid-row: 1 / 3;
+      grid-column: 2 / 3;
+      align-self: center; // alineacion vertical
+      justify-self: center;
+      max-width: 140px;
+
+      @include media-query(mintablet) {
+        grid-row: 2 / 3;
+        grid-column: 1 / 2;
+        max-width: 194px;
+      }
+    }
+
+    // call to action
+    .btn-white-bordered {
+      align-self: flex-end;
+      margin-top: 1.563rem;
+      padding: 8px clamp(8px, 5%, 40px);
+      width: 100%;
+      max-width: 220px;
+      font-weight: $regular;
+
+      @include media-query(mintablet) {
+        font-weight: $semibold;
+        font-size: 1.3rem;
+      }
+
+      @include media-query(mindesktop) {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}
+
+.card-type-commentary {
+  padding: 3rem 1rem 2rem 1.2rem;
+  height: 100%;
+
+  .list-info-item {
+    display: flex;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    align-items: center;
+
+    &:first-of-type {
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #D3D3D3;
+      margin-bottom: 2rem;
+    }
+
+    // Icono Viñeta
+    .icon-vieta{
+      font-size: 2.8rem;
+      color: var(--primary-color);
+    }
+
+    .commentary-info {
+      &-title {
+        font-size: 2rem;
+        font-weight: $semibold;
+
+        span {
+          font-size: 1.3rem;
+        }
+      }
+      &-description {
+        color: $color-gray-v1;
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
+
+.card-type-activity-tracking {
+  padding: 1.4rem 2rem;
+  margin-bottom: 1.8rem;
+  @include media-query(mindesktopL){
+    width: fit-content;
+  }
+
+  .tracking-tag {
+    font-size: 1.4rem;
+    color: #A3A3A3;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  .tracking-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+
+    @include media-query(mindesktopL){
+      flex-direction: row;
+    }
+
+    &-info {
+      &-title {
+        font-size: 2rem;
+        font-weight: $bold;
+        margin-bottom: 1.6rem;
+      }
+
+      &-subtitle {
+        font-size: 1.4rem;
+        color: #A3A3A3;
+      }
+
+      &-description {
+        font-size: 1.4rem;
+        // color: #888888;
+        color: $color-gray-v2;
+      }
+    }
+
+    &-states {
+      .stepWizard__title {
+        color: $color-black-b4;
+        font-size: 1.6rem;
+        font-weight: $semibold;
+        margin-bottom: 2.5rem;
+        @include media-query(mindesktopL){
+          padding-left: 5rem;
+          margin-bottom: 5rem;
+        }
+      }
+      .stepWizard__steps{
+        margin-bottom: 3rem;
+        @include media-query(mindesktopL){
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    // Contenedor "Call to actions"
+    &-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.2rem;
+
+      @include media-query(mintablet){
+        flex-direction: row;
+      }
+
+      @include media-query(mindesktopL){
+        flex-direction: column;
+      }
+
+      .btn {
+        height: 40px;
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  .tracking-footer {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgba(112,112,112,.23);
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    gap: 3rem;
+
+    &-assigned,
+    &-date {
+      display: flex;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      &-title {
+        color: #A3A3A3;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      &-value {
+        color: #454545;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.card-type-notes {
+  background-color: $color-white;
+  padding: 1.5rem 3rem 2rem 1rem;
+
+  @include media-query(mobile) {
+    padding: 1.5rem 2rem 3rem 0rem;
+  }
+  &.own-comment{
+    .card-type-notes-list-item{
+      grid-template-columns: 40px 1fr minmax(175px, 200px);
+    }
+  }
+
+  &-list {
+    overflow-y: auto;
+    max-height: 47rem;
+
+    @include media-query(tablet) {
+      max-height: 67rem;
+    }
+
+    &-item {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      align-items: center;
+      column-gap: 1rem;
+      padding: 0 2rem 0.5rem;
+
+      &-name {
+        color: $color-black-b4;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      &-date {
+        color: $color-gray;
+        font-size: 1.4rem;
+        font-weight: 500;
+        display: block;
+      }
+
+      &-description {
+        color: $color-gray;
+        grid-column: 2/3;
+        border-bottom: 1px solid $color-lightgray;
+        padding-bottom: 1rem;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}
+
+.card-type-participants {
+  border-radius: 2rem;
+  box-shadow: 0rem 1.6rem 4rem #00000024;
+  padding: 3rem 1.5rem 1rem 3rem;
+  background-color: $color-white;
+
+  &-title {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    font-weight: $bold;
+    margin-bottom: 0.9rem;
+  }
+
+  &-list {
+    max-height: 35.6rem;
+    overflow-y: auto;
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.3rem;
+      
+      @include media-query(mindesktopL){
+        flex-direction: row;
+        align-items: flex-end;
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba(var(--secondary-rgb), 0.05);
+      }
+      
+      p {
+        margin-bottom: 0;
+      }
+
+      .participant-data {
+        &-type {
+          color: $color-black-b4;
+          font-size: 1.2rem;
+          border-radius: 0.5rem;
+          padding: 0.4rem 0.5rem;
+          background: $color-lightgray-v2;
+
+          &.type-functionary{
+            background: rgba($color-limeyellow, $alpha: 0.3);
+          }
+
+          &.type-provider{
+            background: rgba($color-purple, $alpha: 0.3);
+          }
+        }
+
+        &-name {
+          color: $color-black-b4;
+          font-weight: $semibold;
+          margin-top: 1.5rem;
+        }
+      }
+
+      .participant-data-email {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .participant-email {
+          color: $color-black-b4;
+        }
+
+        .btn-copy {
+          min-width: auto;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+}

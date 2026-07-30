@@ -1,0 +1,39 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}
+  Crear testimonio
+{% endblock %}
+{% block content %}
+<form method="post" action='/bitacora/crear-tema' class="form create-thread__form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form__group--two-col">
+        <fieldset class="form__field w-100">
+            <label for="id_user_testimony">Usuario creador del testimonio</label>
+            <div class="form__element">
+                {{form_create_testimony.user_testimony}}
+            </div>
+        </fieldset>
+        <fieldset class="form__field w-100">
+            <label for="id_title">Indique el nombre del testimonio</label>
+            <div class="form__element">
+                {{form_create_testimony.title}}
+            </div>
+        </fieldset>
+        <fieldset class="form__field w-100">
+            <label for="id_description_testimony">Descripción del testimonio</label>
+            <div class="form__element">
+                {{form_create_testimony.description_testimony}}
+            </div>
+        </fieldset>
+        <fieldset class="form__field w-100">
+            <label for="id_video_testimony">Video relacionado</label>
+            <div class="form__element">
+                {{form_create_testimony.video_testimony}}
+            </div>
+        </fieldset>
+    </div>
+    <div class="create-thread__call">
+        <input type="submit" value="Crear" class="btn btn-secondary btn-secondary--fill">
+    </div>
+</form>
+{% endblock %}

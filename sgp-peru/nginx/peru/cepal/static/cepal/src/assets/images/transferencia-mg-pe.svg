@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="clip-PERU">
+      <rect width="32" height="32"/>
+    </clipPath>
+  </defs>
+  <g id="PERU" clip-path="url(#clip-PERU)">
+    <rect width="32" height="32" fill="#fff"/>
+    <g id="Grupo_36180" data-name="Grupo 36180" transform="translate(-267 -421)">
+      <circle id="Elipse_1478" data-name="Elipse 1478" cx="16" cy="16" r="16" transform="translate(267 421)" fill="#fff"/>
+    </g>
+    <path id="Icon_awesome-file-download" data-name="Icon awesome-file-download" d="M8.256,5.013V0H.885A.882.882,0,0,0,0,.885v17.1a.882.882,0,0,0,.885.885H13.269a.882.882,0,0,0,.885-.885V5.9H9.141A.887.887,0,0,1,8.256,5.013Zm2.818,7.79L7.52,16.331a.628.628,0,0,1-.886,0L3.08,12.8a.59.59,0,0,1,.415-1.008H5.9V8.846a.59.59,0,0,1,.59-.59H7.667a.59.59,0,0,1,.59.59v2.949h2.4A.59.59,0,0,1,11.074,12.8ZM13.9,3.87,10.287.258A.884.884,0,0,0,9.661,0H9.436V4.718h4.718V4.493A.882.882,0,0,0,13.9,3.87Z" transform="translate(8.923 7.547)" fill="#30406e"/>
+  </g>
+</svg>

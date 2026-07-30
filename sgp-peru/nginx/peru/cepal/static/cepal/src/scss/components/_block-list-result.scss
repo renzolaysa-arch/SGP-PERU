@@ -1,0 +1,309 @@
+.block-list-result-header {
+  // Breadcrum
+  nav[aria-label="breadcrumb"] {
+    color: $color-gray-v2;
+    
+    .breadcrumb {
+      // Items
+      &-item {
+        font-size: 1.4rem;
+
+        // Item activo
+        &.active {
+          color: var(--secondary-color);
+        }
+
+        &+.breadcrumb-item {
+          // Separador
+          &::before {
+            color: $color-gray-v2;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Title
+  &-title {
+    color: $color-black-b3;
+    font-size: 5.5rem;
+    font-weight: $semibold;
+
+    @include media-query(desktop) {
+      font-size: 4.5rem;
+    }
+    @include media-query(tablet) {
+      font-size: 3rem;
+    }
+
+  }
+
+  &-description {
+    color: $color-gray;
+
+    @include media-query(mobile) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.block-list-result-main {
+  padding-left: 4rem;
+  margin-bottom: 7rem;
+
+  @include media-query(desktop) {
+    padding-left: 0;
+  }
+
+  &-tabs {
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      &-link {
+        color: $color-black-b3;
+        border: 0;
+        font-size: 1.8rem;
+        font-weight: $semibold;
+
+        &.active {
+          color: var(--primary-color);
+          background-color: transparent;
+          border: 0;
+          border-bottom: 5px solid var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .block-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .result-header-numbers {
+      color: $color-black-b4;
+      font-size: 2.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: $medium;
+
+      @include media-query(tablet) {
+        font-size: 2.2rem;
+      }
+    }
+
+    .input-field {
+      position: relative;
+      width: calc(50% - 10px);
+
+      @include media-query(mintablet){
+        width: 15rem;
+      }
+
+      @include media-query(mindesktopL){
+        width: 18.3rem;
+      }
+
+      @include media-query(desktop) {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+      }
+
+      select {
+        border-radius: 5px;
+        border: 1px solid $color-lightgray;
+        // color: $color-gray-v1;
+        color: $color-black-b4;
+        height: 5rem;
+        // width: 18.3rem;
+        outline: none;
+        padding: 1rem 3rem 1rem 1.2rem;
+        appearance: none;
+        width: 100%;
+        background-color: $color-white;
+        box-shadow: 0px 8px 15px #45454526;
+
+        @include media-query(mindesktop){
+          background-color: unset;
+          box-shadow: none;
+        }
+
+        @include media-query(desktopL) {
+          height: 4rem;
+          // width: 15rem;
+          padding: 0.5rem 3rem 0.5rem 1.2rem;
+        }
+
+        // Placeholders
+        &::placeholder{
+          color: #9B9B9B;
+        }
+
+      }
+
+      &::after {
+        content: "\e921";
+        font-family: "icomoon";
+        color: var(--secondary-color);
+        font-size: 0.8rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-45%);
+        right: 1rem;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .block-applied-filters {
+    padding-bottom: .5rem;
+    border-bottom: 1px solid $color-lightgray;
+    margin-bottom: 2rem;
+    display: none;
+
+    .applied-filters-title {
+      color: $color-gray-v1;
+      margin-bottom: 0.5rem;
+      opacity: 0.55;
+    }
+
+    .active-filters {
+
+      &-show {
+        display: inline;
+        
+        .tag {
+          display: inline-block;
+          color: var(--secondary-color);
+          background-color: #0077A80D;
+          border: 1px solid #D6E4EB;
+          border-radius: 5px;
+          font-size: 1.4rem;
+          padding: 0.3rem 1rem;
+          margin: 0 1rem 1rem 0;
+
+          &:last-child {
+            margin: 0;
+          }
+
+          .btn {
+            padding: 0 0.5rem;
+            margin-left: 0.8rem;
+            font-size: 1.2rem;
+            padding-right: 0;
+            min-width: auto;
+          }
+        }
+      }
+
+      .clear-filter {
+        color: var(--secondary-color);
+        font-size: 1.6rem;
+        font-weight: $semibold;
+        padding: 0.3rem 0;
+        margin-bottom: .5rem;
+        text-decoration: underline;
+        &:hover{
+          -webkit-text-stroke:  0.5px var(--secondary-color);
+        }
+      }
+    }
+  }
+
+  .block-show-result {
+    position: relative;
+    margin-top: 3rem;
+    transition: all 1s;
+    &.expande {     
+      margin-top: 16rem !important;
+      @include media-query(mindesktop) {
+        width: 163%;
+        left: -63%;
+      }
+      @include media-query(mindesktopL) {
+        width: 161%;
+        left: -61%;
+      }
+      @include media-query(mindesktopLS) {
+        width: 159%;
+        left: -59%;
+      }
+
+      .card-list {
+        // @include media-query(mindesktop) {
+        //   grid-template-columns: repeat(2, 1fr);
+        // }
+        // @include media-query(mindesktopLS) {
+          //   grid-template-columns: repeat(3, 1fr);
+          // }
+        @include media-query(mindesktopL){
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+    }
+  }
+
+  .card-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem 1.5rem;
+
+    @include media-query(mintablet){
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    // @include media-query(desktopL) {
+    //   grid-template-columns: 1fr;
+    // }
+    // @include media-query(desktop) {
+    //   grid-template-columns: repeat(2, 1fr);
+    // }
+    // @include media-query(tablet) {
+    // }
+
+    .cards-activity-item {
+      width: 100%;
+
+      @include media-query(tablet) {
+        width: 100%;
+      }
+      @include media-query(mobile) {
+        width: 100%;
+      }
+      @include media-query(mobilexl) {
+        width: 100%;
+      }
+
+      &-footer {
+        .container-buttons {
+          @include media-query(desktopLS) {
+            flex-direction: column;
+            align-items: center;
+            padding-top: 1rem;
+          }
+
+          .btn {
+    
+            @include media-query(desktopLS) {
+              width: 56%;
+            }
+
+            @include media-query(desktop) {
+              width: 80%;
+            }
+            @include media-query(tablet) {
+              width: 56%;
+            }
+            @include media-query(mobilexl) {
+              width: 80%;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Regístrese {% endblock %}
+{% block content %}
+
+<section class="register-screen">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- BANNER REGISTER -->
+            <div class="col container-auth-screen">
+                <div class="banner-auth-screen">
+
+                </div>
+            </div>
+            <!-- END BANNER REGISTER -->
+            <!-- CARD REGISTER-->
+            <div class="col card-container container-register">
+
+                <div class="container-text">
+                    <h1 class="cepal-h1 auth-title">
+                        Regístrese
+                    </h1>
+                    <p class="auth-subtitle">Para crear su cuenta, por favor ingrese sus datos personales</p>
+                </div>
+
+                <p class"form_error">
+                    {{ form.errors }}
+                </p>
+
+                <!-- FORM REGISTER-->
+                <form id="register-form" class="register-form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="input-container name">
+                        <label for="username">Nombre</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100">
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="input-container lastname">
+                        <label for="password">Apellido</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100">
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    <div class="input-container input-container__select type-identity">
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <label for="identity">Tipo de identificación</label>
+                        <div class="content-field w-100">
+                            {{ form.document_type }}
+                        </div>
+                    </div>
+                    <div class="input-container number-identity">
+                        <label for="password">Número de identificación</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100">
+                            {{ form.identification_number }}
+                        </div>
+                    </div>
+                    <div class="input-container email">
+                        <label for="email">Correo electrónico</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100">
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="input-container password">
+                        <label for="password">Contraseña</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100 position-relative">
+                            {{ form.password }}
+                            <span class="icon-password icon-eye-blocked"></span>
+                        </div>
+                    </div>
+                    <div class="input-container confirm-password">
+                        <label for="confirm-password">Confirmar contraseña</label>
+                        <label id="username-error" class="error" for="username">Este campo es obligatorio</label>
+                        <div class="content-field w-100 position-relative">
+                            {{ form.password_confirm }}
+                            <span class="icon-password icon-eye-blocked"></span>
+                        </div>
+                    </div>
+                    <div class="container-text">
+                        <p>Por seguridad, debe digitar su contraseña con mínimo ocho (8) caracteres, además le recomendamos que la defina con letras mayúsculas, minúsculas, números y al menos un carácter especial.
+                        </p>
+                    </div>
+                    <div class="check-form terms-conditions">
+                        <div class="content-field">
+                            <input type="checkbox" id="terms-conditions" name="terms_conditions" value="true">
+                        </div>
+                        <label for="id_remember_me">Acepto los <a href="/" target="_blank">Términos y condiciones</a></label>
+                    </div>
+                    <div class="captcha-container">
+                        {{ form.captcha }}
+                        <p id="label-captcha" class="error">Dar clic al captcha</p>
+                    </div>
+                    <div class="container-button">
+                        <input id="btnSubmitRegister" class="btn btn-user-login btn-register-provider" type="submit" value="Crear cuenta">
+                    </div>
+                </form>
+                <!-- END FORM REGISTER-->
+                <div class="sign-up-container">
+                    <p>¿Ya tienes una cuenta?</p>
+                    <a href="{% url 'login' %}">Ingrese aquí</a>
+                </div>
+
+            </div>
+            <!-- END CARD REGISTER -->
+        </div>
+    </div>
+</section>
+<dialog class="modal fade" id="create-new-provider" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-container">
+                    <div class="icon icon-success"></div>
+                </div>
+                <h2 class="register-sucess">Registro de usuario exitoso</h2>
+                <button type="button" onclick="closeModal()" className="btn btn-close-modal" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="container-text">
+                    <p>Enviamos un mensaje al correo electrónico registrado con un enlace de verificación de su cuenta.</p>
+                    <p>Si no recibió el mensaje, <a href="#" class="reload-pages">Clic aquí</a></p>
+                    <p class = "not-aproved">Su cuenta ha sido creada, espere ser validado por unidad central</p>
+                </div>
+                <div class="container-button">
+                    <a class="btn-user-login" href="{% url 'login' %}">Ingresar a mi cuenta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+{% endblock %}

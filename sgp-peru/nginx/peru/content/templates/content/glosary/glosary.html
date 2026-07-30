@@ -1,0 +1,133 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Glosario {% endblock %}
+{% block content %}
+<main class="glosary bg-int">
+    <div class="container">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-white">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Glosario</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- TITLE -->
+        <div class="row">
+            <h1 class="cepal-h1">Glosario</h1>
+        </div>
+        <!-- END TITLE -->
+    </div>
+    {% if letter_list %}
+    <section class="glosary__tabs container">
+        <!-- TABS NAVIGATION -->
+        <nav class="tabs__container">
+                        <ul class="nav nav-tabs nav-tabs--mod2">
+            {% for letter_item in letter_list %}
+                {% if letter_item.name_letter == letter%}  
+                <li class="nav-item"><a class="nav-link {{active}}"  href="{{letter_item.name_letter |lower}}">{{letter_item.name_letter}}</a></li>              
+                {% else %}
+                 <li class="nav-item"><a class="nav-link" href="{{letter_item.name_letter |lower}}">{{letter_item.name_letter}}</a></li>
+                {% endif %}                  
+            {% empty %}
+                <p>No hay registros en la Base de datos</p>       
+            {% endfor %}
+            </ul>
+        </nav>
+        <!-- END TABS NAVIGATION -->
+    </section>
+
+    <!-- TABS CONTENT -->
+    <section class="tab-content">
+        {% if letter_item %}
+        
+            <div class="tab-pane container active" id="{{letter_item.name_letter}}">
+                <div class="row">
+                    <div class="col-12 col-lg-10 offset-lg-1">
+                        <div class="glosary__header">
+                            <h3 class="cepal-h3">{{letter_item.name_letter}}</h3>
+                        </div>
+                        <div class="glosary__list">
+                            <!-- Collapse item -->
+                            {% for vocabulary_item in vocabularies %}
+                            <div class="collapse__item box-shadow-six">
+                                <!-- Heading -->                                
+                                <!-- Equipo Back, importante cambiar en el href, el A-1 por el id del item -->
+                                <a class="collapse__header" data-bs-toggle="collapse" href="#collapse-{{letter_item.name_letter}}-{{vocabulary_item.id}}"
+                                role="button" aria-expanded="false" aria-controls="collapse-{{letter_item.name_letter}}-{{vocabulary_item.id}}">
+                                    <div class="collapse__left">
+                                        <div class="collapse__title">                                            
+                                            {{vocabulary_item.word}}                                            
+                                        </div>
+                                    </div>
+                                    <div class="collapse__right">
+                                        <div class="collapse__toggle">
+                                            <span class="btn btn-circular icon-chevron-down-icon"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <!-- Content -->
+                                <!-- Equipo Back, importante cambiar en el A-1 por el id del item -->
+                                <div class="collapse" id="collapse-{{letter_item.name_letter}}-{{vocabulary_item.id}}">
+                                    <div class="collapse__content">
+                                        <p class="collapse__desc">
+                                            {{vocabulary_item.meaning |safe}} 
+                                        </p>
+                                </div>
+                                </div>                                
+                            </div>
+                            {% empty %}
+                                <p>No hay Términos para para mostrar.</p> 
+                            {% endfor %}
+                            <!-- END Collapse item -->
+
+                        </div>
+                        <!-- PAGINATION -->
+                        {%if vocabularies %}
+                        <div class="pagination">
+                            {% if vocabularies.has_previous %}
+                            <a class="first first--disabled" href="?page={{vocabularies.previous_page_number}}" aria-label="Primero">
+                            <span class="icon-arrow-first-item-icon"></span>
+                            </a>
+                            {% else %}
+                            <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                            <span class="icon-icon-arrow-up-dropdown"></span>
+                            <span class="prev__text">Anterior</span>
+                            </a>
+                            {% endif %}
+                            <nav class="pages">
+                            <ul class="pages__ul">
+                            {% for page_number in vocabularies.paginator.page_range %}
+                                <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == vocabularies.number %} page--current{% endif %}">{{page_number}}</a></li>
+
+                            {% endfor %}
+                            </ul>
+                            </nav>
+                            {% if vocabularies.has_next %}
+                            <a class="next" href="?page={{vocabularies.next_page_number}}" aria-label="Siguiente">
+                            <span class="next__text">Siguiente</span>
+                            <span class="icon-icon-arrow-up-dropdown"></span>
+                            </a>
+                            {% else %}
+                            <a class="last" href="#" aria-label="Ultima">
+                            <span class="icon-arrow-last-item-icon"></span>
+                            </a>
+                            {% endif %}               
+                        </div>
+                        <!-- END PAGINATION -->
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+                <p>No hay registros en la Base de datos</p>       
+        
+        {% endif %} 
+    {% else %}
+        <p>No hay registros de Vocabularios en la Base de datos</p> 
+    {% endif %} 
+    <!-- END TABS CONTENT -->
+</main>
+{% endblock %}

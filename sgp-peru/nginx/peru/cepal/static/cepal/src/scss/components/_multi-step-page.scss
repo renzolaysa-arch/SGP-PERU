@@ -1,0 +1,81 @@
+/* Estilos
+    inventory_create.html 
+    provider_create.html    
+*/
+.multi-step-page{
+    // Titulo
+    &__title{
+        margin-bottom: 2rem;
+    }
+    // Descripcion
+    &__desc{
+        font-size: 1.3rem;
+        @include media-query(mindesktop){
+            font-size: 1.6rem;
+        }
+    }
+    // Contenedor "step wizard" y "form"
+    &__wrapper{
+        margin-bottom: 6rem;
+
+        // "step wizard"
+        .progressbar{
+            background-color: $color-white;
+        }
+    }
+    // Formulario
+    &__form{
+        background-color: $color-white;
+        padding: 3rem;
+        @include media-query(minmobilexl){
+            padding: 3rem 3.5rem;
+        }
+        @include media-query(mindesktop){
+            padding: 3rem 5rem;
+        }
+        // Contenedores navegacion
+        .container-buttons{
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-direction: column;
+            @include media-query(mintablet){
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+            // Todos los botones
+            .btn{
+                min-width: unset;
+                @include media-query(mindesktop){
+                    padding: 1.2rem 3rem;
+                }
+                @include media-query(mindesktopL){
+                    padding: 1.2rem 4rem;
+                }
+            }
+
+            // Boton "Volver"
+            .btn[data-step-action="prev"]{
+                order: 3;
+                @include media-query(mintablet){
+                    order: 1;
+                    margin-right: auto;
+                }
+            }
+
+            // Boton "Guardar y salir"
+            .btn[type="submit"]{
+                order: 2;
+            }
+            // Boton "Continuar"
+            .btn[data-step-action="next"]{
+                order: 1;
+                @include media-query(mintablet){
+                    order: 3;
+                }
+            }
+            
+        }
+    }
+}

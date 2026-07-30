@@ -1,0 +1,146 @@
+// Estilos para formulario de filtros que en mobile es un modal y en desktop es fijo.
+
+.filterModal{
+    // Boton Filtros Mobile
+    &__mobile{
+        padding: 1.3rem 2.3rem;
+        margin-bottom: 2.7rem;
+        background-color: $color-white;
+        border-radius: 5px;
+        color: var(--secondary-color);
+        font-size: 1.6rem;
+        @include media-query(minmobilexl){
+            font-size: 1.8rem;
+        }
+        @include media-query(mintablet){
+            display: none;
+        }
+
+        .txt{
+            margin-left: .8rem;
+            font-weight: $bold;
+        }
+    }
+    // Modal en mobile, form normal desktop
+    &__modal{
+        @include media-query(mintablet){
+            position: static;
+            display: block !important;
+            box-shadow: 0px 10px 20px #45454526;
+            border-radius: 20px;
+            background-color: $color-white;
+            margin-bottom: 6.3rem;
+        }
+        .modal-dialog{
+            position:fixed;
+            top:auto;
+            right:auto;
+            left:auto;
+            bottom:0;
+            margin: 0;
+            max-width: unset;
+            width: 100%;
+            @include media-query(mintablet){
+                position: static;
+            }
+
+            .modal-content{
+                background-color: $color-white;
+                border-radius: 21px 21px 0px 0px;
+                padding: 2.5rem 2.4rem;
+                width: 100%;
+                border: 0;
+                @include media-query(mintablet){
+                    border-radius: 0;
+                    padding: 2.8rem 3.55rem;
+                    // background-color: transparent;
+                }
+                .modal-header{
+                    flex-direction: row;
+                    margin-bottom: 2rem;
+                    @include media-query(mindesktop){
+                        margin-bottom: 1.3rem;
+                        padding-bottom: 0;
+                    }
+                    
+                    // Icono y Titulo
+                    &__title{
+                        color: var(--secondary-color);
+                        font-size: 1.6rem;
+                        @include media-query(minmobilexl){
+                            font-size: 1.8rem;
+                        }
+                        @include media-query(mindesktop){
+                            font-size: 2rem;
+                        }
+                        @include media-query(mindesktopLS){
+                            font-size: 2.2rem;
+                        }
+                        @include media-query(mindesktopXL){
+                            font-size: 2.5rem;
+                        }
+                        // Titulo
+                        .txt{
+                            margin-left: .8rem;
+                            font-weight: $bold;
+                            @include media-query(mintablet){
+                                margin-left: 1.3rem;
+                                font-weight: $semibold;
+                            }
+                        }
+                    }
+                    // Boton cerrar
+                    .btn-close{
+                        @include media-query(mintablet){
+                            display: none;
+                        }
+                    }
+                }
+                .modal-body{
+                    @include media-query(mindesktop){
+                        padding-top: 0;
+                    }
+                    // Formulario
+                    .filterModal__form{
+                        width: 100%;
+                        margin: 0 auto;
+                        // Contenedor Submit btn
+                        .col-lg-2{
+                            @include media-query(mindesktop){
+                                display: flex;
+                                align-items: flex-end;
+                            }
+                            // Submit btn
+                            input[type="submit"]{
+                                border-radius: 25px;
+                                color: $color-white;
+                                font-weight: $semibold;
+                                font-size: 1.4rem;
+                                height: 50px;
+                                min-width: 180px;
+                                @include media-query(minmobilexl){
+                                    font-size: 1.6rem;
+                                }
+                                &:hover,&:focus {
+                                    color: var(--secondary-color);
+                                }
+                            }
+                        }
+                    }
+                    // Enlace limpiar filtros
+                    .clearFilter{
+                        display: block;
+                        margin-top: 1.5rem;
+                        margin-bottom: 1.5rem;
+                        width: 100%;
+                        text-align: center;
+                        @include media-query(mindesktop){
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

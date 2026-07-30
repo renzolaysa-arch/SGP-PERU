@@ -1,0 +1,112 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Inventario {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+{% load project_tags %}
+<div class="block-activities-header profile-functionary">
+    <div class="block-left">
+        <h2 class="block-activities-header-title">Registros de interés</h2>
+        <p class="block-activities-header-description">Registros de su interés</p>
+    </div>
+    <div class="block-right">
+        <a href="{% url 'inventory:inventory_list' %}" class="btn btn-white-bordered">Ver todo el inventario</a>
+    </div>
+</div>
+
+<div class="block-activities-content">
+    {% if inventory_page_obj %}
+    <div class="content-cards-activity" id="requestCardList">    
+        {% for obj in inventory_page_obj %}
+            <div class="cards-activity-item">
+                <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center" {% if obj.checked %}active{% endif %}" data-idinventario="{{ obj.id }}">
+                    {% if obj.tags %}
+                        {% for tag in obj.tags.all %}
+                            <span class="tag">{{tag.tags_sample_data}}</span>
+                        {% endfor %}
+                    {% endif %}
+                    {% if request.user|has_group:"Funcionario" or request.user|has_group:"Proveedor" %}
+                        <div class="content-option">
+                            <span class="content-option-text">Seguir inventario</span>
+                            <label class="button-slider">
+                                <input type="checkbox" class="button-slider-input" data-follow="{{ obj.checked }}"
+                                {% if obj.checked %}
+                                    checked
+                                {% endif %}>
+                                <span class="button-slider-switch"></span>
+                            </label>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="cards-activity-item-body">
+                    <p class="item-description">{{ obj.name_rraa }}</p>
+                    <ul class="data-list">
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Cobertura</p>
+                            {% if obj.coverage is not None%}
+                            <p class="data-list-item-value">{{ obj.coverage}}</p>
+                            {% endif %}
+                        </li>
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Proveedor</p>
+                            <p class="data-list-item-value">{{ obj.provider }}</p>
+                        </li>
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Fecha de actualización</p>
+                            <p class="data-list-item-value">{{ obj.date_modified |date:"d F Y" }}</p>
+                        </li>
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Fecha de publicación</p>
+                            <p class="data-list-item-value">{{ obj.date_request |date:"d F Y" }}</p>
+                        </li>
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Estado</p>
+                            <p class="data-list-item-value">{{ obj.status }}</p>
+                        </li>
+                        <li class="data-list-item">
+                            <p class="data-list-item-title">Métricas de calidad</p>
+                            <p class="data-list-item-value">7%</p>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="cards-activity-item-footer">
+                    <div class="container-buttons my-4">
+                        <a href="{% url 'inventory:detail_inventory' obj.id %}" class="btn btn-white-bordered">Ver más</a>
+                        <a href="{% url 'demand:demand_create_inventory' obj.id %}" class="btn btn-white-bordered">Solicitar Información</a>
+                        {% comment %} <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button> {% endcomment %}
+                    </div>
+                    <div class="date-update pt-3">
+                        <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">{{ obj.date_modified |date:"d F Y" }}</span></p>
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No hay registros Administrativos que sigas
+    {% endif %}   
+</div>
+
+<!-- Modal Confirmar seguir inventario -->
+<dialog class="modal fade modal-primary-style" id="follow-demand" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h2 class="modal-title">Seguir Inventario</h2>
+              <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p class="description">Está seguro que quiere seguir el inventario <strong><span>Primer Inventario</span></strong></p>
+  
+              <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                <button class="btn btn-white-bordered btn-acept-modal" type="button" aria-label="Aceptar">Aceptar</button>
+                <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Close">Cancelar</button>
+            </div>
+          </div>
+      </div>
+    </div>
+</dialog>
+<!-- END Modal Confirmar seguir inventario -->

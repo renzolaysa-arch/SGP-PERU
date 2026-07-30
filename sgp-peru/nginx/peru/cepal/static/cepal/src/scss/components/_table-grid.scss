@@ -1,0 +1,41 @@
+// Estilos como una tabla, pero con grid
+.table-grid{
+    overflow-x: auto;
+    &__header,
+    &__item{
+        width: 100%;
+        display: table;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(150px, 1fr)) 70px;
+        column-gap: 1.5rem;
+        padding: 1.5rem 0;
+    }
+
+    &__header{
+        position: sticky;
+        top: 0;
+        .table-grid__col-item{
+            font-weight: $semibold;
+            text-align: center;
+        }
+    }
+    &__item{
+        .table-grid__col-item{
+            font-weight: $regular;
+
+            &__link{
+                font-weight: $bold;
+                color: var(--primary-color);
+            }
+        }
+        // Color fondo items impares
+        &:nth-child(odd){
+            background-color: rgba(var(--secondary-rgb), 0.05);
+        }
+    }
+
+    &__col-item{
+        color: $color-black-b4;
+        font-size: 1.6rem;
+    }
+}

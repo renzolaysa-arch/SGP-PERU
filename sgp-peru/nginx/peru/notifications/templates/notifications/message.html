@@ -1,0 +1,242 @@
+{% comment %} <div class="{{ country }}">
+  {% autoescape off %} {{ body|safe }} {% endautoescape %}
+</div> {% endcomment %}
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+  <title> Mailing Cepal </title>
+  <!--[if !mso]><!-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--<![endif]-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    @import url('http://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+  </style>
+</head>
+
+<body style="margin: 0 auto;">
+  <table bgcolor="#FFFFFF" width="600" align="center" border="0" cellpadding="0" cellspacing="0" style="width: 600px;">
+    <!-- Header con logo -->
+    <tr bgcolor="#FEFEFE" width="100%"> 
+      {% if country == "co" %}
+        <td width="100%" align="center" style="padding-top: 10px; padding-bottom: 10px;">
+          <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/logo.jpg" alt="Logo" style="height: auto; display: block; margin: 0 auto;">
+        </td>
+      {% endif %}
+      {% if country == "cl" %}
+        <td width="100%" align="center" style="padding-top: 5px; padding-bottom: 5px;">
+          <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/logo.jpg" alt="Logo" style="height: auto; display: block; margin: 0 auto;">
+        </td>
+      {% endif %}
+      {% if country == "bo" %}
+        <td width="100%" align="center" style="padding-top: 5px; padding-bottom: 5px;">
+          <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/logo.jpg" alt="Logo" style="height: auto; display: block; margin: 0 auto;">
+        </td>
+      {% endif %}
+      {% if country == "pe" %}
+        <td width="100%" align="center" style="padding-top: 5px; padding-bottom: 5px;">
+          <img src="{{ url }}static/cepal/dist/assets/images/Email-Peru/logo.jpg" alt="Logo" style="height: auto; display: block; margin: 0 auto;">
+        </td>
+      {% endif %}
+    </tr>
+    <!-- Fin Header con logo -->
+  </table>
+
+  <div style="width: 600px; margin: 0 auto;">
+    <table bgcolor="#FFFFFF" width="600" align="center" border="0" cellpadding="0" cellspacing="0" style="width: 600px;">
+      <!-- Banner -->
+      <tr>
+        <td width="100%" style="padding:0; text-align:center;">
+          {% if country == "co" %}
+            <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/header.jpg" alt="bg header" border="0" style="width: 600px; height: auto; display: block;">
+          {% endif %}
+          {% if country == "cl" %}
+            <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/header.jpg" alt="bg header" border="0" style="width: 600px; height: auto; display: block;">
+          {% endif %}
+          {% if country == "bo" %}
+            <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/header.jpg" alt="bg header" border="0" style="width: 600px; height: auto; display: block;">
+          {% endif %}
+          {% if country == "pe" %}
+            <img src="{{ url }}static/cepal/dist/assets/images/Email-Peru/header.jpg" alt="bg header" border="0" style="width: 600px; height: auto; display: block;">
+          {% endif %}
+        </td>
+      </tr>
+      <!-- Fin Banner -->
+    </table>
+  </div>
+
+  <table bgcolor="#FFFFFF" width="600" align="center" border="0" cellpadding="0" cellspacing="0" style="width: 600px;padding-bottom: 95px;">
+    <!-- Contenido -->
+    <tr>
+      <td>
+        <table width="490" align="center" border="0" cellpadding="0" cellspacing="0" style="width: 490px; padding-top: 50px;">
+          <tr>
+            <td width="100%" align="center" style="font-family:'Open Sans', sans-serif;font-size:16px;font-weight:400;line-height:25px;text-align:center;color:#565654;">
+              {{ body }}
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" align="center" style="padding-top: 60px;">
+            {% if link != None or name_link != None  %}
+              <a href="{{ link }}" target="_blank" border="0" style="text-decoration: none; display:inline-block;">
+                {% if country == "co" %}
+                  <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/button.png" alt="botón ver más" border="0" style="height: auto; display: block;">
+                {% endif %}
+                {% if country == "cl" %}
+                  <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/button.png" alt="botón ver más" border="0" style="height: auto; display: block;">
+                {% endif %}
+                {% if country == "bo" %}
+                  <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/button.png" alt="botón ver más" border="0" style="height: auto; display: block;">
+                {% endif %}
+                {% if country == "pe" %}
+                  <img src="{{ url }}static/cepal/dist/assets/images/Email-Peru/button.png" alt="botón ver más" border="0" style="height: auto; display: block;">
+                {% endif %}
+              </a>
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <!-- Fin Contenido -->
+
+    
+  </table>
+  
+  <table bgcolor="#FFFFFF" width="600" align="center" border="0" cellpadding="0" cellspacing="0" style="width: 600px;">
+    <!-- Footer -->
+    <tr>
+      <td width="62%" align="left" bgcolor="#F8F8F8" style="padding-left: 40px; padding-top: 20px;">
+        <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%;padding-top: 10px;">
+          <tr>
+            <td width="100%" style="font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;text-align:left;color:#777777;">
+              DANE | Departamento administrativo nacional de estadística
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top: 7px;">
+              <table bgcolor="#F8F8F8" width="60%" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 60%;">
+                <tr>
+                  <td style="height: 1px; font-size: 0px;background-color: #C1C1C1;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" style="padding-top: 7px; text-align: left;">
+              <table width="50%" align="left" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left" style="text-align: left;">
+                    {% if country == "co" %}
+                      <a href="https://www.facebook.com/DANEColombia" target="_blank" border="0" style="text-decoration: none; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/facebook.png" alt="Facebook" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "cl" %}
+                      <a href="https://www.facebook.com/ChileINE/" target="_blank" border="0" style="text-decoration: none; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/facebook.png" alt="Facebook" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "bo" %}
+                      <a href="https://www.facebook.com/ineboliviaoficial" target="_blank" border="0" style="text-decoration: none; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/facebook.png" alt="Facebook" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "pe" %}
+                      <a href="https://www.facebook.com/PeruPaisDigital/" target="_blank" border="0" style="text-decoration: none; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Peru/facebook.png" alt="Facebook" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if country == "co" %}
+                      <a href="https://twitter.com/DANE_Colombia" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/twitter.png" alt="Twitter" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "cl" %}
+                      <a href="https://twitter.com/ine_chile?lang=es" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/twitter.png" alt="Twitter" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "bo" %}
+                      <a href="https://twitter.com/INE_Bolivia" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/twitter.png" alt="Twitter" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "pe" %}
+                      <a href="https://twitter.com/PeruPaisDigital" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Peru/twitter.png" alt="Twitter" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if country == "co" %}
+                      <a href="https://www.instagram.com/DaneColombia" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/instagram.png" alt="Instagram" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "cl" %}
+                      <a href="https://www.instagram.com/chile.ine/" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/instagram.png" alt="Instagram" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "bo" %}
+                      <a href="https://www.instagram.com/ineboliviaoficial/" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/instagram.png" alt="Instagram" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if country == "co" %}
+                      <a href="https://www.youtube.com/channel/UCbIQXKLw414g5kWo1tAwqCg" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Colombia/youtube.png" alt="Youtube" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "cl" %}
+                      <a href="https://www.youtube.com/user/inechile" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Chile/youtube.png" alt="Youtube" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                    {% if country == "bo" %}
+                      <a href="https://www.youtube.com/channel/UCbIQXKLw414g5kWo1tAwqCg" target="_blank" border="0" style="text-decoration: none; padding-left: 10px; padding-right: 10px; display: inline-block;">
+                        <img src="{{ url }}static/cepal/dist/assets/images/Email-Bolivia/youtube.png" alt="Youtube" style="width: 20px; height: 20px;">
+                      </a>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+      {% if country == "co" %}
+        <td width="38%" style="background:#0077A8;background-color:#0077A8;font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;color: #F8F8F8;padding-top:20px; padding-right: 40px; padding-bottom: 15px; padding-left: 15px;border-radius: 8px 8px 0 0;">
+        
+        </td>
+      {% endif %}
+      {% if country == "cl" %}
+        <td width="38%" style="background:#2C3A6B;background-color:#2C3A6B;font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;color: #F8F8F8;padding-top:20px; padding-right: 40px; padding-bottom: 15px; padding-left: 15px;border-radius: 8px 8px 0 0;">
+        
+        </td>
+      {% endif %}
+      {% if country == "bo" %}
+        <td width="38%" style="background:#1C335D;background-color:#1C335D;font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;color: #F8F8F8;padding-top:20px; padding-right: 40px; padding-bottom: 15px; padding-left: 15px;border-radius: 8px 8px 0 0;">
+        
+        </td>
+      {% endif %}
+      {% if country == "pe" %}
+        <td width="38%" style="background:#30406E;background-color:#30406E;font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;color: #F8F8F8;padding-top:20px; padding-right: 40px; padding-bottom: 15px; padding-left: 15px;border-radius: 8px 8px 0 0;">
+        
+        </td>
+      {% endif %}
+    </tr>
+    <!-- Fin Footer -->
+  </table>
+</body>
+
+
+</html>

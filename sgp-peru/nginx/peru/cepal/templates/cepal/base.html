@@ -1,0 +1,372 @@
+{% load static %}
+{% load project_tags %}
+<!doctype html>
+<html lang="es">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Favicon -->
+  {% if country == "co" %}
+    <link rel="icon" href="{% static 'cepal/dist/assets/images/favicon/Colombia/favicon.ico' %}">
+  {% endif %}
+  {% if country == "cl" %}
+    <link rel="icon" href="{% static 'cepal/dist/assets/images/favicon/Chile/favicon.ico' %}">
+  {% endif %}
+  {% if country == "bo" %}
+    <link rel="icon" href="{% static 'cepal/dist/assets/images/favicon/Bolivia/favicon.ico' %}">
+  {% endif %}
+  {% if country == "pe" %}
+    <link rel="icon" href="{% static 'cepal/dist/assets/images/favicon/Peru/favicon.ico' %}">
+  {% endif %}
+  <!-- End Favicon -->
+
+  <!-- Bootstrap CSS -->
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link rel="preload" as="font" crossorigin="anonymous"
+    href="{% static 'cepal/dist/assets/fonts/icomoon.eot?hk48dk' %}">
+  <link rel="preload" as="font" crossorigin="anonymous"
+    href="{% static 'cepal/dist/assets/fonts/icomoon.eot?hk48dk#iefix' %}">
+  <link rel="preload" as="font" crossorigin="anonymous"
+    href="{% static 'cepal/dist/assets/fonts/icomoon.ttf?hk48dk' %}">
+  <link rel="preload" as="font" crossorigin="anonymous"
+    href="{% static 'cepal/dist/assets/fonts/icomoon.woff?hk48dk' %}">
+  <link rel="preload" as="font" crossorigin="anonymous"
+    href="{% static 'cepal/dist/assets/fonts/icomoon.svg?hk48dk#icomoon' %}">
+
+  <link rel="stylesheet" href="{% static 'cepal/dist/bundle.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body class="{{ country }}">
+  <!-- HEADER -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container gx-5 gx-md-4">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/" data-seo="linklogo">
+        </a>
+        <!-- Buscador -->
+        <div class="search-records justify-content-center align-items-center" id="megasearch">
+          <div class="input-group">
+            <!-- Dropdown btn -->
+            <button type="button" id="btnDropdownSearch" class="btn dropdown-toggle dropdownSearch-btn"
+              data-bs-toggle="dropdown" data-bs-target="#dropdownSearch" aria-controls="dropdownSearch"
+              aria-expanded="false" aria-label="Search by">
+              Buscar por
+            </button>
+            <div class="dropdown-menu dropdownSearch" id="dropdownSearch">
+              {{filterSearchForm}}
+            </div>
+            <!-- input -->
+            <input class="form-control me-2" id="id_title" type="text"
+              placeholder="Encuentre sus Registros Administrativos - RRAA​" aria-label="Search" form="form-inventory"
+              name="title">
+            <input class="form-control me-2 d-none" id="id_name" type="text" placeholder="Encuentre Proveedores​"
+              aria-label="Search" form="form-provider" name="name">
+            <!-- MENU DROPDOWN BUSCADOR -->
+            <div class="dropdownSearchMenu" id="dropdownSearchMenu">
+              <div class="dropdownSearchMenu-mod">
+                <div class="container dropdownSearchMobile">
+                  <div class="dropdown dropdownSearchByMobile-container">
+                    <button type="button" id="btndropdownSearchByMobile"
+                      class="btn dropdown-toggle dropdownSearchByMobile-btn" data-bs-toggle="dropdown"
+                      data-bs-target="#dropdownSearchMobile" aria-controls="dropdownSearch" aria-expanded="false"
+                      aria-label="Search by">
+                      Buscar por
+                    </button>
+                    <div class="dropdown-menu dropdownSearchByMobile-menu" id="dropdownSearchMobile">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" id="searchbycheck1" name="buscarpor"
+                          value="inventario">
+                        <label class="form-check-label" for="searchbycheck1">Registros Administrativos - RRAA​</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" id="searchbycheck2" name="buscarpor"
+                          value="proveedor">
+                        <label class="form-check-label" for="searchbycheck2">Proveedores​</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <input class="form-control me-2" id="id_title_mobile" type="text"
+                      placeholder="Encuentre sus Registros Administrativos - RRAA​" aria-label="Search"
+                      form="form-inventory" name="title">
+                    <input class="form-control me-2 d-none" id="id_name_mobile" type="text"
+                      placeholder="Encuentre Proveedores​" aria-label="Search" form="form-provider" name="name">
+                    <button id="btnSearchMobile" class="btn btn-search" type="submit" aria-label="search"></button>
+                  </div>
+                </div>
+                <div class="container dropdownSearchMenu-cont">
+                  <h3 class="dropdownSearchMenu-title">Búsquedas <strong>sugeridas</strong></h3>
+                  <div class="dropdownSearchMenu-load">
+                    <div class="container">
+                      <div class="row">
+                        {% if menu_search %}
+                        {% for menulist in menu_search %}
+                        <div class="col-lg-3">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check1" name="sugerida1"
+                              value="empresarial">
+                            <label class="form-check-label" for="check1">{{menulist.titleMenu}}</label>
+                          </div>
+                          <ul class="dropdownSearchMenu-list">
+                            {% for menuitem in menulist.ordered_menuitem_set %}
+                            <li>
+                              <a class="dropdownSearchMenu-link" href="{{ menuitem.link_Menu }}"
+                                data-seo="linksearch">{{menuitem.title}}</a>
+                            </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Submit -->
+            <button class="btn btn-search" id="btnSearchHeader" type="submit" form="megasearch"></button>
+          </div>
+        </div>
+        <div class="user-actions d-flex">
+          {% if request.user.id %}
+          <a href="{% url 'profile' %}" class="btn btn-user-login" id="btnLoginHeader" type="button">Mi tablero</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-user-login" id="btnLoginHeader" type="button">Iniciar sesión</a>
+          {% endif %}
+          <!-- Boton search Mobile -->
+          <button id="btnDropdownSearchMobile" class="btn btn-search-mobile"></button>
+          <!-- País -->
+          <div class="country-indicator">
+            <!-- <img src="{% static 'cepal/dist/assets/images/colombia-icon.svg' %}" alt="current-country" title="colombia"> -->
+          </div>
+          <!-- Burguer Btn -->
+          <button id="btnMenuBurguer" class="navbar-toggler d-flex" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="toggler-icon top-bar"></span>
+            <span class="toggler-icon middle-bar"></span>
+            <span class="toggler-icon bottom-bar"></span>
+          </button>
+        </div>
+
+      </div>
+    </nav>
+    <!-- MENU PRINCIPAL -->
+    <div class="collapse navbarTogglerMenu" id="navbarTogglerMenu">
+      <div class="mainmenu-container">
+        <!-- Cerrar menu desktop -->
+        <button id="btnMenuCloseDesktop" type="button" class="btn-close" data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerMenu" aria-label="Close">
+          <span class="icon-close-icon"></span>
+        </button>
+        <!-- Datos Usuario -->
+        <div class="navbar-data">
+          <!-- IF(logueado) -->
+          {% if user.is_authenticated %}
+          <p class="navbar-data-user">{{ user.groups.all.0.name }}</p>
+          <div class="navbar-content-info">
+            {% if user_photo %}
+            <img src="/media/{{user_photo}}" alt="imagen del perfil" class="navbar-data-user-image">
+            {% endif %}
+            <h4 class="navbar-data-user-name">{{ user.first_name }}</h4>
+          </div>
+          {% else %}
+          <!-- ELSE (No logueado) -->
+          <a href="{% url 'login' %}" class="navbar-login-mobile" id="loginMobile"><span
+              class="icon-user-icon"></span><span class="navbar-login-mobile-txt">Iniciar sesión</span></a>
+          {% endif %}
+          <!-- ENDIF -->
+        </div>
+        <!-- Menu -->
+        <ul class="navbar-nav">
+
+          {% if menu_hamburguer %}
+          {% for menuitem in menu_hamburguer.ordered_menuitem_set %}               
+ 
+            {% for item in menuitem.assigned_to.all %} 
+              {% if request.user|has_group:item.name %}
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{menuitem.link_Menu}}"
+                    data-seo="linkmenu1">{{menuitem.title}}</a>
+                </li> 
+              {% elif not user.is_authenticated %}
+                {% if item.name == 'Anonimo' %}
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{menuitem.link_Menu}}"
+                      data-seo="linkmenu1">{{menuitem.title}}</a>
+                  </li>
+                {% endif %}            
+              {% endif %}
+            {% endfor %}               
+          {% endfor %}
+          {% endif %}
+        </ul>
+
+        <!-- Logout -->
+        <!-- IF(logueado) -->
+        {% if user.is_authenticated %}
+        <a class="navbar-logout" href="{% url 'logout' %}" data-seo="linkmenulogout">
+          <span class="navbar-logout-icon icon-btn_logout"></span>
+          <span class="navbar-logout-txt">Cerrar sesión</span>
+        </a>
+        {% endif %}
+        <!-- ENDIF -->
+      </div>
+
+    </div>
+  </header>
+
+
+  {% block content %}
+  {% endblock %}
+
+
+  <!-- FOOTER -->
+  <footer class="footer mt-auto">
+
+    <div class="first-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-lg-8 gx-5 gx-md-4">
+            <div class="row">
+              <div class="col-md-4 branding-col-footer">
+                <div class="branding-region-footer">
+                  <div class="brand-content">
+                    <!-- <img class="brand-logo" src="https://dummyimage.com/150x58/000/fff" title="logo" alt="logo-footer"> -->
+                  </div>
+                  <div class="share-in">
+                    <ul class="social-media-menu">
+                      {% if menu_redes %}
+                      {% for menuitem in menu_redes.ordered_menuitem_set %}
+                      <li class="social-media">
+                        <a href="{{menuitem.link_Menu}}" target="_blank" class="" data-seo="link-social-media-footer">
+                          <img src="/media/{{menuitem.iconMenu}}" />
+                        </a>
+                      </li>
+                      {% endfor %}
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="footer-menu help-region-footer">
+                  <h6 class="footer-menu-title">
+                    <a class="dynamic-title footer-menu-titlebtn" data-bs-toggle="collapse" href="#footerMenu1"
+                      aria-expanded="true">
+                      ¿Necesitas ayuda?
+                      <span class="icon-chevron-up-icon"></span>
+                    </a>
+                  </h6>
+                  <ul class="footer-menu-region help-menu collapse show" id="footerMenu1">
+                    {% if menu_help %}
+                    {% for menuitem in menu_help.ordered_menuitem_set %}
+                    <li class="footer-menu-item">
+                      <a href="{{menuitem.link_Menu}}" class="footer-menu-link"
+                        data-seo="linkmenufooter">{{menuitem.title}}</a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="footer-menu interest-region-footer">
+                  <h6 class="dynamic-title footer-menu-title">
+                    <a class="dynamic-title footer-menu-titlebtn" data-bs-toggle="collapse" href="#footerMenu2"
+                      aria-expanded="true">
+                      Links de interés
+                      <span class="icon-chevron-up-icon"></span>
+                    </a>
+                  </h6>
+                  <ul class="footer-menu-region interest-menu collapse show" id="footerMenu2">
+                    {% if menu_links %}
+                    {% for menuitem in menu_links.ordered_menuitem_set %}
+                    <li class="footer-menu-item">
+                      <a href="{{menuitem.link_Menu}}" class="footer-menu-link"
+                        data-seo="linkmenufooter">{{menuitem.title}}</a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4 gx-5 gx-md-4 newsletter-footer">
+            <div class="newsletter-region">
+              <h6 class="newsletter-title">Subscríbase</h6>
+              <span>Entérese de todas las novedades que tenemos para usted.</span>
+              <form action="/enviar-newsletter/" method="post" class="newsletter-form">
+                {% csrf_token %}
+                {{ news_letter_form }}
+                <input id="btnSubmitFooter" class="btn btn-newsletter" type="submit" value="Enviar">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SECOND FOOTER -->
+    <div class="second-footer">
+      <div class="container gx-5 gx-md-4">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="policy-content">
+              <span class="policy-description">© 2023 DANE – Departamento Nacional de Estadística</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="terms-policy-content">
+              <ul class="terms-and-policy">
+                {% if menu_footer %}
+                {% for menuitem in menu_footer.ordered_menuitem_set %}
+                <li class="menu-item">
+                  <a href="https://www.dane.gov.co/index.php/servicios-al-ciudadano/tramites/transparencia-y-acceso-a-la-informacion-publica/terminos-de-uso" target="_blank" class="menu-link policy-link"
+                    data-seo="linkmenufooter">{{menuitem.title}}</a>
+                </li>
+                {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Optional JavaScript -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <!-- <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
+  <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.1.81/build/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.1.81/build/pdf.worker.min.js"></script>
+  <script src="{% static 'cepal/dist/bundle.js' %}"></script>
+  <script src="{% static 'cepal/src/js/modal.js' %}"></script>
+
+</body>
+
+</html>

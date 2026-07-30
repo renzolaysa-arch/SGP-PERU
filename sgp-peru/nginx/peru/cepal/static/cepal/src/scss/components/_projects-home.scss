@@ -1,0 +1,151 @@
+.projects-home{
+    margin: 5rem 0;
+    @include media-query(mintablet){
+        margin: 6rem 0;
+    }
+    @include media-query(mindesktop){
+        margin: 7.2rem 0;
+    }
+    @include media-query(mindesktopL){
+        margin: 8.4rem 0;
+    }
+
+    .container-fluid{
+        padding-left: 0;
+        padding-right: 0;
+
+        > .row{
+            margin-right: 0;
+            margin-left: 0;
+            .col-xxl-5{
+                padding-left: 0;
+                padding-right: 0;
+                @include media-query(mintablet) {
+                    padding-right: 2.563rem;
+                }
+            }
+        }
+    }
+
+    // Imagen
+    .projects-img{
+        @include media-query(mintablet) {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-height: 620px;
+        }
+    }
+    // Titulo sección
+    .cepal-h2{
+        @include media-query(mintablet) {
+            text-align: left;
+        }
+        .cepal-h2-normal{
+            display: block;
+        }
+    }
+
+    // Listado Proyectos
+    .projects-home-list{
+
+        // Item
+        .projectscard{
+            @include media-query(minmobilexl) {
+                min-width: 308px;
+            }
+            @include media-query(mintablet) {
+                max-width: 336px;
+            }
+        }
+        // Estilos para que no corte los box shadow de las cards
+        & > .owl-stage-outer {
+            margin: -6px; padding: 6px; // esta medida depende de la medida de la sombra de las cards X2
+        }
+    
+        // Navegación slider owl carousel (prev, next)
+        & > .owl-nav {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(-40px - 3.15rem); // 40px + 56px alto nav
+            margin: 0 auto;
+            @include media-query(mintablet) {
+                max-width: 75.7%;
+            }
+            @include media-query(mindesktopLS) {
+                max-width: 57.85%;
+                top: calc(-40px - 3.5rem);
+            }
+    
+            .owl-prev,
+            .owl-next {
+                position: absolute;
+                top: 0;
+                z-index: 4;
+                right: 0;
+                box-sizing: border-box;
+    
+                &::after {
+                    color: var(--primary-color);
+                }
+    
+                // navegación deshabilitada
+                &.disabled {
+                    &::after {
+                        color: $color-gray-v2;
+                    }
+                }
+            }
+    
+            .owl-prev {
+                right: calc(4.2rem + 5px); // ancho nav(56px) + separación nav(5px)
+                margin-right: 0;
+                @include media-query(mindesktopLS) {
+                    right: calc(5.6rem + 5px);
+                }
+            }
+        }
+        // Navegación Owl slider bullets
+        & > .owl-dots {
+            margin-top: 1rem;
+            @include media-query(mintablet) {
+                text-align: left;
+                position: absolute;
+                bottom: -35px; // antes -41px
+                margin-top: 0;
+            }
+            @include media-query(mindesktop) {
+                bottom: -52px; // antes -71px
+            }
+        }
+    }
+    // Contenedor call to action
+    .projects-call{
+        text-align: center;
+        
+        @include media-query(mintablet) {
+            max-width: 75.7%;
+            text-align: right;
+            padding: 0;
+        }
+        @include media-query(mindesktopLS) {
+            max-width: 57.85%;
+        }
+    }
+
+}
+
+// Listado proyectos
+.projects-list{
+    .card-list{
+        .projectscard{
+            min-height: 400px;
+            @include media-query(mintablet) {
+                max-width: 360px;
+            }
+        }
+    }
+}

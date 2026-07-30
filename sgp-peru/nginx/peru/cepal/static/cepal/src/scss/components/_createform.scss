@@ -1,0 +1,58 @@
+/* 
+    Estilos formulario simple centrado
+    Se usa en las internas:
+        - /crear-proyecto/
+        - /crear-solicitud/
+*/
+.createform{
+    // Titulo
+    &__title{
+        margin-bottom: 2rem;
+    }
+    // Descripcion
+    &__desc{
+        font-size: 1.3rem;
+        @include media-query(mindesktop){
+            font-size: 1.6rem;
+        }
+    }
+    // Formulario
+    &__form{
+        margin-bottom: 6rem;
+        background-color: $color-white;
+        padding: 3rem;
+
+        .form__field {
+            justify-content: flex-start;
+        }
+
+        input,
+        select,
+        textarea {
+            &.error {
+                border-color: $color-error-forms;
+            }
+        }
+
+        label.error {
+            color: $color-error-forms;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        // Contenedor "Call to action"
+        .container-buttons{
+            display: flex;
+            @include media-query(mintablet){
+                justify-content: flex-end;
+            }
+            .btn{
+                width: 100%;
+                @include media-query(mintablet){
+                    width: auto;
+                }
+            }
+        }
+    }
+}

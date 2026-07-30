@@ -1,0 +1,208 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Tablero de actividades {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="provider-main-header mb-4">
+    <h1 class="provider-main-header-title">Dashboard</h1>
+</div>
+
+<section class="row">
+    <!-- ANALISIS -->
+    <div class="col-12 col-lg-3 col-xl-2 pe-lg-0 mb-5 mb-lg-0">
+        <div class="card-type-commentary box-shadow-four">
+            <h4 class="secondary-title-card">Análisis</h4>
+            <div class="list-info-item">
+                <span class="icon-vieta"></span>
+                <div class="commentary-info">
+                    <h5 class="commentary-info-title">{{count_comments}} <span>Comentarios</span></h5>
+                    <p class="commentary-info-description">Ha realizado {{count_comments}} comentarios en las bitácoras</p>
+                </div>
+            </div>
+            <div class="list-info-item">
+                <span class="icon-vieta"></span>
+                <div class="commentary-info">
+                    <h5 class="commentary-info-title">{{comments_interactions}} <span>Usuarios</span></h5>
+                    <p class="commentary-info-description">Han estando interactúando con tus temas en bitácora</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END ANALISIS -->
+    <!-- METRICA CALIDAD -->
+    <div class="col-12 col-md-6 col-lg-5 col-xl-6 pe-md-0 pe-lg-4">
+        <div class="card-type-list-primary box-shadow-four">
+            <h4 class="secondary-title-card">
+                Métricas de Calidad
+            </h4>
+            <ul class="list-block style-scrooll">
+                <li class="list-header">
+                    <div class="col-left">Proveedor</div>
+                    <div class="col-right">RRAA</div>
+                </li>
+                {% for key, value in sorted_best_providers.items %}
+                <li class="list-item">
+                    <div class="col-left">{{ key }}</div>
+                    <div class="col-right">{{ value }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- END METRICA CALIDAD -->
+    <!-- REGISTERED PROVIDERS -->
+    <div class="col-12 col-md-6 col-lg-4 ps-lg-0">
+        <div class="card-type-graphic-columns box-shadow-four">
+            <h4 class="secondary-title-card">
+                Proveedores registrados
+            </h4>
+            <div class="figures-card">
+                <p class="figures-card-num">{{total_providers}}</p>
+                <div class="figures-card-graph stats-bars">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <div class="bar bar-4"></div>
+                    <div class="bar bar-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END REGISTERED PROVIDERS -->
+</section>
+
+<section class="row mt-md-4">
+    <!-- PROYECTOS-->
+    <div class="col-12 col-md-6 col-lg-3 pe-md-0">
+        <div class="card-type-graphic-round box-shadow-four">
+            <div class="figures-card figures-card-primary">
+                <h3 class="cepal-title figures-card-title">
+                    <span class="cepal-title-normal">Proyectos donde </span>participa el Funcionario
+                </h3>
+                <p class="figures-card-num">{{total_projects_asociate}}</p>
+                <a href="{% url 'projects:list_projects' %}" class="btn btn-white-bordered">
+                    Ver todos los proyectos
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END PROYECTOS -->
+    <!-- REGISTROS ADMINISTRATIVOS -->
+    <div class="col-12 col-md-6 col-lg-3 pe-lg-0">
+        <div class="card-type-graphic-round box-shadow-four">
+            <div class="figures-card figures-card-secondary">
+                <h3 class="cepal-title figures-card-title">
+                    <span class="cepal-title-normal">Registros </span>administrativos
+                </h3>
+                <p class="figures-card-num">{{total_inventory}}</p>
+                <a href="{% url 'inventory:inventory_list' %}" class="btn btn-white-bordered">
+                    Ver todos los RRAA
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END REGISTROS ADMINISTRATIVOS -->
+    <!-- NOTIFICACIONES PENDIENTES -->
+    <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+        <div class="notifications notification-dashboard box-shadow-four">
+            <div class="notifications-header">
+                <div class="notifications-header-first d-flex align-items-center">
+                    <div class="notifications-header-info">
+                        <h2 class="notifications-header-info-title">Notificaciones Pendientes</h2>
+                        <h4 class="notifications-header-info-subtitle">Tenga presente sus notificaciones</h4>
+                    </div>
+                    <div class="notifications-header-icon">
+                        <span class="icon-icon-bell-notificacions"></span>
+                        <span class="number-of-notifications">{{cont}}</span>
+                    </div>
+                </div>
+                <div class="notifications-header-filters">
+                    Filtrar por: 
+                    <a class="notifyfilter allnotify active" href="#" >Todas</a>
+                    <a class="notifyfilter newnotify" href="#">No leídas</a>
+                    <a class="notifyfilter readnotify" href="#">Leídas</a>
+                </div>
+            </div>
+
+            <div class="notifications-content style-scrooll mt-4">
+                {% if notification_list %}
+                    {% for data in notification_list %}
+                <div class="notifications-content-item d-flex justify-content-between {% if data.hidden == True %}read{% endif %}" data-notifyid="{{data.id}}">
+                    <div class="colum-left">
+                        <p class="description">{{data.name|safe}}</p>
+                        <span class="time">{{data.hour}}</span>
+                    </div>
+                    <div class="colum-right">
+                        {% if data.hidden == False %}
+                            <button type="button" data-action="/usuario/ocultar-notificacion/{{data.id}}"
+                                class="btn-notificacions hide-notification">
+                                <span class="icon-icon-bell-notificacion-read"></span>
+                            </button>
+                        {% endif %}
+                        <form action="/usuario/{{data.id}}/eliminar-notificacion" method="POST">
+                            <!-- Security token by Django -->
+                            {% csrf_token %}
+                            <button type="button" class="btn-notificacions delete-notification" data-action="/usuario/{{data.id}}/eliminar-notificacion" >
+                                <span class="icon-icon-bell-notificacion-remove"></span>
+                            </button>
+                        </form>             
+                    </div>
+                </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="notifications-content-item d-flex justify-content-between">
+                        <p>No tiene notificaciones</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- END NOTIFICACIONES PENDIENTES -->
+
+    <!-- INDICADOR -->
+    <div class="col-12">
+        <div class="row provider-main-indicators">
+            <div class="col-12 col-md-6 pe-md-0">
+            <div class="card-type-list-primary box-shadow-four">
+                <h4 class="secondary-title-card">
+                    RRAA bajo custodia según temática
+                </h4>
+                <ul class="list-block style-scrooll">
+                    <li class="list-header">
+                        <div class="col-left">Temática</div>
+                        <div class="col-right">RRAA</div>
+                    </li>
+                    {% for inventory_thematic in thematic %}
+                        <li class="list-item">
+                            <div class="col-left"><a href="{% url 'inventory:inventory_list' %}?theme_inventory={{inventory_thematic.id}}">{{ inventory_thematic.nombre }}</a></div>
+                            <div class="col-right">{{ inventory_thematic.valor }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+            <div class="col-12 col-md-6 mt-4 mt-md-0">
+                <div class="card-type-list-primary box-shadow-four">
+                    <h4 class="secondary-title-card">
+                        RRAA bajo custodia por proveedores
+                    </h4>
+                    <ul class="list-block style-scrooll">
+                        <li class="list-header">
+                            <div class="col-left">Proveedor</div>
+                            <div class="col-right">RRAA</div>
+                        </li>
+                        {% for inventory_provider in provider %}
+                            <li class="list-item">
+                                <div class="col-left"><a href="{% url 'inventory:inventory_list' %}?entity_provider={{inventory_provider.id}}">{{ inventory_provider.nombre }}</a></div>
+                                <div class="col-right">{{ inventory_provider.valor }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END INDICADOR -->
+
+</section>

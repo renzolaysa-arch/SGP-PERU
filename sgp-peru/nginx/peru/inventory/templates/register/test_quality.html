@@ -1,0 +1,109 @@
+{% if form %}
+<form method="post" class="form-qualitytest box-shadow-primary box-shadow-secondary" id="">
+  <div class="form-qualitytest-header">
+    <p id = "qualitytest-number-current" class="qualitytest-number-current"></p>
+    <p id = "qualitytest-text"class="qualitytest-text"></p>
+    <div class="qualitytest-numbers">
+      <span id = "qualitytest-numbers-current" class="qualitytest-numbers-current"></span>/<span id = "qualitytest-numbers-total"class="qualitytest-numbers-total"></span>
+    </div>
+  </div>
+  {% csrf_token %}
+  <div class="all-questions main-questions">
+    <div class="form-qualitytest-questionary mt-4 quest-1">
+      <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+        <div class="label-question">
+          {{ form.quality_question_1.label }}
+        </div>
+        <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+          {% for choices in form.quality_question_1 %}
+          {% if choices.data.index != '0' %}
+          <div class="filter-radio d-flex flex-column align-items-center gap-3">
+            {{ choices }}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="form-qualitytest-questionary mt-4 quest-2">
+      <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+        <div class="label-question">
+          {{ form.quality_question_2.label }}
+        </div>
+        <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+          {% for choices in form.quality_question_2 %}
+          {% if choices.data.index != '0' %}
+          <div class="filter-radio d-flex flex-column align-items-center gap-3">
+            {{ choices }}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="form-qualitytest-questionary mt-4 quest-3">
+      <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+        <div class="label-question">
+          {{ form.quality_question_3.label }}
+        </div>
+        <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+          {% for choices in form.quality_question_3 %}
+          {% if choices.data.index != '0' %}
+          <div class="filter-radio d-flex flex-column align-items-center gap-3">
+            {{ choices }}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="form-qualitytest-questionary mt-4 quest-4">
+      <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+        <div class="label-question">
+          {{ form.quality_question_4.label }}
+        </div>
+        <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+          {% for choices in form.quality_question_4 %}
+          {% if choices.data.index != '0' %}
+          <div class="filter-radio d-flex flex-column align-items-center gap-3">
+            {{ choices }}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="form-qualitytest-questionary mt-4 quest-5">
+      <div class="form-qualitytest-questionary-check d-flex align-items-center my-3">
+        <div class="label-question">
+          {{ form.quality_question_5.label }}
+        </div>
+        <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+          {% for choices in form.quality_question_5 %}
+          {% if choices.data.index != '0' %}
+          <div class="filter-radio d-flex flex-column align-items-center gap-3">
+            {{ choices }}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- forward and backward navigation -->
+  <div class="container-buttons mt-5 pt-4">
+    <button id = "quality-btn-back"class="btn btn-white-bordered">Anterior</button>
+    <button id = "quality-btn-continue"class="btn btn-white-bordered" disabled>Siguiente</button>
+    <!-- <button class="btn btn-blue">Autoevaluar</button> -->
+    <input id= "quality-btn-send" type="submit" class="btn btn-secondary btn-secondary--fill" value="Guardar" disabled>
+  </div>
+
+  <!-- End forward and backward navigation -->
+
+</form>
+{% else %}
+  <p>Este RRAA a obtenido una puntuación de: <strong>{{total}}</strong></p>
+  <a href="{% url 'inventory:quality_test_delete' test.id %}">Reiniciar Test de calidad</a>
+{% endif %}

@@ -1,0 +1,69 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}
+Detalle documento
+{% endblock %}
+
+{% block content %}
+
+<!---DOCUMENT -->
+<div class="container document-detail">
+
+    <!-- BREADCRUMB -->
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle Documento</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- END BREADCRUMB -->
+    <div class="col-md-8 offset-md-2 container my-4 form box-shadow-five">
+        <div class="container-buttons py-4 ">
+            <a class="btn btn-secondary btn-secondary--fill" href="{{ document.document.url }}" download>Descargar
+                Documento</a>
+        </div>
+        {% if edit %}
+        <form method="post" class="form-detail-document">
+
+            <fieldset class="form-detail-document-content">
+                {{ form.errors }}
+                {{ form.comment|safe }}
+                {{ form.media }}
+                {% csrf_token %}
+            </fieldset>
+
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="id_approved" name="approved" value="aprobacion">
+                <label class="form-check-label" for="approved">Aprobación</label>
+                <!--{{ form.requires_approval }}-->
+            </div>
+            <!-- <div>
+                {{ form.approved.label }}
+                {{ form.approved }}
+            </div> -->
+            <div class="container-buttons py-4">
+                <input class="btn btn-secondary btn-secondary--fill" type="submit" value="Guardar" />
+            </div>
+        </form>
+        {% else %}
+        {% if document.comment %}
+        <div>
+
+            Comentado por:
+            {{ document.assigned_to }}
+        </div>
+        Comentario: {{ document.comment|safe }}
+        {% endif %}
+        Documento aprobado
+        {% if document.approved %}
+        Si
+        {% else %}
+        No
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

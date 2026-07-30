@@ -1,0 +1,739 @@
+// ==================== BOTONES ====================
+.btn {
+    // Reset default button styles
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    outline: inherit;
+    transition: all 300ms ease-in-out;
+    text-decoration: none;
+    // General
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2.5rem;
+    padding: 1rem clamp(2rem, 6%, 4rem); //antes 4rem laterales
+    min-width: 18rem; // antes 12rem
+    font-weight: $semibold;
+    font-size: 1.4rem;
+
+    @include media-query(mindesktop) {
+        font-size: 1.6rem;
+        padding: 1.2rem clamp(2rem, 6%, 4rem);
+    }
+
+    &:hover {
+        text-decoration: none;
+        transition: all 300ms ease-in-out;
+    }
+
+    &:focus {
+        outline-style: solid;
+        outline-color: transparent;
+    }
+
+    // Variante color Primario
+    &-primary {
+        --bs-btn-focus-box-shadow: #{var(--primary-color)}; //color sombra focus
+
+        // Si tiene icono, agregarlo como span
+        span {
+            margin-right: 0.8rem;
+            vertical-align: middle;
+        }
+
+        // Variante relleno(background) primario / letra blanca / hover invertido
+        &--fill {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--primary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-bg-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-bg-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--primary-dk);
+            }
+        }
+
+        // Variante relleno primario / letra blanca / hover primario oscuro
+        &--fill-dk {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--primary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--primary-dk); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-font-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--primary-dk); // color borde hover/focus
+            --bs-btn-active-bg: var(--primary-dk); // color fondo active
+            --bs-btn-active-color: var(--btn-font-color); // color letra active
+            --bs-btn-active-border-color: var(--primary-dk); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--btn-bg-color);
+            }
+        }
+
+        // Variante relleno primario / letra blanca / hover primario claro
+        &--fill-lg {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--primary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--primary-lg); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-font-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--primary-lg); // color borde hover/focus
+            --bs-btn-active-bg: var(--primary-lg); // color fondo active
+            --bs-btn-active-color: var(--btn-font-color); // color letra active
+            --bs-btn-active-border-color: var(--primary-lg); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--primary-dk);
+            }
+        }
+
+        // Variante contorno(borde) primario / relleno blanco / letra primario / hover invertido
+        &--contour {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: var(--primary-color);
+            --btn-bg-color: #{$color-white};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-font-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-font-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-font-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--primary-dk);
+            }
+        }
+    }
+
+    // Variante color Secundario
+    &-secondary {
+        --bs-btn-focus-box-shadow: #{var(--secondary-color)}; //color sombra focus
+
+        // Si tiene icono, agregarlo como span
+        span {
+            margin-right: 0.8rem;
+            vertical-align: middle;
+        }
+
+        // Variante relleno(background) secundario / letra blanca / hover invertido
+        &--fill {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--secondary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-bg-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-bg-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--secondary-dk);
+            }
+        }
+
+        // Variante relleno secundario / letra blanca / hover secundario oscuro
+        &--fill-dk {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--secondary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--secondary-dk); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-font-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--secondary-dk); // color borde hover/focus
+            --bs-btn-active-bg: var(--secondary-dk); // color fondo active
+            --bs-btn-active-color: var(--btn-font-color); // color letra active
+            --bs-btn-active-border-color: var(--secondary-dk); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--btn-bg-color);
+            }
+        }
+
+        // Variante relleno secundario / letra blanca / hover secundario claro
+        &--fill-lg {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: var(--secondary-color);
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--secondary-lg); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-font-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--secondary-lg); // color borde hover/focus
+            --bs-btn-active-bg: var(--secondary-lg); // color fondo active
+            --bs-btn-active-color: var(--btn-font-color); // color letra active
+            --bs-btn-active-border-color: var(--secondary-lg); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--secondary-dk);
+            }
+        }
+
+        // Variante contorno(borde) secundario / relleno blanco / letra secundario / hover invertido
+        &--contour {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: var(--secondary-color);
+            --btn-bg-color: #{$color-white};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-font-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-font-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-font-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--secondary-dk);
+            }
+            
+            &--opacity-30 {
+                @extend .btn-secondary--contour;
+                color: rgba($color: var(--secondary-rgb), $alpha: 0.3);
+                border: 0.1rem solid rgba($color: var(--secondary-rgb), $alpha: 0.3);
+            }
+        }
+
+
+    }
+
+    // Botones viejos, se dejan por compatibilidad
+
+    // Variante fondo blanco / letra secundaria / borde blanco / hover bg y borde secundario
+    &-white {
+        display: inline-block;
+        background-color: $color-white;
+        border: 0.1rem solid $color-white;
+        color: var(--secondary-color);
+        padding: 0.8rem 4rem;
+        font-size: 1.6rem;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--secondary-color);
+            background-color: var(--secondary-color);
+            color: $color-white;
+        }
+    }
+
+    // variante fondo blanco / letra y borde verde / hover se inverte bg y letra 
+    &-green,
+    &-green-complete {
+        display: inline-block;
+        background-color: $color-white;
+        border: 0.1rem solid $color-green;
+        color: $color-green;
+        padding: 0.8rem 4rem;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: $color-green;
+            background-color: $color-green;
+            color: $color-white;
+        }
+    }
+
+    &-green-complete {
+        position: relative;
+
+        &::before {
+            content: '\e916';
+            display: block;
+            font-family: 'icomoon';
+            color: inherit;
+            position: absolute;
+            font-size: 1.4rem;
+            top: 50%;
+            left: 18px;
+            transform: translateY(-50%);
+        }
+    }
+
+    // En vez de este, usar btn-secondary--contour
+    // Variante fondo blanco / letra secundaria / borde secundario / hover bg y borde secundario
+    &-white-bordered,
+    &-white-bordered-restart {
+        display: inline-block;
+        background-color: $color-white;
+        border: 0.1rem solid var(--secondary-color);
+        color: var(--secondary-color);
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--secondary-color);
+            background-color: var(--secondary-color);
+            color: $color-white;
+        }
+    }
+
+    // En vez de este, usar btn-primary--contour
+    // Variante fondo blanco / letra primario / borde primario / hover se invierte bg y letra
+    &-red-with-white {
+        display: inline-block;
+        background-color: $color-white;
+        border: 0.1rem solid var(--primary-color);
+        border-radius: 2.5rem;
+        color: var(--primary-color);
+        padding: 0.8rem 4rem;
+        font-size: 1.6rem;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: $color-white;
+        }
+    }
+
+    // En vez de este, usar btn-secondary--fill
+    // Variante fondo secundario / letra blanca / borde secundario / hover se invierte bg y letra
+    &-blue {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        border: 0.1rem solid var(--secondary-color);
+        padding: 0.8rem 4rem;
+        color: $color-white;
+        font-size: 1.6rem;
+        position: relative;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: var(--secondary-color);
+            background-color: $color-white;
+            border-color: 0.1rem solid var(--secondary-color);
+        }
+    }
+
+    // Boton loguin header
+    &-user-login {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        border: 0.1rem solid var(--secondary-color);
+        border-radius: 3rem;
+        padding: 0.95rem 4rem;
+        padding-right: 1.5rem;
+        color: $color-white;
+        position: relative;
+        font-size: 1.6rem;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--secondary-dk);
+            background-color: var(--secondary-dk);
+            text-decoration: none;
+            color: $color-white;
+        }
+
+        // Icono usuario
+        &::after {
+            content: "";
+            position: absolute;
+            background-image: url("./assets/images/user-icon.svg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2.2rem;
+        }
+    }
+    &-demand-ex {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        border: 0.1rem solid var(--secondary-color);
+        border-radius: 3rem;
+        padding: 0.95rem 4rem;
+        padding-right: 1.5rem;
+        color: $color-white;
+        position: relative;
+        font-size: 1.6rem;
+        cursor: initial;
+        @include media-query(tablet) {
+            display: block;
+         }
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--secondary-dk);
+            background-color: var(--secondary-dk);
+            text-decoration: none;
+            color: $color-white;
+        }
+
+        // Icono usuario
+        &::after {
+            content: "";
+            position: absolute;
+            background-image: url("./assets/images/door-open.svg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2.2rem;
+        }
+    }
+    &-demand-in {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        border: 0.1rem solid var(--secondary-color);
+        border-radius: 3rem;
+        padding: 0.95rem 4rem;
+        padding-right: 1.5rem;
+        color: $color-white;
+        position: relative;
+        font-size: 1.6rem;
+        cursor: initial;
+        @include media-query(tablet) {
+            display: block;
+         }
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--secondary-dk);
+            background-color: var(--secondary-dk);
+            text-decoration: none;
+            color: $color-white;
+        }
+
+        // Icono usuario
+        &::after {
+            content: "";
+            position: absolute;
+            background-image: url("./assets/images/door-close.svg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2.2rem;
+        }
+    }
+
+    // Boton search header
+    &-search {
+        background-color: var(--secondary-color);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50% !important;
+        border-color: var(--secondary-color);
+        position: relative;
+        min-width: unset;
+        padding: 0;
+
+        // Icono lupa
+        &::after {
+            content: "";
+            position: absolute;
+            background-image: url("./assets/images/search-icon.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1.35rem;
+            height: 1.35rem;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: var(--secondary-dk);
+        }
+    }
+
+    // Boton Newsletter footer
+    &-newsletter {
+        width: 100%;
+        display: inline-block;
+        background-color: var(--primary-color);
+        border: 0.1rem solid var(--primary-color);
+        border-radius: 3rem;
+        padding: 1.1rem 0;
+        color: $color-white;
+        position: relative;
+        font-size: 1.6rem;
+
+        @include media-query(mintablet) {
+            width: auto;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding: 1.1rem 2rem;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            opacity: 0.8;
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+    }
+
+    // Boton totalmente circular, usado en el header menu de search y cerrar y figures home
+    &-circular {
+        border-radius: 50%;
+        width: 3.8rem;
+        height: 3.8rem;
+        box-shadow: 0rem 0.3rem 0.6rem #00000014;
+        background-color: $color-white;
+        min-width: unset;
+        padding: 0;
+
+        @include media-query(mindesktopLS) {
+            width: 5.6rem;
+            height: 5.6rem;
+        }
+
+        &:focus {
+            box-shadow: 0rem 0.3rem 0.6rem #00000014;
+        }
+    }
+
+    // Boton con icono
+    &-with-icon {
+        display: inline-block;
+        height: 50px;
+        font-size: 1.6rem;
+        padding: 0.8rem 4rem;
+        color: $color-white;
+        text-align: center;
+        position: relative;
+        text-decoration: none;
+        min-width: 12rem;
+
+        @include media-query(desktop) {
+            height: 40px;
+        }
+
+        // Icono usuario por defecto
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            background-image: url("./assets/images/user-icon.svg");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            top: 50%;
+            width: 2rem;
+            height: 2rem;
+            transform: translateY(-50%);
+        }
+    }
+
+    // Variante color Verde Success
+    &-success {
+        --bs-btn-focus-box-shadow: #{$color-green}; //color sombra focus
+
+        // Si tiene icono, agregarlo como span
+        span {
+            margin-right: 0.8rem;
+            vertical-align: middle;
+        }
+
+        // Variante relleno(background) verde / letra blanca / hover invertido
+        &--fill {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: #{$color-green};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-bg-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-bg-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px #{scale-color($color-green, $lightness: -10%)};
+            }
+        }
+
+        // Variante contorno(borde) verde / relleno blanco / letra verde / hover invertido
+        &--contour {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-green};
+            --btn-bg-color: #{$color-white};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-font-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-font-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-font-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px #{scale-color($color-green, $lightness: -10%)};
+            }
+        }
+    }
+
+    // Variante color Rojo error
+    &-error {
+        --bs-btn-focus-box-shadow: #{$color-error-forms}; //color sombra focus
+
+        // Si tiene icono, agregarlo como span
+        span {
+            margin-right: 0.8rem;
+            vertical-align: middle;
+        }
+
+        // Variante relleno(background) rojo / letra blanca / hover invertido
+        &--fill {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-white};
+            --btn-bg-color: #{$color-error-forms};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-bg-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-bg-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-bg-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px #{scale-color($color-error-forms, $lightness: -10%)};
+            }
+        }
+
+        // Variante contorno(borde) rojo / relleno blanco / letra rojo / hover invertido
+        &--contour {
+            // Definir en estas variables el color de fuente y de fondo
+            --btn-font-color: #{$color-error-forms};
+            --btn-bg-color: #{$color-white};
+
+            color: var(--btn-font-color);
+            background-color: var(--btn-bg-color);
+            border: 0.1rem solid var(--btn-font-color);
+            --bs-btn-hover-bg: var(--btn-font-color); // color fondo hover/focus
+            --bs-btn-hover-color: var(--btn-bg-color); // color letra hover/focus
+            --bs-btn-hover-border-color: var(--btn-font-color); // color borde hover/focus
+            --bs-btn-active-bg: var(--btn-font-color); // color fondo active
+            --bs-btn-active-color: var(--btn-bg-color); // color letra active
+            --bs-btn-active-border-color: var(--btn-font-color); // color borde active
+
+            &:focus {
+                box-shadow: 0 0 0 2px #{scale-color($color-error-forms, $lightness: -10%)};
+            }
+        }
+    }
+
+    &--nostyle{
+        border: none;
+        background-color: transparent;
+        font-family: inherit;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: none;
+    }
+}
+
+// Boton slider usado en profile e inventory
+.button-slider {
+    position: relative;
+    display: inline-block;
+    width: 5.6rem;
+    height: 3rem;
+
+    &-input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked+.button-slider-switch {
+            background-color: #36A97A;
+        }
+
+        &:focus+.button-slider-switch {
+            box-shadow: 0 3px 6px rgba($color: #000000, $alpha: 20%);
+        }
+
+        &:checked+.button-slider-switch::before {
+            transform: translateY(-50%) translateX(2.5rem);
+        }
+    }
+
+    &-switch {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid #D6E4EB;
+        border-radius: 1.5rem;
+        background-color: #EFF5F8;
+        transition: .4s;
+
+        &::before {
+            position: absolute;
+            content: "";
+            width: 2.1rem;
+            height: 2.2rem;
+            left: 4px;
+            top: 50%;
+            border-radius: 1.5rem;
+            background-color: $color-white-body;
+            transition: .4s;
+            box-shadow: 0 3px 6px rgba($color: #000000, $alpha: 16%);
+            transform: translateY(-50%);
+        }
+    }
+}

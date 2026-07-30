@@ -1,0 +1,673 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Cuadro de resultados | Preparación RRAA {% endblock %}
+{% block content %}
+
+<main class="demand-evaluation bg-int-secondary">
+  <section class="results-box-header mb-5">
+    <div class="container">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_detail' demand.id %}">Detalle de solicitud</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cuadro de resultados</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <div class="row mt-lg-0 mt-5 mb-5">
+        <!-- Column Left -->
+        <div class="col-12 col-md-6 results-box-data">
+          <h1 class="results-box-data-title">{{ demand.title }}</h1>
+          <div class="results-box-data-content">
+            <div class="activity">
+              <p class="activity-title">Actividad:</p>
+              <div class="activity-badge">
+                <img src="/static/cepal/dist/assets/images/preparacion-mg-col.svg" alt="icon" title="icon" />
+                <span >Evaluación RRAA</span>
+              </div>
+            </div>
+            <p class="description">{{ demand.description }}</p>
+          </div>
+        </div>
+        <!-- End Column Left -->
+
+        <!-- Column Right -->
+        {% if participations %}
+          <div class="col-12 col-md-6 mt-5 mt-md-0">
+            <div class="card-type-participants">
+              <h2 class="card-type-participants-title">Participantes</h2>
+              <!-- Participants List -->
+              <div class="card-type-participants-list style-scrooll">
+                <!-- Participants List Item -->
+                {% for participation in participations %}
+                  <div class="card-type-participants-list-item">
+                    <div class="participant-data">
+                      <span class="participant-data-type type-functionary">{{ participation.user.groups.all.0.name }}</span>
+                      <p class="participant-data-name">{{ participation.user.first_name }} {{ participation.user.last_name }}</p>
+                    </div>
+                    <div class="participant-data-email">
+                      <p class="participant-email">{{ participation.user.username }}</p>
+                      <button class="btn btn-copy" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip" data-bs-title="Copiar">
+                        <span class="icon-copy"></span>
+                      </button>
+                    </div>
+                  </div>
+                {% endfor %}
+                <!-- End Participants List Item -->
+              </div>
+              <!-- End Participants List -->
+            </div>
+          </div>
+        {% endif %}
+        <!-- End Column Right -->
+      </div>
+
+      <div class="row">
+        <div class="col-12 mt-5 pt-4">
+          <div class="highlight-list highlight-list--three-cols">
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Proveedor</div>
+                <p class="field-informative-text">{{ demand.provider_entity }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+
+            <!-- Highlight Item -->
+            <div class="highlight-list-item">
+              <div class="field-informative">
+                <div class="field-informative-title">Fecha de inicio</div>
+                <p class="field-informative-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M' }} de {{ demand.created_date|date:'Y' }}</p>
+              </div>
+            </div>
+            <!-- End Highlight Item -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="result-box-body my-5" data-name="{{sub_process}}">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="accordion accordion-secondary" id="accordionActivityManagement">
+            <!-- Loader -->
+            <div class="loading z-index-3">
+              <div class="loader">
+              </div>
+              <p class="loading__text">Cargando...</p>
+            </div>
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-evaluation__begin" data-accordion-item="inicio">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title" id="accordion-initiation">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/evaluacion/inicio/">Inicio</a>
+                </h2>
+              </div>
+
+              <div id="initiation" class="accordion-collapse collapse show" aria-labelledby="accordion-initiation" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+
+                  <div class="highlight-list highlight-list--three-cols">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{ demand.id }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">Fecha de inicio</div>
+                        <p class="field-informative-text">{{ negotiation.date_agreed|date:'d' }} de {{ negotiation.date_agreed|date:'M' }} de {{ negotiation.date_agreed|date:'Y' }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  <form method="post" class="form form-stpes" id="evaluation_init">
+                    {% csrf_token %}
+                    <div class="form__group--three-col">
+
+                      {% if cant == 0 %}
+                        <fieldset class="form__field w-100 required">
+                          <label class="input-field-label" for="consistency_functionary">Funcionario responsable</label>
+                          <div class="form__element form__element--select">
+                            <select name="evaluation_functionary" class="input-normal" id="evaluation_functionary" required>
+                              <option value="">--------</option>
+                              {% for functionary in functionaries %}
+                                <option value="{{ functionary.id }}">{{ functionary.user.username }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </fieldset>
+                      {% else %}
+                        <div class="highlight-list-item w-100">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Funcionario responsable</div>
+                            <p class="field-informative-text">{{ evaluation_data.functionary.user.first_name }} {{ evaluation_data.functionary.user.last_name }}</p>
+                          </div>
+                        </div>
+                      {% endif %}
+
+                      <!-- <div class="container-responsible-frequency"> -->
+                      {% if cant == 0 %}
+                        <fieldset class="form__field required">
+                          <label class="input-field-label" for="frequency">Frecuencia de evaluación</label>
+                          <div class="form__element form__element--select">
+                            <select name="evaluation_frequency" class="input-normal" id="evaluation_frequency" required>
+                              <option value="">--------</option>
+                              <option value="2" selected>2 Meses</option>
+                              <option value="4">4 Meses</option>
+                              <option value="6">6 Meses</option>
+                            </select>
+                          </div>
+                        </fieldset>
+                      {% else %}
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Frecuencia de evaluación</div>
+                            <p class="field-informative-text">{{ evaluation_data.frequency }} Meses</p>
+                          </div>
+                        </div>
+                      {% endif %}
+                      
+                      {% if cant == 0 %}
+                        <fieldset class="form__field required">
+                          <label for="fecha">Fecha de notificación</label>
+                          <div class="form__element form__element--date">
+                            <input type="date" name="date_notification" id="date_notification" required/>
+                          </div>
+                        </fieldset>
+                      {% else %}
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Fecha de notificación</div>
+                            <p class="field-informative-text">{{ evaluation_data.date_notification|date:"d F Y" }}</p>
+                          </div>
+                        </div>
+                      {% endif %}
+  
+                      {% if cant == 0 %}
+                        <fieldset class="form__field required">
+                          <label for="fecha">Fecha de finalización</label>
+                            <div class="form__element form__element--date">
+                              <input type="date" name="finish_date" id="finish_date" required/>
+                            </div>
+                        </fieldset>
+                      {% else %}
+                        <div class="highlight-list-item">
+                          <div class="field-informative">
+                            <div class="field-informative-title">Fecha de finalización</div>
+                            <p class="field-informative-text">{{ evaluation_data.finish_date|date:"d F Y" }}</p>
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    {% if cant == 0 %}
+                      <div class="form__call">
+                        <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                      </div>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-evaluation__process" data-accordion-item="proceso">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-in-process">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/evaluacion/proceso/">En proceso</a>
+                </h2>
+              </div>
+
+              <div id="process" class="accordion-collapse collapse" aria-labelledby="accordion-process"
+                data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+
+                  <div class="highlight-list highlight-list--three-cols mb-5 pb-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{demand.id}}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. de evaluaciones</div>
+                        <p class="field-informative-text">#{{ cant }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">Funcionario</div>
+                        <p class="field-informative-text">{{ evaluation_data.functionary.user.first_name }} {{ evaluation_data.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  <!-- Highlight Item -->
+                  <div class="highlight-list-item">
+                    <div class="field-informative content-data">
+                      <div class="field-informative-title">Evaluaciones</div>
+
+                      <!-- Item list evaluation -->
+                      {% if evaluations %}
+                        <div class="list-of-evaluation list-of-evaluation--style-one style-scrooll">
+                          {% for evaluation in evaluations %}
+                            <div class="list-of-evaluation-item style-scrooll" data-idevaluation="{{ evaluation.id }}">
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title">ID</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.id }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title"># Frecuencia</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.frequency_delivery }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title"># Fecha de notificación</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.date_notification|date:"d F Y" }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title"># Fecha de finalización</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.finish_date|date:"d F Y" }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title"># Fecha de evaluación</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.frequency_date_delivery|date:"d F Y" }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+                              
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title"># Observaciones</h5>
+                                <p class="list-of-evaluation-item-text">{{ evaluation.interview }}</p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column">
+                                <h5 class="list-of-evaluation-item-title">Resultados</h5>
+                                <p class="list-of-evaluation-item-text">
+                                  {% if evaluation.result is not None %}
+                                    {{ evaluation.result }}
+                                  {% endif %}
+                                </p>
+                              </div>
+                              <!-- End Column list evaluation -->
+
+                              <!-- Column list evaluation -->
+                              <div class="list-of-evaluation-item-column col-buttons">
+                                {% if not evaluation.interview %}
+                                  <button class="btn btn-secondary btn-secondary--fill demand-evaluate">Observaciones</button>
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="list-of-evaluation list-of-evaluation--style-one style-scrooll d-flex justify-content-center align-items-center">
+                          <p>Actualmente no hay evaluaciones disponibles para mostrar</p>
+                        </div>
+                      {% endif %}
+
+                      <!-- <form method="post" class="" id="formInterview">
+                        {% csrf_token %}
+                        <div class="highlight-father">
+                          <div class="highlight-father__title">Observaciones en entrevistas</div>
+    
+                          <div class="form__group--three-col">
+                            <fieldset class="form__field w-100">
+                              <div class="form__element form__element--textarea">
+                                <textarea name="coments_interview" cols="40" rows="10" required="" id="id_coments"
+                                  placeholder="Agregue comentarios del proceso"></textarea>
+                              </div>
+                            </fieldset>
+                          </div>
+
+                          <input type="hidden" id="id_evaluation" name="id_evaluation" value="61">
+    
+                          <div class="form__call">
+                            <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                          </div>
+    
+                        </div>
+                      </form> -->
+
+                    </div>
+                  </div>
+                  <!-- END Highlight Item -->
+
+                  <!-- forward and backward navigation -->
+                  <div class="content-buttons" >
+                    <a class="btn btn-secondary btn-secondary--fill" type="button" href="/solicitud/{{ demand.id }}/evaluacion/inicio/">Volver</a>
+                    <a class="btn btn-secondary btn-secondary--fill btn-form-continue" type="button" href="/solicitud/{{ demand.id }}/evaluacion/revision/">Continuar</a>
+                  </div>
+                  <!-- End forward and backward navigation -->
+
+                </div>
+              </div>
+
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-evaluation__revision" data-accordion-item="revision">
+
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-review">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/evaluacion/revision/">En revisión</a>
+                </h2>
+              </div>
+
+              <div id="review" class="accordion-collapse collapse" aria-labelledby="accordion-review" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+                  <div class="highlight-list highlight-list--three-cols my-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{demand.id}}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. de evaluaciones</div>
+                        <p class="field-informative-text">#{{ cant }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">Funcionario</div>
+                        <p class="field-informative-text">{{ evaluation_data.functionary.user.first_name }} {{ evaluation_data.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  <!-- Load file -->
+                  {% if evaluation.finalize == False %}
+                  <div class="load-files mt-5 mb-2">
+                    <p class="load-files-description">Solo se pueden subir archivos en formato PDF con un tamaño máximo de 5MB</p>
+                    <div class="input-field">
+                      <button class="btn btn-primary btn-primary--fill show-modal-file" data-bs-toggle="modal"
+                        data-bs-target="#loadDocumentBoxResult"><span class="icon-upload-icon"></span> Cargar
+                        Documento</button>
+                    </div>
+                  </div>
+                  {% endif %}
+                  <!-- End Load file -->
+
+                  <!-- List Documents to send -->
+                  <div class="list-of-documents style-scrooll mt-5">
+                    {% if documents %}
+                    {% for document in documents %}
+                    <div class="list-of-documents-item">
+                      <a href="/media/{{document.document}}" class="list-of-documents-item-preview"
+                        target="_blank">
+                        <img data-pdf-thumbnail-file="/media/{{document.document}}"
+                          src="{% static 'cepal/src/js/pdfThumbnails/pdf.png' %}" alt="{{ document.title }}"
+                          title="{{ document.title }}">
+                      </a>
+                      <div class="list-of-documents-item-content">
+                        <p class="list-of-documents-item-content-send">Dirigido a: <span>{{ document.assigned_to.first_name }}</span></p>
+                        <p class="list-of-documents-item-content-namedocument">{{ document.title }}</p>
+                      </div>
+                      <div class="list-of-documents-item-state">
+                        <p class="list-of-documents-item-state-title">Estado: <span>
+                            {% if document.approved %}
+                            Aprobado
+                            {% else %}
+                            Sin Aprobar
+                            {% endif %}
+                          </span></p>
+                        <p class="list-of-documents-item-content-required">
+                          {% if document.requires_approval %}
+                          Requiere aprobación
+                          {% else %}
+                          NO Requiere aprobación
+                          {% endif %}
+                        </p>
+                      </div>
+                      <div class="list-of-documents-item-delete">
+                        <a href="{% url 'contents:delete_document' document.id %}" aria-label="Eliminar"><span
+                            class="icon-icon-bell-notificacion-remove"></span></a>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                  </div>
+                  <!-- End List Documents to send -->
+                  <!-- forward and backward navigation -->
+                  <div class="content-buttons" >
+                    <a class="btn btn-secondary btn-secondary--fill" type="button" href="/solicitud/{{ demand.id }}/evaluacion/proceso/">Volver</a>
+                    <a class="btn btn-secondary btn-secondary--fill btn-form-continue" type="button" href="/solicitud/{{ demand.id }}/evaluacion/finalizado/">Continuar</a>
+                  </div>
+                  <!-- End forward and backward navigation -->
+                </div>
+              </div>
+            </div>
+            <!-- END Collapse item -->
+
+            <!-- Collapse item -->
+            <div class="accordion-item box-shadow-six mb-3 demand-evaluation__finalized" data-accordion-item="finalizado">
+              <div class="accordion-header">
+                <h2 class="accordion-header-title w-100" id="accordion-finalized">
+                  <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/evaluacion/finalizado/">Finalizado</a>
+                </h2>
+              </div>
+              <div id="finalized" class="accordion-collapse collapse" aria-labelledby="accordion-finalized" data-bs-parent="#accordionActivityManagement">
+                <div class="accordion-body">
+                  <div class="highlight-list highlight-list--three-cols my-5">
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">ID Solicitud</div>
+                        <p class="field-informative-text">#{{demand.id}}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">No. de evaluaciones</div>
+                        <p class="field-informative-text">#{{ cant }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                    <!-- Highlight Item -->
+                    <div class="highlight-list-item">
+                      <div class="field-informative">
+                        <div class="field-informative-title">Funcionario</div>
+                        <p class="field-informative-text">{{ evaluation_data.functionary.user.first_name }} {{ evaluation_data.functionary.user.last_name }}</p>
+                      </div>
+                    </div>
+                    <!-- End Highlight Item -->
+                  </div>
+
+                  <form method="post" class="form-stpes form-stpe-review form my-5" id="formFinalize">
+                    {% csrf_token %}
+                    <div class="highlight-father">
+                      <div class="highlight-father__title">Comentarios</div>
+
+                      <div class="form__group--three-col">
+
+                        <fieldset class="form__field w-100">
+                          <div class="form__element form__element--textarea">
+                            {% if evaluation.finalize == True %}
+                              <p>{{ evaluation.comment_finalize }}</p>
+                              <p>{{ evaluation.date_finalize|date:"d F Y" }}</p>
+                            {% else %}
+                              <textarea name="coments_finalize" cols="40" rows="10" required="" id="id_coments"
+                                placeholder="Agregue comentarios del proceso"></textarea>
+                            {% endif %}
+                          </div>
+                        </fieldset>
+
+                      </div>
+
+                      {% if evaluation.finalize == False %}
+                      <div class="form__call">
+                        <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                      </div>
+                      {% endif %}
+
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+            <!-- END Collapse item -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS LOAD MODAL -->
+  <div class="modal fade modal--closein documentsmodal" id="loadDocumentBoxResult" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header-title">
+            <span class="icon-upload-icon"></span>
+            <span class="documentsmodal__title">Cargar Documento</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form enctype="multipart/form-data" class="form documentsmodal__form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="document" value="document">
+
+            <div class="form__group">
+              <fieldset class="form__field" id="field-0">
+                <div class="input-field d-flex align-items-center mt-5 mb-2">
+                  {{ form_document.requires_approval }}
+                  <label for="id_requires_approval" class="input-field-label mb-0">Documento verificado</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field" id="field-1">
+                <label for="addressedTo" class="input-field-label">Dirigido a</label>
+                <div class="form__element form__element--select">
+                  {{ form_document.assigned_to }}
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field" id="field-2">
+                <label for="copyTo" class="input-field-label">Copia a</label>
+                <div class="form__element form__element--select-multiple">
+                  {{ form_document.copy_to }}
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field" id="field-3">
+                <label for="id_name">Nombre:</label>
+                <div class="form__element">
+                  {{ form_document.title }}
+                </div>
+              </fieldset>
+
+              <fieldset class="form__field" id="field-4">
+                <label for="id_documents">Documento:</label>
+                <div class="form__element form__element--file">
+                  {{ form_document.document }}
+                  <label id="id_document-error" class="error" for="id_document"></label>
+                </div>
+              </fieldset>
+
+            </div>
+            <div class="documentsmodal__call">
+              <input type="submit" value="Cargar" class="d-none">
+              <input type="submit" class="btn btn-secondary btn-secondary--fill" id="loadFile" value="Cargar">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END DOCUMENTS LOAD MODAL -->
+
+  <!-- Modal Evaluate demand -->
+  <dialog class="modal fade modal-finalized-transfer" id="evaluateDemand" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-alert__wrapper-icon">
+          <span class="icon-alert"></span>
+        </div>
+        <div class="modal-header">
+          <h2 class="modal-title">Observaciones en entrevistas</h2>
+          <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="description">Observaciones en entrevistas</p>
+          <form method="post" class="form" id="formInterview">
+            {% csrf_token %}
+
+            <div class="form__group--three-col">
+              <fieldset class="form__field w-100">
+                <div class="form__element form__element--textarea">
+                  <textarea name="coments_interview" cols="40" rows="10" required="" id="id_coments" placeholder="Agregue comentarios del proceso"></textarea>
+                </div>
+              </fieldset>
+            </div>
+
+            <input type="hidden" id="id_evaluation" name="id_evaluation" value="">
+
+            <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+              <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <!-- End Modal Evaluate demand -->
+
+</main>
+
+{% endblock %}

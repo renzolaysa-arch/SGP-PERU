@@ -1,0 +1,9 @@
+<div class="create-comment">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ commentForm.comment_text }}
+        <div class="block-form-notes__call">
+            <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Comentar">
+        </div>
+    </form>
+</div>

@@ -1,0 +1,385 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load project_tags %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<main>
+
+    {% if banner_list %}
+    <div class="loading">
+        <div class="loader">
+        </div>
+        <div class="loading__text">Cargando...</div>
+    </div>
+    <!-- BANNER HOME -->
+    <section class="banner-home">
+        <div class="banner-list container-fluid">
+            {% for banner in banner_list %}
+            <!-- ITEM SLIDE -->
+            <div class="banner-item" id="slide{{ banner.id }}">
+                <img class="banner-item-img" src="/media/{{ banner.background }}" alt="background" title="background">
+
+                <div class="banner-item-content container gx-5 gx-md-4">
+                    <div class="row col-md-10 offset-md-1 col-xxl-12 offset-xxl-0 gx-md-5 align-items-center">
+                        <div class="col-md-6 ps-md-0">
+                            <div class="banner-item-txt">
+
+                                <h1 class="banner-item-title cepal-h1">
+                                    <span class="banner-item-title1 cepal-h1-normal">{{ banner.sub_title }}</span>
+                                    <span class="banner-item-title2">{{ banner.title }}</span>
+                                </h1>
+                                <p class="banner-item-desc">{{ banner.description }}</p>
+                                <p class="banner-item-linkcontainer">
+                                    <a class="banner-item-link btn btn-white" href="{{ banner.url_link }}" data-seo="linkbannerslide">{{ banner.url_name }}</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pe-md-0">
+                            <div class="ms-70 banner-item-media isvideo" data-bs-toggle="modal" data-bs-target="#modalVideo{{ banner.id }}" data-tagVideo="https://www.youtube.com/embed/{{ banner.youtube }}">
+                                <img class="banner-item-mediaimg img-fluid" src="/media/{{ banner.image }}" alt="Responsive image" title="Responsive image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END ITEM SLIDE -->
+            {% endfor %}
+        </div>
+        <!-- BANNER FIGURES(CIFRAS) -->
+        <div class="banner-figures">
+            <div class="container text-center gx-5 gx-md-4">
+                <div class="col-md-6 banner-figures-cont offset-md-6 offset-xl-5">
+                    <div class="banner-figures-list">
+                        <!-- ITEM FIGURES -->
+                        <div class="banner-figuresitem">
+                            <div class="banner-figuresitem-izq">
+                                <span class="banner-figuresicon"></span>
+                                <p class="banner-figuresnum">
+                                    {{providers_count}}
+                                </p>
+                            </div>
+                            <p class="banner-figuresitem-des">
+                                Proveedores registrados
+                            </p>
+                        </div>
+                        <!-- END ITEM FIGURES -->
+                        <!-- ITEM FIGURES -->
+                        <div class="banner-figuresitem">
+                            <div class="banner-figuresitem-izq">
+                                <span class="banner-figuresicon"></span>
+                                <p class="banner-figuresnum">
+                                    {{rraa_count}}
+                                </p>
+                            </div>
+                            <p class="banner-figuresitem-des">
+                                Registros administrativos del día
+                            </p>
+                        </div>
+                        <!-- END ITEM FIGURES -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END BANNER FIGURES -->
+    </section>
+    <!-- END BANNER HOME -->
+
+    {% for banner in banner_list %}
+    <!-- MODAL VIDEO -->
+    <div class="modal modal--closein modal--video" id="modalVideo{{ banner.id }}">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="btnCloseModal{{ banner.id }}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal__iframecontainer" id="iframecontainer{{ banner.id }}">
+                        <iframe src="" frameborder='0' allowscriptaccess="always" allow="autoplay;" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MODAL VIDEO -->
+    {% endfor %}
+    {% else %}
+    {% endif %}
+
+    {% if benefit_list %}
+    <!-- BENEFITS -->
+    <section class="benefits-home hidden">
+        <div class="container text-center">
+            <h2 class="cepal-h2 mb-5">
+                <span class="cepal-h2-normal">
+                    Los principales
+                </span>
+                beneficios son:
+            </h2>
+        </div>
+        <div class="container gx-5 gx-md-4">
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="benefits-items text-center">
+
+                    {% for benefit in benefit_list %}
+                    <!-- BENEFITS CARD -->
+                    <div class="benefits-card mb-4 my-b-5 px-4">
+                        <div class="benefits-card-header">
+                            <div class="benefits-card-iconcontainer">
+                                <img class="benefits-card-icon" src="/media/{{ benefit.icon }}" alt="icono" title="icono">
+                            </div>
+                            <h3 class="benefits-card-title cepal-h3">{{ benefit.title }}</h3>
+                        </div>
+                        <p class="benefits-card-desc">{{ benefit.description }}</p>
+                    </div>
+                    <!-- END BENEFITS CARD -->
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="container benefits-call text-center my-4">
+            <a href="{% url 'providers:provider_main' %}" class="btn btn-white-bordered">
+                Consultar mi empresa
+            </a>
+        </div>
+    </section>
+    <!-- END BENEFITS -->
+    {% else %}
+    {% endif %}
+    <!-- PROJECTS -->
+    <section class="projects-home hidden">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-5 col-xxl-5">
+                    <img src="{% static 'cepal/dist/assets/images/projects-image.jpg' %}" alt="Imagen Proyectos" title="Imagen Proyectos" class="projects-img">
+                </div>
+                <div class="col-12 col-md-7 col-xxl-7">
+                    <h2 class="cepal-h2 mt-5 mb-4 mt-lg-0">
+                        <span class="cepal-h2-normal">
+                            Conozca
+                        </span>
+                        nuestros proyectos
+                    </h2>
+                    <div class="projects-home-list my-4 my-lg-5">
+                        <!-- PROJECT ITEM -->
+                    {% if project_list %}
+                        {% for project_item in project_list %}
+                        <div class="projectscard">
+                            <h3 class="projectscard__title cepal-h3"><a href="{% url 'projects:project' project_item.id %}">{{ project_item.name }}</a></h3>
+                            <div class="projectscard__desc">{{ project_item.description_uno | safe}}</div>
+                            <div class="projectscard__taxonomies">
+
+                                {% for tag in project_item.tag_project.all %}
+                                    <p class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag_project}}</p>
+                                {% endfor %}                            
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No hay proyectos asociados para mostrar.</p>
+                    {% endif %}
+
+                        <!-- END PROJECT ITEM -->
+                       
+                    </div>
+                    <div class="container projects-call my-4">
+                        <a href="{% url 'projects:list_projects' %}" class="btn btn-white-bordered">
+                            Ver todos los proyectos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END PROJECTS -->
+    <!-- FIGURES (CIFRAS) -->
+    <section class="figures-home hidden">
+        <div class="container figures-home-cont">
+            <div class="row mx-2 mx-md-0">
+                <div class="col-12 col-md-7 ps-md-0 figures-home-first">
+                    <div class="row">
+                        <!-- FIGURES ITEM -->
+                        <div class="col-12 col-md-6 transition transition__one">
+                            <div class="figures-card-1 figures-card-primary">
+                                <h3 class="cepal-title figures-card-title">
+                                    <span class="cepal-title-normal">Proveedores </span>registrados
+                                </h3>
+                                <p class="figures-card-num">{{providers_count}}</p>
+                                {% if request.user|has_group:"Unidad Central" or request.user|has_group:"Funcionario" %}
+                                    <a href="{% url 'providers:provider_main' %}" class="btn btn-white-bordered">Consultar mi empresa</a>
+                                {% else %}
+                                <a href="{% url 'providers:provider_main' %}" class="btn btn-white-bordered">Consultar mi empresa</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- END FIGURES ITEM -->
+                        <!-- FIGURES ITEM -->
+                        <div class="col-12 col-md-6 transition transition__two">
+                            <div class="figures-card-1  figures-card-secondary">
+                                <h3 class="cepal-title figures-card-title">
+                                    <span class="cepal-title-normal">Registros </span>administrativos del día
+                                </h3>
+                                <p class="figures-card-num">{{rraa_count}}</p>
+                                {% if request.user|has_group:"Unidad Central" or request.user|has_group:"Funcionario" %}
+                                <a href="lista-registros/" class="btn btn-white-bordered">
+                                    Ver todos los RRAA
+                                </a>
+                                {% else %}
+                                    <a href="lista-registros/" class="btn btn-white-bordered">
+                                    Ver todos los RRAA
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- END FIGURES ITEM -->
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 figures-home-second transition transition__three">
+                    <h2 class="cepal-h2">
+                        <span class="cepal-h2-normal">RRAA </span>más buscados
+                    </h2>
+                    {% if rraa_list%}
+                    <ul class="list-group list-group-flush">
+                    {% for item in rraa_list %}
+                        <li class="list-group-item">
+                            <a href="{% url 'inventory:detail_inventory' item.id %}" class="list-group-item-link">
+                                <span class="list-group-item-txt">
+                                    {{item.title}}
+                                </span>
+                                <span class="btn btn-circular icon-chevron-right-icon"></span>
+                            </a>
+                        </li>
+                    {% endfor %}                            
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END FIGURES -->
+    <!-- NEWS-->
+    <section class="news-home hidden">
+        <div class="container-md gx-0 gx-md-4">
+            <h2 class="cepal-h2 mb-4 mb-md-5">Noticias</h2>
+
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="news-home-list">
+                    {% if new_list %}
+                        {% for new_item in new_list %}
+                        <div class="news__item--home">
+                            <div class="news__item__img">
+                                <img src="/media/{{new_item.main_image_new_desk}}" alt="Noticia {{new_item.title}}" title="Noticia {{new_item.title}}" >
+                            </div>
+                            <div class="news__item__txt">
+                                <div class="news__item__tags">
+                                        {% for tag in new_item.tag_asociate.all %}
+                                            <a class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</a>
+                                        {% endfor %}
+                                </div>
+                                <p class="news__item__date">{{new_item.created_date |date:"d F Y"}}</p>
+                                <h3 class="cepal-h3 news__item__title"><a href="{% url 'contents:new' new_item.id %}">{{new_item.title}}</a></h3>
+                                <div class="news__item__desc">{{new_item.previous_description | safe}}</div>
+                                <div class="news__item__call">
+                                    <a href="{% url 'contents:new' new_item.id %}" class="news__item__link"><span class="news__item__link-txt">Leer más</span><span class="icon-arrow-right-icon"></span></a>
+                                </div>
+                            </div>
+                        </div>  
+                        {% endfor %}
+                    {% else %}
+                        <p>No hay Contenido de noticias para mostrar.</p>
+                    {% endif %}
+
+                        
+                </div>
+            </div>
+            <div class="news-home-call mt-3 mt-md-4 text-center">
+                <a href="{% url 'contents:news' %}" class="btn btn-white-bordered">
+                    Ver todas las noticias
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- END NEWS -->
+    <!-- EDUCATIONAL -->
+    <section class="educational-home hidden">
+        <div class="container-md educational-home-cont gx-0 gx-md-4">
+            <h2 class="cepal-h2">
+                <span class="cepal-h2-normal">
+                    Contenido
+                </span>
+                educativo
+            </h2>
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="educational-home-list">
+                {% if content_academy_list %}
+                {% for new_item in content_academy_list %}
+                    <div class="educational-home-item">
+                        <div class="educational-home-item-tags">
+                            {% for tag in new_item.tag_asociate.all %}
+                                <a class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</a>
+                            {% endfor %}
+                        </div>
+                        <h3 class="cepal-h3"><a href="{% url 'contents:academy_content_detail' new_item.id %}">{{new_item.title}}</a></h3>
+                        <img src="/media/{{new_item.main_image_new_desk}}" alt="Contenido Educativo {{new_item.title}}" title="Contenido Educativo {{new_item.title}}" class="educational-home-item-img">
+                        <div class="educational-home-item-desc">{{new_item.previous_description | safe}}</div>
+                        <div class="educational-home-item-call"><a href="{% url 'contents:academy_content_detail' new_item.id %}" class="educational-home-item-link"><span class="educational-home-item-link-txt">Leer más</span><span class="icon-arrow-right-icon"></span></a></div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+            <div class="educational-home-call mt-3 mt-md-4 text-center">
+                <a href="{% url 'contents:academy_content' %}" class="btn btn-white-bordered">
+                    Ver todo contenido educativo
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- END EDUCATIONAL -->
+    {% if testimony %}
+        <!-- TESTIMONIALS -->
+        <section class="testimonials-home hidden">
+            <div class="container-md testimonials-home-cont gx-0 gx-md-4">
+                <h2 class="cepal-h2">
+                    Testimonios
+                </h2>
+                    <div class="testimonials-home-list">
+                        {% for data in testimony %}
+                            <div class="testimonials-home-item row">
+                                <div class="col-12 col-md-8 testimonials-home-item-imgcont gx-0 gx-md-4 transition transition__one isvideo" data-bs-toggle="modal" data-bs-target="#modalVideoTest{{ data.id }}" data-tagVideo="https://www.youtube.com/embed/{{data.video_testimony}}"><img src="/media/{{data.video_image}}" alt="Testimonio" title="Testimonio"></div>
+                                <div class="col-12 col-md-5 testimonials-home-item-txtcol transition transition__two">
+                                    <div class="testimonials-home-item-txtcont">
+                                        <div class="testimonials-home-item-header">
+                                            <img src="/media/{{data.logo}}" alt="Logo Testimonio" title="Logo Testimonio" class="testimonials-home-item-header-logo">
+                                            <h3 class="cepal-title">{{data.title}}</h3>
+                                        </div>
+                                        <p class="testimonials-home-item-desc">{{data.description_testimony | safe}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+        </section>
+        <!-- END TESTIMONIALS -->
+        {% for data in testimony %}
+        <!-- MODAL VIDEO TESTIMONIALS -->
+        <div class="modal modal--closein modal--video" id="modalVideoTest{{ data.id }}">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="btnCloseModal{{ data.id }}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal__iframecontainer" id="iframecontainerTest{{ data.id }}">
+                            <iframe src="" frameborder='0' allowscriptaccess="always" allow="autoplay;" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MODAL VIDEO TESTIMONIALS -->
+        {% endfor %}
+    {% endif %}
+</main>
+{% endblock %}

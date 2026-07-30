@@ -1,0 +1,27 @@
+<div class="loading loading--absolute d-none">
+    <div class="loader"></div>
+    <p class="loading__text">Cargando...</p>
+    <p class="loading__text loading__text--error d-none"></p>
+</div>
+<form method="post" action='/bitacora/crear-tema' class="form create-thread__form" enctype="multipart/form-data" id="createThreadForm">
+    {% csrf_token %}
+    <div class="form__group--two-col">
+        <fieldset class="form__field w-100 required">
+            <label for="id_name_thread">Indique el nombre del tema</label>
+            <div class="form__element">
+            {{form_create_thread.name_thread}}
+                <!--<input type="text" name="threadname" id="id_threadname" required placeholder="Tema a crear">-->
+            </div>
+        </fieldset>
+        <fieldset class="form__field w-100 required">
+            <label for="id_content_thread">Indique la Descripción del tema</label>
+            <div class="form__element form__element--textarea">
+            {{form_create_thread.content_thread}}
+                <!--<input type="text" name="threadname" id="id_threadname" required placeholder="Tema a crear">-->
+            </div>
+        </fieldset>
+    </div>
+    <div class="create-thread__call">
+        <input type="submit" value="Crear" class="btn btn-secondary btn-secondary--fill">
+    </div>
+</form>

@@ -1,0 +1,138 @@
+<div class="access-rra-header d-flex align-items-center">
+   <div class="access-rra-header-info">
+       <h2 class="notifications-header-info-title">Acceso a RRAA</h2>
+       <h4 class="notifications-header-info-subtitle">Control de acceso a RRAA</h4>
+   </div>
+ </div>
+ 
+ <div class="access-rra-header mb-4">
+   <div class="user-list-header-actions my-5 d-flex justify-content-between">
+      <a class="btn btn-with-icon btn-with-icon-register" href="{% url 'create_acceso_rra' %}"> Crear un nuevo acceso</a>
+   </div>
+ </div>
+ 
+ <form class="filter-primary-form" method="get" id="form-filter">
+   <fieldset class="form-field mb-4">
+     <div class="input-field">
+       <h3 class="input-field-title">Registro administrativo</h3>
+       <div class="form__element form__element--select">
+         {{ filter.form.inventory }}
+       </div>
+     </div>
+   </fieldset>
+   <fieldset class="form-field mb-4">
+    <div class="input-field">
+      <h3 class="input-field-title">Funcionario</h3>
+      <div class="form__element form__element--select">
+
+        {{ filter.form.user }}
+      </div>
+    </div>
+  </fieldset>
+   <div class="container-button">
+     <input id = "search-rra"  type="button" value="Buscar" class="btn btn-blue">
+     <input id = "reset-rra" type="reset" value="Limpiar filtros" class="btn btn-blue">
+   </div>
+ </form>
+ 
+ <div class="access-rra-content style-scrooll mt-4">
+   <div class="table-responsive style-scrooll">
+       <table class="table">
+          <thead>
+             <tr>
+               <th scope="col">Funcionario</th>
+               <th scope="col">Registro administrativo</th>
+               <th scope="col">Fecha de acceso</th>
+               <th scope="col">Fecha de límite</th>
+               <th scope="col"></th>
+             </tr>
+          </thead>
+          <tbody>
+               {% if rraa_page_obj %}
+                   {% for data in rraa_page_obj %}
+                   <tr>
+                      <td class="table-functionary"><span>{{ data.user }}</span></td>
+                      <td class="table-rra"><span>{{ data.inventory }}</span></td>
+                      <td class="table-date-access"><span>{% if data.date_access %}{{ data.date_access }}{% endif %}</span></td>
+                      <td class="table-date-limit"><span>{% if data.date_limit %}{{ data.date_limit }}{% endif %}</span></td>
+                      <td class="table-user-action">
+                       <button type="button" class="btn-delete btn--nostyle" data-bs-toggle="modal" data-bs-target="#modalConfirmationDelete" data-url="{% url 'delete_acceso_rra' data.id %}">
+                        <span class="icon-icon-bell-notificacion-remove"></span>
+                       </button>
+                    </td>
+                   </tr>
+                   {% endfor %}
+               {% endif %} 
+          </tbody>
+       </table>
+    </div>
+ </div>
+ 
+ <!-- documents pagination -->
+ <section class="provider-list-pagination access-pagination">
+ <div class="container">
+   <div class="row justify-content-end" id="row-pagination-list">
+     <div class="col-12 col-lg-8 col-pagination">
+       <div class="pagination">
+         {% if rraa_page_obj.has_previous %}
+           <a class="prev" href="?page={{rraa_page_obj.previous_page_number}}" aria-label="Anterior">
+             <span class="icon-icon-arrow-up-dropdown"></span>
+             <span class="prev__text">Anterior</span>
+           </a>
+           {% else %}
+           <a class="prev prev--disabled" href="#" aria-label="Anterior">
+             <span class="icon-icon-arrow-up-dropdown"></span>
+             <span class="prev__text">Anterior</span>
+           </a>
+         {% endif %}
+         <nav class="pages">
+           <ul class="pages__ul">
+           {% for page_number in rraa_page_obj.paginator.page_range %}
+             <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == rraa_page_obj.number %} page--current{% endif %}">{{page_number}}</a></li>
+           {% endfor %}
+           </ul>
+         </nav>
+         {% if rraa_page_obj.has_next %}
+           <a class="next" href="?page={{rraa_page_obj.next_page_number}}" aria-label="Siguiente">
+             <span class="next__text">Siguiente</span>
+             <span class="icon-icon-arrow-up-dropdown"></span>
+           </a>
+           {% else %}
+           <a class="next next--disabled" href="#" aria-label="Siguiente">
+             <span class="next__text">Siguiente</span>
+             <span class="icon-icon-arrow-up-dropdown"></span>
+           </a>
+         {% endif %}
+       </div>
+     </div>
+   </div>
+ </div>
+ </section>
+ 
+ <!-- END documents pagination -->
+ 
+ <!-- Modal confirmation delete-->
+ <dialog class="modal fade modal-finalized-transfer" id="modalConfirmationDelete" role="dialog">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-alert__wrapper-icon">
+        <span class="icon-alert"></span>
+      </div>
+      <div class="modal-header">
+        <h2 class="modal-title">Eliminar Acceso</h2>
+        <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="description">¿Está seguro de querer eliminar el acceso al Registro?</p>
+ 
+        <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+          <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+          <a href="#" class="btn btn-primary btn-primary--fill btn-confirm-modal" aria-label="Eliminar">
+              <span class="icon-icon-bell-notificacion-remove"></span>Eliminar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+ </dialog>
+ <!-- End Modal confirmation delete -->

@@ -1,0 +1,61 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}Perfil{% endblock title %}
+{% block content %}
+    <main class="create-user bg-int">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 ">
+                    <div class="create-user__wrapper box-shadow-primary">
+                        <h1 class="create-user__title text-center">Crear acceso</h1>
+                        <p class="create-user__desc text-center">
+                            Crear un nuevo acceso a registro administrativo.
+                        </p>
+                        <!-- FORM -->
+                        <form method="POST" class="create-user__form form">
+                            {% csrf_token %}
+                            {% if acces_user_form %}
+                                <div class="form__group--two-col">
+                                    {% if acces_user_form.errors %}
+                                      <div class="error-forms w-100">
+                                        {{ acces_user_form.errors }} 
+                                      </div>
+                                    {% endif %}
+                                    <fieldset class="form__field w-100 required">
+                                      <label for="id_user">Funcionario</label>
+                                      <div class="form__element form__element--select">
+                                        {{ acces_user_form.user }}
+                                      </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                      <label for="id_inventory">Registro administrativo</label>
+                                      <div class="form__element form__element--select">
+                                        {{ acces_user_form.inventory }}
+                                      </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                      <label for="id_date_access">Fecha de acceso</label>
+                                      <div class="form__element">
+                                        {{ acces_user_form.date_access }}
+                                      </div>
+                                    </fieldset>
+                                    <fieldset class="form__field w-100 required">
+                                      <label for="id_date_limit">Fecha límite de acceso</label>
+                                      <div class="form__element">
+                                        {{ acces_user_form.date_limit }}
+                                      </div>
+                                    </fieldset>
+                                </div>
+                                <div class="create-user__call">
+                                    <input type="submit" value="Guardar" class="btn btn-secondary btn-secondary--fill">
+                                </div>
+                            {% endif %}
+                                
+                        </form>
+                        <!-- END FORM -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

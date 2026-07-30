@@ -1,0 +1,274 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Detalle proyecto | {{project_item.name}} {% endblock %}
+{% block content %}
+<main class="project-detail">
+    <!-- DETAIL HEADER -->
+    <section class="detail__header">
+        <div class="container">
+            <!-- BREADCRUMB -->
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'projects:list_projects' %}">Proyectos</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Detalle Proyecto</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- END BREADCRUMB -->
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 text-center pt-3">
+                    <h4 class="detail__header-date"> {{project_item.created_date|date:"d F Y"}}</h4>
+                    <h1 class="detail__header-title">{{project_item.name}}</h1>
+                    <div class="detail__header-taxonomies">
+                        <h4 class="detail__header-taxonomies__title">Categorías: </h4>
+                        <div class="detail__header-taxonomies__wrapper">
+                            {% for tag in project_item.tag_project.all %}
+                                <p class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag_project}}</p>
+                            {% endfor %}                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END DETAIL HEADER -->
+
+    <!-- DETAIL CONTENT -->
+    <section class="detail__content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Subtitulo -->
+                    {% if project_item.sub_title is not None%}
+                        <h3 class="detail__content__subtitle">
+                        {{project_item.sub_title}}
+                        </h3>
+                    {% endif %}
+                    <!-- Descripción uno -->
+					<div class="detail__content__first-desc">
+                        {{project_item.description_uno| safe}}
+                    </div>
+                    <!-- Imagen Proyecto --> 
+                    {% if project_item.image_project_desk %}                   
+                    <figure class="graphic-images">
+                        <picture>
+                            <source media="(min-width: 992px)" srcset="/media/{{project_item.image_project_desk}}" />
+                            <img src="/media/{{project_item.image_project_mob}}" alt="Imagen {{project_item.name}}" />
+                        </picture>
+                         {% if project_item.author_cita_imagen is not None%}
+                            <figcaption>{{project_item.author_cita_imagen}}</figcaption>
+                        {% endif %}
+                    </figure>
+                    {% endif %}
+                    <!-- Descripción dos -->
+					<div class="detail__content__second-desc">
+                        {{project_item.description_dos| safe}}
+                    </div>
+                    <!-- Cita -->
+                    {% if project_item.cita_contenido is not None%}
+                    <blockquote>
+                        <p>{{project_item.cita_contenido| safe}}</p>
+
+                        {% if project_item.author_cita_contenido is not None%}
+                        <footer class="blockqoute__footer">{{project_item.author_cita_contenido}}</footer>
+                        {% endif %}
+                    </blockquote>
+                    {% endif %}
+                    <!-- Bloque dos imagenes -->
+                    <div class="row detail__content__twoimages">
+                        <div class="col-12 col-lg-6">
+                        {% if project_item.image_left_project_desk %}
+                            <picture>
+                                <source media="(min-width: 992px)" srcset="/media/{{project_item.image_left_project_desk}}" />
+                                <img src="/media/{{project_item.image_left_project_mob}}" alt="Imagen {{project_item.name}}" />
+                               {% if project_item.author_cita_imagen_left is not None%}
+                                <figcaption>{{project_item.author_cita_imagen_left}}</figcaption>
+                                {% endif %}
+                            </picture>
+                        {% endif %}
+                        </div>
+                        <div class="col-12 col-lg-6">
+                        {% if project_item.image_right_project_desk %}
+                            <picture>
+                                <source media="(min-width: 992px)" srcset="/media/{{project_item.image_right_project_desk}}" />
+                                <img src="/media/{{project_item.image_right_project_mob}}" alt="Imagen {{project_item.name}}" />
+                                {% if project_item.author_cita_imagen_right is not None%}
+                                <figcaption>{{project_item.author_cita_imagen_right}}</figcaption>
+                                {% endif %}
+                            </picture>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <!-- Descripción tres -->
+					<div class="detail__content__third-desc">
+                        {{project_item.description_tres | safe}}
+                    </div>
+                    <!-- Video Youtube -->
+                    {% if project_item.youtube is not None%}
+                    <div class="detail__video">
+                        <div class="detail__video-container">
+                            <iframe src="https://www.youtube.com/embed/{{project_item.youtube}}" frameborder='0' allowscriptaccess="always" allow="autoplay;" allowfullscreen></iframe>
+                        </div>
+                        {% if project_item.cita_youtube is not None%}
+                        <p class="detail__video-caption">
+                            {{project_item.cita_youtube}}
+                        </p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END DETAIL CONTENT -->
+    
+    <!-- DETAIL RECORDS -->
+    <section class="detail__records">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="detail__records__title cepal-h2">Registros administrativos del proyecto</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1">
+                    <div class="detail__records__wrapper">
+                        <!-- Collapse item -->
+                        {% for obj in project_item.rraa_asociate.all %}
+                        <div class="card-record-collapse box-shadow-six">
+                            <!-- Heading -->
+                            <div class="collapse__header">
+                            <a class="collapse__left" data-bs-toggle="collapse" href="#records-collapse-{{obj.id}}" role="button" aria-expanded="false" aria-controls="records-collapse-{{obj.id}}">
+                                <div class="collapse__toggle"><span class="btn btn-circular icon-chevron-down-icon"></span></div>
+                                <div class="collapse__title">{{ obj.title}}</div>
+                            </a>
+                            <div class="collapse__right">
+                                <div class="collapse__call">
+                                <a href="{% url 'inventory:detail_inventory' obj.id %}" class="btn btn-secondary btn-secondary--contour">Ver más</a>
+                                </div>
+                            </div>                  
+                            </div>
+                            <!-- Content -->
+                            <div class="collapse" id="records-collapse-{{obj.id}}">
+                            <div class="collapse__content">
+                                <div class="highlight__wrapper">
+                                <!-- highlight item -->
+                                <div class="highlight__item">
+                                    <div class="highlight__title">Categoría</div>
+                                    <div class="highlight__text">{{obj.thematic_area}}</div>
+                                </div>
+                                <!-- END highlight item -->
+                                <!-- highlight item -->
+                                <div class="highlight__item">
+                                    <div class="highlight__title">Fecha de actualización</div>
+                                    <div class="highlight__text">{{obj.modified_date |date:"d F Y" }}</div>
+                                </div>
+                                <!-- END highlight item -->
+                                <!-- highlight item -->
+                                <div class="highlight__item">
+                                    <div class="highlight__title">Fecha de publicación</div>
+                                    <div class="highlight__text">{{obj.created_date |date:"d F Y" }}</div>
+                                </div>
+                                <!-- END highlight item -->
+                                </div>
+                                <ul class="valuelist__wrapper">
+                                <!-- valuelist item -->
+                                <li class="valuelist__item">
+                                    <p class="valuelist__title">Cobertura</p>
+                                    <p class="valuelist__value">{{obj.geographic_coverages}}</p>
+                                </li>
+                                <!-- END valuelist item -->
+                                <!-- valuelist item -->
+                                <li class="valuelist__item">
+                                    <p class="valuelist__title">Proveedor</p>
+                                    <p class="valuelist__value">{{obj.entity_provider}}</p>
+                                </li>
+                                <!-- END valuelist item -->
+                                <!-- valuelist item -->
+                                <li class="valuelist__item">
+                                    <p class="valuelist__title">Estado</p>
+                                    <p class="valuelist__value">{{obj.status}}</p>
+                                </li>
+                                <!-- END valuelist item -->
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- END Collapse item -->
+                        {% empty %}
+                            <p>No hay registros administrativos Registrados</p>
+                        {% endfor %}
+
+                        <!-- PAGINATION -->
+                        {% comment %} <div class="pagination">
+                            <a class="first first--disabled" href="#" aria-label="Primero">
+                              <span class="icon-arrow-first-item-icon"></span>
+                            </a>
+                            <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                              <span class="icon-icon-arrow-up-dropdown"></span>
+                              <span class="prev__text">Anterior</span>
+                            </a>
+                            <nav class="pages">
+                              <ul class="pages__ul">
+                                <li class="pages__li"><a href="#" class="page page--current">1</a></li>
+                                <li class="pages__li"><a href="#" class="page">2</a></li>
+                                <li class="pages__li"><a href="#" class="page">3</a></li>
+                                <li class="pages__li"><a href="#" class="page">4</a></li>
+                                <li class="pages__li"><a href="#" class="page">5</a></li>
+                              </ul>
+                            </nav>
+                            <a class="next" href="#" aria-label="Siguiente">
+                              <span class="next__text">Siguiente</span>
+                              <span class="icon-icon-arrow-up-dropdown"></span>
+                            </a>
+                            <a class="last" href="#" aria-label="Ultima">
+                              <span class="icon-arrow-last-item-icon"></span>
+                            </a>                
+                        </div> {% endcomment %}
+                        <!-- END PAGINATION -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END DETAIL RECORDS -->
+    
+    <!-- DETAIL RELATED PROJECTS -->
+    <section class="detail__related-projects">
+        <div class="container-md gx-0 gx-md-4">
+            <h2 class="cepal-h2 mb-4 mb-md-5">
+                Proyectos relacionados
+            </h2>
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="detail__related-projects__list">
+                    <!-- PROJECT ITEM -->
+                    {%if project_related %}
+                        {% for obj in project_related %}                            
+                            <!-- PROJECT ITEM -->
+                            <div class="projectscard">
+                                <h3 class="projectscard__title cepal-h3"><a href="">{{ obj.name}}</a></h3>
+                                <div class="projectscard__desc">{{ obj.description_uno | safe}}</div>
+                                    <div class="projectscard__taxonomies">
+                                        {% for tag in obj.tag_project.all %}
+                                        <p class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag_project}}</p>
+                                        {% endfor %}
+                                    </div>
+                            </div>
+                            <!-- END PROJECT ITEM -->                      
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="detail__related-projects__call mt-3 mt-md-4 text-center">
+                <a href="{% url 'projects:list_projects' %}" class="btn btn-secondary btn-secondary--contour">
+                    Ver todos los proyectos
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- END DETAIL RELATED PROJECTS -->
+</main>
+{% endblock %}

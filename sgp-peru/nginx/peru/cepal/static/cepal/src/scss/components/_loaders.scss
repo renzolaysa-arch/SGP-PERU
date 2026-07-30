@@ -1,0 +1,61 @@
+// ==================== Precarga banner home ====================
+.loading{
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	background: $color-white;
+	gap: 3rem;
+  
+  &--absolute {
+    position: absolute;
+  }
+
+	&__text{
+		font-size: 3rem;
+		color: var(--primary-color);
+	}
+
+  &.z-index-1 {
+    z-index: 1;
+  }
+
+  &.z-index-3 {
+    z-index: 3;
+  }
+}
+
+.process,
+.loader {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  display: block;
+  margin:1rem auto;
+  position: relative;
+  background: $color-white;
+  box-shadow: -24px 0 $color-white, 24px 0 $color-white;
+  box-sizing: border-box;
+  animation: shadowPulse 2s linear infinite;
+}
+
+@keyframes shadowPulse {
+  33% {
+    background: $color-white;
+    box-shadow: -24px 0 var(--primary-color), 24px 0 $color-white;
+  }
+  66% {
+    background: var(--primary-color);
+    box-shadow: -24px 0 $color-white, 24px 0 $color-white;
+  }
+  100% {
+    background: $color-white;
+    box-shadow: -24px 0 $color-white, 24px 0 var(--primary-color);
+  }
+}

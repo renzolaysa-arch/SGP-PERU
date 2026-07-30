@@ -1,0 +1,486 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load project_tags %}
+{% load providers_extras %}
+{% block title %} Detalle de inventario de registros administrativos {% endblock %}
+{% block content %}
+<section class="detail_inventory">
+    <div class="container-fluid">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'inventory:inventory_list' %}">Inventario</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">RRAA</li>
+                </ol>
+            </nav>
+            <div class="row ">
+                <div class="col-12 col-lg-6">
+                    
+                    {% if inventory.tag_sample_data_asociate.all %}
+                        {% for tag in inventory.tag_sample_data_asociate.all %}
+                            <span class="tag">{{tag.tags_sample_data}}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="block-management-header mt-5">
+                        <h2 class="block-management-header-title mb-4">{{inventory.title}}</h2>
+                        <div class="type-proveedor">
+                            <p>Proveedor:</p>
+                            <p>{{inventory.entity_provider}}</p>
+                        </div>
+                        <p class="block-management-header-description">
+                            {{inventory.objective |safe}}
+                        </p>
+                        <p>En custodia: <span class="custody-tag">{% if inventory.custody %}Si{% else %}No{% endif %}</span></p>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="cards-container">
+                        <div class="cards cards--coverage">
+                            <div class="icon-container"><span class="icon-location"></span></div>
+                            <h2>Cobertura geográfica</h2>
+                            <div class="text-container">
+                            
+                                {% for itemtdivipola in tdivipolas %}
+                                    <div class="{{ itemtdivipola.name }}">
+                                        {% comment %} <p>{{ itemtdivipola.name }}:</p> {% endcomment %}
+                                        {% if forloop.counter == 1 %}
+                                            <p>{{ inventory.geographic_coverages.tdivipola.name }}: </p>
+                                            <span>{{ inventory.geographic_coverages }} </span>
+                                        {% endif %}
+                                        {% if forloop.counter == 2 %}
+                                            <p>{{ inventory.geographic_coverages.parent.tdivipola.name }}: </p>
+                                            <span>{{ inventory.geographic_coverages.parent }}</span>
+                                        {% endif %}
+                                         {% if forloop.counter == 3 %}
+                                          {% if inventory.geographic_coverages.parent.parent.tdivipola.name %}
+                                            <p>{{ inventory.geographic_coverages.parent.parent.tdivipola.name }}: </p>
+                                            <span>{{ inventory.geographic_coverages.parent.parent }}</span>
+                                          {% endif %}
+                                        {% endif %}
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="cards cards--publisher">
+                            <div class="icon-container date"><span class="icon-calendar"></span></div>
+                                <h2>Fecha de publicación</h2>
+                                <div class="text-container">
+                                    <div class="date-published">
+                                        <p>{{inventory.created_date |date:"d \d\e\ F \d\e\ Y"}}</p>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="cards cards--update">
+                            <div class="icon-container date"><span class="icon-calendar"></span></div>
+                                <h2>Fecha de última actualización</h2>
+                                {% if request.user|has_group:"Funcionario"%}
+                                    <a href="#id_comment_text" class="btn btn-white-bordered">Realizar comentario</a>
+                                {% endif %}
+                                <div class="text-container">
+                                    <div class="date-published">
+                                        <p>{{inventory.modified_date |date:"d \d\e\ F \d\e\ Y"}}  </p>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if request.user|has_group:"Unidad Central" or request.user|has_group:"Funcionario" or owner %}
+
+        {% if inventory.variables_sample_data_asociate.all %}
+        <div class="variables">
+            <div class="container-variables">
+                <h2>Variables</h2>
+                <div class="item-variable ">                    
+                    <ol>
+                        {% for tag in inventory.variables_sample_data_asociate.all %}
+                            <li>{{tag.variables_sample_data}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col circle-withoutPercentage">
+                    <p>Proyectos Asociados</p>
+                    <div class = "circlechart" data-percentage =  {{count_projects}}></div>
+                </div>
+                <div class="col circle-withoutPercentage">
+                    <p>Cantidad de Visitas</p>
+                    <div class = "circlechart" data-percentage =  {{count_visitor}}></div>
+                   
+                </div>
+                <div class="col">
+                    <dev class="today-views">Hoy: {{ today_views }} visitas</dev>
+                    <div id="grafica"></div>
+                    <div id = "dataChart" class="data-info">
+                        {% for key, view in data_chart.items %}
+                            <div data-day="{{ view.day }}" data-quantity="{{ view.quantity }}"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if inventory.name_file is not None %}
+            <div class="sample-data">
+                <h2 class="sample-data-title subtitle-block">Sample Data</h2>
+                <div class="container-sample-data box-shadow-five">
+                    <div class="container-sample-data-item style-scrooll">
+                        <div class="basic-information">
+                            <div class="tags">
+                                {% if inventory.tag_sample_data_asociate.all %}
+                                    {% for tag in inventory.tag_sample_data_asociate.all %}
+                                        <span class="tag">{{tag.tags_sample_data}}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="information">
+                                {% if inventory.name_file is not None %}
+                                <h3 class="name-file">
+                                    {{ inventory.name_file }}
+                                </h3>
+                                {% endif %}
+                                <div class="data-information">
+                                    <div class="creation">
+                                        <p class="creation-data subtitle">{{inventory.date_load_field |date:"d \d\e\ F Y"}}</p>
+                                        <p class="information-title">Fecha creación</p>
+                                    </div>
+                                    {% if inventory.transfer_medium_data_asociate is not None %}
+                                    <div class="transfer">
+                                        <p class="transfer-data subtitle">{{ inventory.transfer_medium_data_asociate }}</p>
+                                        <p class="information-title">Medio de trasferencia</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="data-information">
+                                {% if inventory.size_sample_data is not None %}
+                                    <div class="size">
+                                        <p class="size-data subtitle">{{ inventory.size_sample_data }}MB</p>
+                                        <p class="information-title">Peso</p>
+                                    </div>
+                                {% endif %}
+                                {% if inventory.type_format_data_asociate is not None %}
+                                    <div class="type">
+                                        <p class="type-data subtitle">{{ inventory.type_format_data_asociate }}</p>
+                                        <p class="information-title">Formato</p>
+                                    </div>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-actions">
+                            {% if inventory.type_format_data_asociate and inventory.type_format_data_asociate.type_format == '.csv' or inventory.type_format_data_asociate.type_format == '.xlsx' %}
+                                <a href="{% url 'inventory:view_sample_data' inventory.id %}" class="preview">Vista previa</a>
+                            {% endif %}
+                                <a href="/media/{{ inventory.file_example_sample_data }}" class="download btn btn-white-bordered">Descargar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if request.user|has_group:"Funcionario"%}
+            <div class="comments-update">
+                <h2 class="subtitle-block">Comentarios de actualización</h2>
+                <div class="row list-comments">
+                    <div class="loading">
+                        <div class="loader">
+                        </div>
+                        <p class="loading__text">Cargando...</p>
+                    </div>
+                  
+                    <div class="container-of-list-comment d-flex align-items-start">
+                        {% if comments %}
+                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                                <div class="date-comments">
+                                    {% for comment in dates_comments %}
+                                        {% if comment.comment is null %}
+                                            <p>{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <div class="tab">
+                                <div class="tab-content" id="v-pills-tabContent">    
+                                </div>
+
+                                {% for comment in comments %}
+                                    {% if comment.comment %}
+                                        <ul class="container-comment comment-children" data-parent="{{ comment.comment.id }}" data-date="{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}">
+                                            <div class="comment-children-container">
+                                                <li class="icon-comment">
+                                                    <div class="linedown"></div>
+                                                    <div class="lineleft"></div>
+                                                    <span class="icon-icon-person"></span>
+                                                </li>
+                                                <li class="data-comment" data-id-comment="{{ comment.id }}">
+                                                    <div class="data-comment-header">
+                                                        <p class="data-comment-header-user">
+                                                            {{ comment.user_functionary_created }}  
+                                                        </p>
+                                                        <p class="data-comment-header-hour">
+                                                            Hace {{ comment.created_date|timesince }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="data-comment-body">
+                                                        <p class="data-comment-body-comment">{{ comment }}</p>
+                                                        <div class="reply-comment">
+                                                            <a href="{% url 'inventory:reply_comment' inventory.id comment.id %}">Responder</a>
+                                                        </div>
+                            
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                        {% else %}
+                                        <ul class="container-comment comment-initial" data-parent="null" data-date="{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}">
+                                            <li class="icon-comment">
+                                                <div class="linedown"></div>
+                                                <div class="lineleft"></div>
+                                                <span class="icon-icon-person"></span>
+                                            </li>
+                                            <li class="data-comment" data-id-comment="{{ comment.id }}">
+                                                <div class="data-comment-header">
+                                                    <p class="data-comment-header-user">
+                                                        {{ comment.user_functionary_created }}  
+                                                    </p>
+                                                    <p class="data-comment-header-hour">
+                                                        Hace {{ comment.created_date|timesince }}
+                                                    </p>
+                                                </div>
+                                                <div class="data-comment-body">
+                                                    <p class="data-comment-body-comment">{{ comment }}</p>
+                                                    <div class="reply-comment">
+                                                        <a href="{% url 'inventory:reply_comment' inventory.id comment.id %}">Responder</a>
+                                                    </div>
+                        
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                    
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+                  
+                    </div>
+
+                    <div class="list-comments-mobile">
+                        {% if comments %}
+                            <h3 class="subtitle">Actualizaciones</h3>
+                            
+                            <div class="accordion" id="accordionComments">
+                                <div class="date-comments">
+                                    {% for comment in dates_comments %}
+                                        {% if comment.comment is null %}
+                                            <p>{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+    
+                            {% for comment in comments %}
+                                {% if comment.comment %}
+                                    <ul class="container-comment comment-children" data-parent="{{ comment.comment.id }}" data-date="{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}">
+                                        <div class="comment-children-container">
+                                            <li class="icon-comment">
+                                                <div class="linedown"></div>
+                                                <div class="lineleft"></div>
+                                                <span class="icon-icon-person"></span>
+                                            </li>
+                                            <li class="data-comment" data-id-comment="{{ comment.id }}">
+                                                <div class="data-comment-header">
+                                                    <p class="data-comment-header-user">
+                                                        {{ comment.user_functionary_created }}  
+                                                    </p>
+                                                    <p class="data-comment-header-hour">
+                                                        Hace {{ comment.created_date|timesince }}
+                                                    </p>
+                                                </div>
+                                                <div class="data-comment-body">
+                                                    <p class="data-comment-body-comment">{{ comment }}</p>
+                                                    <div class="reply-comment">
+                                                        <a href="{% url 'inventory:reply_comment' inventory.id comment.id %}">Responder</a>
+                                                    </div>
+                        
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                    {% else %}
+                                    <ul class="container-comment comment-initial" data-parent="null" data-date="{{ comment.created_date| date:'d \d\e\ F \d\e\ Y' }}">
+                                        <li class="icon-comment">
+                                            <div class="linedown"></div>
+                                            <div class="lineleft"></div>
+                                            <span class="icon-icon-person"></span>
+                                        </li>
+                                        <li class="data-comment" data-id-comment="{{ comment.id }}">
+                                            <div class="data-comment-header">
+                                                <p class="data-comment-header-user">
+                                                    {{ comment.user_functionary_created }}  
+                                                </p>
+                                                <p class="data-comment-header-hour">
+                                                    Hace {{ comment.created_date|timesince }}
+                                                </p>
+                                            </div>
+                                            <div class="data-comment-body">
+                                                <p class="data-comment-body-comment">{{ comment }}</p>
+                                                <div class="reply-comment">
+                                                    <a href="{% url 'inventory:reply_comment' inventory.id comment.id %}">Responder</a>
+                                                </div>
+                    
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                
+                            {% endfor %}
+                        {% endif %}
+                        
+                    </div>
+                    
+                    <div class="create-comment">
+                        <form action="" method="post" id="comment_inventory">
+                            {% csrf_token %}
+                            {{ commentForm.comment_text }}
+
+                            <div class="block-form-notes__call">
+                                <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Comentar">
+                            </div>
+                        </form>
+                        <p><b>Nota:</b> Los comentarios realizados se notificarán automaticamente vía correo electrónico a los funcionarios y unidades participantes.</p>
+                    </div>
+
+                  </div>
+            </div>
+            {% endif %}
+
+            {% if list_related_inventory %}
+
+                <div class="block-activities-content">
+                    <div class="content-cards-activity">
+                        {% for obj in list_related_inventory %} 
+                            <div class="cards-activity-item">
+                                <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                                    {% if inventory.tag_sample_data_asociate.all %}
+                                        {% for tag in obj.tag_sample_data_asociate.all %}
+                                            <span class="tag">{{tag.tags_sample_data}}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="cards-activity-item-body">
+                                    <p class="item-description">{{obj.title}}</p>
+                                    <ul class="data-list">
+                                        <li class="data-list-item">
+                                            <p class="data-list-item-title">Cobertura</p>
+                                            <p class="data-list-item-value">{{obj.geographic_coverages}}</p>
+                                        </li>
+                                        <li class="data-list-item">
+                                            <p class="data-list-item-title">Proveedor</p>
+                                            <p class="data-list-item-value">{{obj.entity_provider}}</p>
+                                        </li>
+                                        <li class="data-list-item">
+                                            <p class="data-list-item-title">Fecha de actualización</p>
+                                            <p class="data-list-item-value">{{obj.modified_date |date:"d F Y"}}</p>
+                                        </li>
+                                        <li class="data-list-item">
+                                            <p class="data-list-item-title">Fecha de publicación</p>
+                                            <p class="data-list-item-value">{{obj.created_date |date:"d F Y"}}</p>
+                                        </li>
+                                        <!-- <li class="data-list-item">
+                                            <p class="data-list-item-title">Estado</p>
+                                            <p class="data-list-item-value">Activo</p>
+                                        </li>
+                                        <li class="data-list-item">
+                                            <p class="data-list-item-title">Métricas de calidad</p>
+                                            <p class="data-list-item-value">7%</p>
+                                        </li> -->
+                                    </ul>
+
+                                </div>
+
+                                <div class="cards-activity-item-footer">
+                                    <div class="container-buttons my-4">
+                                        <a href="{% url 'inventory:detail_inventory' obj.id %}" class="btn btn-white-bordered">Ver más</a>
+                                        <!-- <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar
+                                            Proveedor</button> -->
+                                    </div>
+                                    <!-- <div class="date-update pt-3">
+                                        <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última
+                                            actualización: <span class="time">06 de Junio de 2022</span></p>
+                                    </div> -->
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% endif %}
+    </div>
+</section>
+
+<!-- MODAL FILE -->
+<div class="modal modal--closein modal--preview-File" id="modalPreviewFile">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal__iframe-file" id="iframeFilePreview">
+                    <div class="table-responsive style-scrooll"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL FILE -->
+
+<!-- MODAL COMMENTS -->
+<div class="modal modal--closein modal--reply-commnets" id="modalReplyComments">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="comment-current comment-initial">
+                    <div class="icon-comment">
+                        <span class="icon-icon-person"></span>
+                    </div>
+                    <div class="data-comment">
+                    </div>
+
+                </div>
+                <div class="reply-comment">
+                    <div class="create-comment">
+                        <form action="" method="post">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="zZl2J28Cl9n95abyqMefo6PODG3AXgibF3oI6A4rYabskdbyEKctMtWh3aIUwhfT">
+                            <textarea name="comment_text" cols="40" rows="10" required="" id="id_comment_text"></textarea>
+
+                            <div class="block-form-notes__call">
+                                <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Comentar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL COMMENTS -->
+
+
+
+{% endblock %}

@@ -1,0 +1,113 @@
+.create-user{
+    // Imagen fondo
+    &.bg-int{
+        &::before{
+            height: 50%;
+            @include media-query(mintablet) {
+                height: 50%;
+            }
+        }
+    }
+
+    // Contenedor
+    &__wrapper{
+        background-color: $color-white;
+        margin-top: 5rem;
+        margin-bottom: 5.7rem;
+        padding: 3.5rem 1.6rem 2.8rem;
+        @include media-query(mintablet){
+            padding:  4rem 3rem 3rem;
+        }
+        @include media-query(mindesktop){
+            margin-top: 7.3rem;
+            margin-bottom: 7rem;
+            padding: 7.4rem 7.5rem 3.8rem;
+        }
+        @include media-query(mindesktopL){
+            padding: 7.4rem 15rem 3.8rem;
+        }
+    }
+
+    // Titulo
+    &__title{
+        font-size: 3rem;
+        font-weight: $bold;
+        color: $color-black-b3;
+        margin-bottom: 0.9rem;
+        @include media-query(mintablet){
+            font-size: 3.5rem;
+        }
+        @include media-query(mindesktop){
+            font-size: 4rem;
+            margin-bottom: 1.2rem;
+        }
+        @include media-query(mindesktopLS){
+            font-size: 4.5rem;
+        }
+    }
+
+    // Descripción
+    &__desc{
+        font-size: 1.4rem;
+        font-weight: $regular;
+        color: $color-gray;
+        margin-top: 0.9rem;
+        margin-bottom: 1.4rem;
+        @include media-query(mindesktop){
+            margin-top: 1.2rem;
+            margin-bottom: 1.8rem;
+            font-size: 1.6rem;
+        }
+    }
+
+    // Formulario
+    &__form{
+        
+        // Errores formulario back
+        .error-forms {
+            width: 100%;
+            text-align: left;
+            background-color: rgba($color: $color-error-input-fill, $alpha: 0.05);
+
+            > ul{
+                padding: 0;
+                margin: 1rem 0;
+
+                li{
+                    display: block;
+                    font-size: 0; // para ocultar texto
+
+                    ul.errorlist{
+                        color: $color-error-forms;
+                        margin-bottom: 0;
+                        font-size: 1.2rem;
+
+                        li{
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        #id_profile_image-error{
+            top: calc(100% + 1.2rem);
+        }
+    }
+
+    // Contenedor "submit"
+    &__call{
+        margin-top: 2.5rem;
+        display: flex;
+        @include media-query(mintablet){
+            justify-content: flex-end;
+        }
+        .btn{
+            width: 100%;
+            @include media-query(mintablet){
+                width: auto;
+            }
+        }
+    }
+}

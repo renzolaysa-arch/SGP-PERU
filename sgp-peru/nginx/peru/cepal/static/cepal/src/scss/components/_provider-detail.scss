@@ -1,0 +1,551 @@
+.provider-detail{
+    background-color: $color-white;
+    // Datos Proveedor
+    .user{
+        // Contenedor sección
+        &__information{
+            margin: 4.7rem 0;
+
+            // Contenedor taxonomia
+            .taxonomy{
+                margin-bottom: 22px;
+                @include media-query(mintablet){
+                    margin-bottom: 0;
+                    margin-right: 15px;
+                }
+                // Titulo
+                &__title{
+                    color: var(--secondary-color);
+                    font-weight: $semibold;
+                    font-size: 1.2rem;
+                    margin-right: 0.8rem;
+                }
+
+                .badge{
+                    border-radius: 0.5rem;
+                    cursor: auto;
+                    font-size: 1.2rem;
+                    padding-left: 1.2rem;
+                    padding-right: 1.2rem;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        &__first{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            margin-bottom: 4rem;
+            @include media-query(mintablet){
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 2.2rem;
+            }
+        }
+
+        &__left, &__right{
+            display: flex;
+        }
+        
+        // Contenedor imágen y nombre usuario
+        &__left{
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4rem;
+            @include media-query(mintablet){
+                margin-bottom: 0;
+                gap: 15px;
+            }
+        }
+        // Contenedor Imágen
+        &__image{
+            max-width: 75px;
+            @include media-query(mindesktop){
+                max-width: 100px;
+            }
+            img{
+                border-radius: 15px;
+            }
+        }
+
+        // Nombre usuario
+        &__name{
+            word-break: break-all;
+        }
+        // Contenedor estado y "call to action"
+        &__right{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            @include media-query(mintablet){
+                flex-direction: row;
+                align-items: center;
+            }
+            // Estado
+            .status{
+                margin-bottom: 22px;
+                @include media-query(mintablet){
+                    margin-bottom: 0;
+                    margin-right: 2.7rem;
+                }
+                // Titulo
+                &__title{
+                    color: #AFAFAF;
+                    font-weight: $semibold;
+                    font-size: 1.2rem;
+                    margin-right: 0.7rem;
+                    // @include media-query(minmobilexl){
+                    //     font-size: 1.6rem;
+                    // }
+                }
+                // Texto
+                &__txt{
+                    color: var(--secondary-color);
+                    font-weight: $regular;
+                    font-size: 1.4rem;
+                    text-decoration: none;
+                    // @include media-query(minmobilexl){
+                    //     font-size: 1.4rem;
+                    // }
+                }
+            }
+
+            // "call to action"
+            .btn{
+                width: 100%;
+                @include media-query(mintablet){
+                    width: auto;
+                }
+            }
+        } 
+
+        &__second{
+            @include media-query(mintablet){
+                display: flex;
+                flex-flow: row wrap;
+                gap: 2.5rem;
+            }
+        }
+    }
+    // Contenido principal
+    .provider-content{
+        margin-bottom: 9rem;
+        // Contenedor tabs
+        .tabs__container{
+            width: 100%;
+            overflow: hidden;
+            overflow-x: scroll;
+
+             /* Hide scrollbar for Chrome, Safari and Opera */
+            &::-webkit-scrollbar {
+                display: none;
+            }
+  
+            /* Hide scrollbar for IE, Edge and Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+
+            .nav-tabs{
+                flex-wrap: nowrap;
+                width: max-content;
+            }
+        }
+        // Wrapper contenidos tabs
+        .tab-content{
+            background-color: rgba($color: var(--secondary-rgb), $alpha: 0.05);
+            @include media-query(mintablet){
+                padding-bottom: 6rem;
+            }
+
+            // Contenido pestaña "records" (registros)
+            .providerRecords{
+                // Resultados
+                .results{
+                    // Header
+                    &__header{
+                        margin-top: 5.6rem;
+                        margin-bottom: 5rem;
+                        @include media-query(mintablet){
+                            margin-top: 4.4rem;
+                            margin-bottom: 3.2rem;
+                        }
+                    }
+                    // Total
+                    &__total{
+                        font-weight: $regular;
+                        color: $color-black-b4;
+                        font-size: 1.6rem;
+                        @include media-query(minmobilexl){
+                            font-size: 1.8rem;
+                        }
+                        @include media-query(mintablet){
+                            font-size: 2rem;
+                        }
+                        @include media-query(mindesktop){
+                            font-size: 2.2rem;
+                        }
+                        @include media-query(mindesktopLS){
+                            font-size: 2.5rem;
+                        }
+                    }
+
+                    // Item registro administrativo
+                    .card-record-collapse{
+                        .collapse__toggle .btn-circular::before {
+                            transform: rotate(270deg);
+                        }
+                    }
+                }
+                // Paginador
+                .pagination{
+                    margin-top: 6rem;
+                    margin-bottom: 6rem;
+                }
+            }
+
+            // Contenido pestaña "documents"
+            .providerDocuments{
+                .filterModal{
+                    &__modal{
+                        @include media-query(mintablet){
+                            margin-top: 4.6rem;
+                            margin-bottom: 3.2rem;
+                        }
+                    }
+                    // Boton mobile
+                    &__mobile{
+                        margin-top: 4.2rem;
+                        margin-bottom: 4.9rem;
+                    }
+                    // Formulario
+                    &__form{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        @include media-query(mindesktop){
+                            flex-direction: row;
+                            column-gap: 1.4rem;
+                            align-items: flex-end;
+                        }
+
+
+                        // Contenedor Submit btn
+                        .form__actions{
+                            // Submit btn
+                            input[type="submit"]{
+                                width: 100%;
+                                @include media-query(mintablet){
+                                    width: 180px;
+                                }
+                            }
+                        }
+                    }
+                }
+                // Resultados
+                .results{
+                    margin-left: 0;
+                    margin-right: 0;
+                    @include media-query(mintablet){
+                        background-color: $color-white;
+                        border-radius: 2rem;
+                        box-shadow: 0rem 1rem 2rem #45454526;
+                    }
+                    // Header
+                    &__header{
+                        display: flex;
+                        flex-direction: column;
+                        @include media-query(minmobile){
+                            flex-direction: row;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 3.6rem;
+                        }
+                        @include media-query(mintablet){
+                            margin-top: 3.5rem;
+                        }
+                    }
+                    // Total resultados
+                    &__total{
+                        font-weight: $regular;
+                        color: $color-black-b4;
+                        font-size: 1.6rem;
+                        @include media-query(minmobilexl){
+                            font-size: 1.8rem;
+                        }
+                        @include media-query(mintablet){
+                            font-size: 2rem;
+                        }
+                        @include media-query(mindesktop){
+                            font-size: 2.2rem;
+                        }
+                        @include media-query(mindesktopLS){
+                            font-size: 2.5rem;
+                        }
+                    }
+                    // Contenedor "call to action"
+                    &__call{
+                        align-self: center;
+                        margin: 4.4rem 0;
+                        @include media-query(minmobile){
+                            align-self: auto;
+                            margin: 0;
+                        }
+                    }
+                    // Columna resultados
+                    &__secondcol{
+                        border-radius: 2rem;
+                        box-shadow: 0rem 1rem 2rem #45454526;
+                        background-color: $color-white;
+                        padding-top: 3.4rem;
+                        margin-bottom: 5.2rem;
+                        @include media-query(mintablet){
+                            box-shadow: none;
+                            border-radius: 0;
+                            background-color: unset;
+                            padding-top: 0;
+                            margin-bottom: 0;
+                        }
+
+                        &.no_result {
+                            @include media-query(tablet) {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    // Resultados
+                    &__wrapper{
+                        border-bottom: 1px solid rgba($color: var(--secondary-rgb), $alpha: 0.1);
+                        .document{
+                            &__item{
+                                padding: 1.9rem 1.3rem 1.6rem;
+                                @include media-query(mintablet){
+                                    padding: 1.9rem 1.3rem 3.4rem;
+                                }
+                                // Color fondo items impares
+                                &:nth-child(odd){
+                                    background-color: rgba(var(--secondary-rgb), 0.05);
+                                }
+                            }
+                            &__tags{
+                                display: flex;
+                                flex-flow: row wrap;
+                                column-gap: 1rem;
+                                row-gap: 0.6rem;
+
+                                .badge{
+                                    font-size: 1rem;
+                                    @include media-query(minmobilexl){
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+                            &__row{
+                                @include media-query(mintablet){
+                                    display: grid;
+                                    // grid-template-columns: minmax(170px, 35%) minmax(min-content, 42%) 132px;
+                                    grid-template-columns: minmax(auto, 30%) minmax(42%, 1fr) 180px;
+                                    margin-top: 1.2rem;
+                                    // gap: clamp(1rem, 10%, 1.6rem);
+                                    gap: clamp(10px, 5%, 16px);
+                                    justify-content: space-between;
+                                }
+                            }
+                            // Titulo
+                            &__title{
+                                color: $color-black-b3;
+                                font-weight: $semibold;
+                                font-size: 1.4rem;
+                                margin-top: 1.6rem;
+                                @include media-query(minmobilexl){
+                                    font-size: 1.6rem;
+                                }
+                                @include media-query(mintablet){
+                                    margin-top: 0;
+                                }
+                                @include media-query(mindesktop){
+                                    font-size: 2rem;
+                                }
+                            }
+                            // Subtitulo
+                            &__subtitle{
+                                color: var(--secondary-color);
+                                font-weight: $regular;
+                                font-size: 1.1rem;
+                                @include media-query(mindesktop){
+                                    font-size: 1.4rem;
+                                }
+                            }
+                            // Texto
+                            &__txt{
+                                color: $color-black-b4;
+                                font-weight: $semibold;
+                                font-size: 1.2rem;
+                                max-width: 16ch;
+                                @include media-query(minmobilexl){
+                                    font-size: 1.4rem;
+                                }
+                                @include media-query(mintablet){
+                                    max-width: unset;
+                                }
+                                @include media-query(mindesktop){
+                                    font-size: 1.6rem;
+                                }
+                            }
+
+                            &__center{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                padding: 1rem 0;
+                                border-top: 1px solid rgba($color: var(--secondary-rgb), $alpha: 0.1);
+                                border-bottom: 1px solid rgba($color: var(--secondary-rgb), $alpha: 0.1);
+                                margin: 0.8rem 0 1.8rem;
+                                width: 100%;
+                                @include media-query(mintablet){
+                                    margin: 0 auto;
+                                    padding: 0;
+                                    border: 0;
+                                    align-items: flex-start;
+                                    gap: 1.6rem;
+                                }
+                            }
+
+                            &__date, &__size, &__format{
+                                display: inline-flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                text-align: center;
+                                @include media-query(mintablet){
+                                    width: 33.33%;
+                                }
+                            }
+
+                            // Contenedor "Call to action"
+                            &__call{
+                                text-align: center;
+                                .btn{
+                                    padding-left: 3rem;
+                                    padding-right: 3rem;
+                                }
+                            }
+                        }
+                    }
+                }
+                // Paginador
+                .pagination{
+                    margin-top: 4rem;
+                    margin-bottom: 6rem;
+                }
+            }
+
+            // Contenido pestaña "data"
+            .providerData{
+                // Formulario
+                &__form{
+                    margin: 5.5rem 0;
+                    @include media-query(mintablet){
+                        margin-bottom: 7rem;
+                    }
+                    // Grupos label y campos
+                    .form__field{
+                        width: 100%;
+                        @include media-query(mintablet){
+                            width: calc(50% - (1.4rem / 2));
+                        }
+                        @include media-query(mindesktop){
+                            margin-bottom: 2.5rem;
+                        }
+                    }
+
+                    // Textareas e imagen
+                    #field-2, #field-5, #field-17{
+                        width: 100%;
+                    }
+
+                    // Campo telefono funcionario enlace
+                    #field-16{
+                        @include media-query(mintablet){
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+                        @include media-query(mindesktop){
+                            display: block;
+                        }
+                    }
+
+                    // Contenedor "Call to action"
+                    .providerData__call{
+                        @include media-query(mintablet){
+                            text-align: right;
+                        }
+                        // Boton submit
+                        input[type="submit"]{
+                            width: 100%;
+                            @include media-query(mintablet){
+                                width: auto;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Contenido pestaña "requests" (solicitudes)
+            .providerRequests{
+                // Resultados
+                .results{
+                    // Header
+                    &__header{
+                        margin-top: 5.6rem;
+                        margin-bottom: 5rem;
+                        @include media-query(mintablet){
+                            margin-top: 4.4rem;
+                            margin-bottom: 3.2rem;
+                        }
+                    }
+                    // Total
+                    &__total{
+                        font-weight: $regular;
+                        color: $color-black-b4;
+                        font-size: 1.6rem;
+                        @include media-query(minmobilexl){
+                            font-size: 1.8rem;
+                        }
+                        @include media-query(mintablet){
+                            font-size: 2rem;
+                        }
+                        @include media-query(mindesktop){
+                            font-size: 2.2rem;
+                        }
+                        @include media-query(mindesktopLS){
+                            font-size: 2.5rem;
+                        }
+                    }
+
+                    .card-record-collapse {
+                        .collapse__content {
+                            position: relative;
+
+                            .loading {
+                                position: absolute;
+                            }
+                        }
+                    }
+
+                }
+                // Paginador
+                .pagination{
+                    margin-top: 6rem;
+                    margin-bottom: 6rem;
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,182 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Regístrese {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="user-list-header mb-4">
+   <h2 class="user-list-header-title">Listado de usuarios</h2>
+   <div class="user-list-header-actions my-5 d-flex justify-content-between">
+      <a class="btn btn-with-icon btn-with-icon-register" href="{% url 'create_any_user' %}"> Registrar un nuevo usuario</a>
+      <a class="btn btn-with-icon btn-with-icon-download" href="{% url 'export_users' %}">Descargar listado</a></button>
+   </div>
+</div>
+
+<div class="user-list-body">
+  
+      <p class="infouser-title">Usuarios en el sistema</p>
+   
+   <div class="user-list-body-infouser mb-4 d-flex justify-content-evenly">
+      <p class="infouser-total">Total({{number_usuers.total_users}})</p>
+      <p class="infouser-active">Activos({{number_usuers.total_active}})</p>
+      <p class="infouser-blocked">Bloqueados({{number_usuers.total_inactive}})</p>
+   </div>
+
+   <div class="user-list-body-tabs">
+      <ul class="nav nav-tabs nav-tabs-list" id="tabUserList" role="tablist">
+         <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-tab-pane"
+               type="button" role="tab" aria-controls="users-tab-pane" aria-selected="true">Usuarios</button>
+         </li>
+         <li class="nav-item" role="presentation">
+            <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups-tab-pane"
+               type="button" role="tab" aria-controls="groups-tab-pane" aria-selected="false">Grupos</button>
+         </li>
+         <li class="nav-item" role="presentation">
+            <button class="nav-link" id="acces-request-tab" data-bs-toggle="tab"
+               data-bs-target="#acces-request-tab-pane" type="button" role="tab" aria-controls="acces-request-tab-pane"
+               aria-selected="false">Solicitudes de accesos</button>
+         </li>
+      </ul>
+      <div class="tab-content box-shadow-primary" id="tabUserListContent">
+         <div class="tab-pane fade show active" id="users-tab-pane" role="tabpanel" aria-labelledby="users-tab"
+            tabindex="0">
+            <section class="show-user-list">
+               <div class="table-responsive style-scrooll">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Nombre de usuario</th>
+                           <th scope="col">Correo electrónico</th>
+                           <th scope="col">Estado</th>
+                           <th scope="col">País</th>
+                           <th scope="col">Permisos</th>
+                           <th scope="col">Último acceso</th>
+                           <th scope="col"></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for profile, user in data.users_show_filter.items %}
+                        {% for value in user %}
+                        <tr>
+                           <td scope="row" class="table-value-name">
+                              {% if value.profile_image %}
+                              <img src="/media/{{value.profile_image}}" alt="Foto del perfil">
+                              {% else %}
+                              <img src="/static/cepal/dist/assets/images/default-avatar.png" alt="Avatar usuario">
+                              {% endif %}
+                              <span>{{ value.user.first_name }} {{ value.user.last_name }}</span>
+                           </td>
+                           <td class="table-user-email"><span>{{ value.user.username }}</span></td>
+                           <td class="table-user-country"><span>
+                                 {% if value.user.is_active == True%}
+                                 Activo
+                                 {% else %}
+                                 Inactivo
+                                 {% endif %}
+                              </span></td>
+                           <td class="table-user-country"><span>{{ value.site.name }}</span></td>
+                           <td class="table-user-permission"><span>{{ value.user.groups.first.name }}</span></td>
+                           <td class="table-user-last-acces">
+                              <span>{{ value.user.date_joined|date:"d/m/Y" }}</span>
+                           </td>
+                           <td class="table-user-action-delete">
+                              <a href="{% url 'update_provider' value.user.groups.first.name value.id %}"
+                                 class="btn-notificacions">
+                                 <span class="icon-editar"></span>
+                              </a>
+                           </td>
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+            </section>
+         </div>
+
+         <div class="tab-pane fade" id="groups-tab-pane" role="tabpanel" aria-labelledby="groups-tab" tabindex="0">
+
+            <section class="quantity-user mb-4">
+               <p class="quantity-user-text">Mostrando un total de <span>{{data.total_group}} grupos</span></p>
+            </section>
+
+            <section class="show-user-list">
+               <div class="table-responsive style-scrooll">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Nombre</th>
+                        </tr>
+                     </thead>
+                     {% for group in data.groups %}
+                     <tr>
+                        <td scope="row" class="table-user-email">
+                           <span>{{ group }}</span>
+                        </td>
+                     </tr>
+                     {% endfor %}
+                     <tbody>
+
+                     </tbody>
+                  </table>
+               </div>
+            </section>
+         </div>
+
+         <div class="tab-pane fade" id="acces-request-tab-pane" role="tabpanel" aria-labelledby="acces-request-tab"
+            tabindex="0">
+            <!--section class="filter-user mb-4">
+               <span>Mostar</span>
+               <select name="showUserFilter">
+                  <option value="30">30</option>
+                  <option value="60">60</option>
+               </select>
+               <span>Usuarios</span>
+            </section-->
+
+            <!--section class="quantity-user mb-4">
+               <p class="quantity-user-text">Mostrando un total de <span>30 usuarios</span></p>
+            </section-->
+
+            <section class="show-user-list">
+               <div class="table-responsive style-scrooll">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Nombre de usuario</th>
+                           <th scope="col">Correo electrónico</th>
+                           <th scope="col">País</th>
+                           <th scope="col">Permisos</th>
+                           <th scope="col">Último acceso</th>
+                           <th scope="col"></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for provider in data.pending_provider %}
+                        <tr>
+                           <td scope="row" class="table-user-name">
+                              <span>{{ provider.user.first_name }} {{ provider.user.last_name }}</span>
+                           </td>
+                           <td class="table-user-email">{{ provider.user.username }} </td>
+                           <td class="table-user-country">{{ provider.site.name }}</td>
+                           <td class="table-user-permission">{{ provider.user.groups.first.name }}</td>
+                           <td class="table-user-last-acces">
+                              <span>{{ provider.user.date_joined|date:"d/m/Y" }}</span>
+                           </td>
+                           <td class="table-user-action-delete">
+                              <a href="{% url 'update_provider' provider.user.groups.first.name provider.id %}"
+                                 class="btn-notificacions">
+                                 <span class="icon-editar"></span>
+                              </a>
+                           </td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+            </section>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,334 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}Inventario {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="block-activities-header mb-4">
+    <h2 class="block-activities-header-title">Inventario</h2>
+    <p class="block-activities-header-description">En esta sección podrás encontrar un resumen de la información acerca de los diferentes registros almacenados y acceder a la información completa o contactar al proveedor.</p>
+</div>
+
+<div class="block-activities-content">
+    <!-- <div class="content-cards-activity">
+        
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="cards-activity-item">
+            <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center">
+                <span class="tag">Actividades</span>
+                <div class="content-option">
+                    <span class="content-option-text">Seguir solicitud</span>
+                    <label class="button-slider">
+                        <input type="checkbox" class="button-slider-input">
+                        <span class="button-slider-switch"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cards-activity-item-body">
+                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <ul class="data-list">
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Cobertura</p>
+                        <p class="data-list-item-value">Departamental</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">Lorem iprum</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de actualización</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de publicación</p>
+                        <p class="data-list-item-value">1 de jul de 2022</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">Activo</p>
+                    </li>
+                    <li class="data-list-item">
+                        <p class="data-list-item-title">Métricas de calidad</p>
+                        <p class="data-list-item-value">7%</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="cards-activity-item-footer">
+                <div class="container-buttons my-4">
+                    <button class="btn btn-white-bordered">Ver más</button>
+                    <button class="btn btn-red-with-white"><span class="icon-icon-person"></span> Contactar Proveedor</button>
+                </div>
+                <div class="date-update pt-3">
+                    <p class="date-update-text"><span class="icon icon-icon-clock-update"></span> Última actualización: <span class="time">06 de Junio de 2022</span></p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,182 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Noticias {% endblock %}
+
+    
+{% block content %}
+    <!-- NEWS-->
+    
+    
+    <section class="news-home hidden">
+        <div class="container-md gx-0 gx-md-4">
+            <h2 class="cepal-h2 mb-4 mb-md-5">Noticias</h2>
+      
+            <div class="col-lg-8">
+             {% for new_item in new_1 %}
+                <div class="col-lg-6">
+                  <img src="/media/{{new_item.main_image_new_desk}}" class="news-home-item-img">
+                </div>
+                <div class="col-lg-2">
+                  <a class="news-home-item-date">{{new_item.created_date}}</a>
+                  <h3 class="cepal-h3"><a href="{% url 'contents:new' new_item.id %}">{{new_item.title}}</a></h3>
+                  <p class="news-home-item-desc">{{new_item.previous_description | safe}}</p>
+                  <div class="news-home-item-call"><a href="{% url 'contents:new' new_item.id %}" class="news-home-item-link">
+                      <span class="news-home-item-link-txt">Leer más</span><span class="icon-arrow-right-icon"></span></a>
+                  </div>
+                </div>
+                {% empty %}
+                  <p>No hay noticias para mostrar.</p>   
+            {% endfor %}
+            </div>
+            <div class="col-lg-4">
+             {% for new_item in new_2 %}
+                <div class="col-lg-12">
+                  <img src="/media/{{new_item.main_image_new_desk}}" class="news-home-item-img">
+                </div>
+                <div class="col-lg-12">
+                  <a class="news-home-item-date">{{new_item.created_date}}</a>
+                  <h3 class="cepal-h3"><a href="{% url 'contents:new' new_item.id %}">{{new_item.title}}</a></h3>
+                  <p class="news-home-item-desc">{{new_item.previous_description | safe}}</p>
+                  <div class="news-home-item-call"><a href="{% url 'contents:new' new_item.id %}" class="news-home-item-link">
+                      <span class="news-home-item-link-txt">Leer más</span><span class="icon-arrow-right-icon"></span></a>
+                  </div>
+                </div>
+                {% empty %}
+                        <p>No hay noticias para mostrar.</p>   
+            {% endfor %}
+            </div>        
+    
+            <!-- Filter Form -->
+        <div class="row mt-5 block-main">
+          <div class="col-12">
+            <div class="filter-primary-filtermobile">
+              <button class="btn btn-filter-mobile">
+                <span class="icon-filter-icon"></span>
+                <span class="text">Filtro</span>
+              </button>
+            </div>
+          </div>
+          <div class="col-12 d-lg-block col-lg-4">
+            <div class="filter-primary-filterdesktop form-filter-provider-list box-shadow-five">
+              <form class="filter-primary-form" action="/noticias/"  method="get" id="form-filter">
+                <div class="accordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                      <button class="accordion-button" id="accordionButton" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                        <span class="accordion-button-text">Filtro</span>
+                        <span class="icon-filter-icon"></span>
+                      </button>
+                    </h2>
+                    <div class="form-element-search">
+                      <h3 class="input-field-title">Buscador</h3>
+                        {{ filter.form.title }}
+                        <button class="btn-submit"></button>
+                      </div>
+                      <button class="btn btn-close-filter d-lg-none">
+                        <span class="icon-close-icon"></span>
+                      </button>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                      aria-labelledby="panelsStayOpen-headingOne">
+                      <div class="accordion-body">
+
+                        <fieldset class="form-field mb-4">
+                          <div class="input-field">
+                            <h3 class="input-field-title">Fecha</h3>
+                            {{ filter.form.created_date }}
+                          </div>
+                        </fieldset>
+                        <div class="container-button">
+                          <input type="submit" value="Buscar" class="btn btn-blue">
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+      <!-- End Filter Form -->
+      {% if new_list %}
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="">
+                {% for new_item in new_list %}
+                    <div class="news-home-item">
+                        <img src="/media/{{new_item.main_image_new_desk}}" alt="Noticia 4" title="Noticia 4"
+                            class="news-home-item-img">
+                        <div class="news-home-item-tags">
+                        {% for tag in new_item.tag_asociate.all %}
+                               <a href="{% url 'contents:new_tag' tag.id %}" class="badge badge-gray">{{tag.name_tag}}</a>
+
+                        {% endfor %}
+                        
+                       
+                        </div>
+                        <a class="news-home-item-date">{{new_item.created_date}}</a>
+                        <h3 class="cepal-h3"><a href="{% url 'contents:new' new_item.id %}">{{new_item.title}}</a></h3>
+                        <p class="news-home-item-desc">{{new_item.previous_description | safe}}</p>
+                        <div class="news-home-item-call"><a href="{% url 'contents:new' new_item.id %}" class="news-home-item-link">
+                            <span class="news-home-item-link-txt">Leer más</span><span class="icon-arrow-right-icon"></span></a>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p>No hay noticias para mostrar.</p>       
+                    {% endfor %}
+                </div>                
+            </div>
+            {% else %}
+            <p>No hay noticias para mostrar.Intente cambiando los datos filtrados o fechas de consulta</p> 
+            {% endif %} 
+        </div>
+    </section>
+    <!-- END NEWS -->
+    
+<!-- documents pagination -->
+  <section class="provider-list-pagination">
+    <div class="container">
+      <div class="row justify-content-end" id="row-pagination-list">
+        <div class="col-12 col-lg-8 col-pagination">
+          <div class="pagination">
+            {% if new_list.has_previous %}
+              <a class="prev" href="?page={{new_list.previous_page_number}}" aria-label="Anterior">
+                <span class="icon-icon-arrow-up-dropdown"></span>
+                <span class="prev__text">Anterior</span>
+              </a>
+              {% else %}
+              <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                <span class="icon-icon-arrow-up-dropdown"></span>
+                <span class="prev__text">Anterior</span>
+              </a>
+            {% endif %}
+            <nav class="pages">
+              <ul class="pages__ul">
+              {% for page_number in new_list.paginator.page_range %}
+                <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == new_list.number %} page--current{% endif %}">{{page_number}}</a></li>
+              {% endfor %}
+              </ul>
+            </nav>
+            {% if new_list.has_next %}
+              <a class="next" href="?page={{new_list.next_page_number}}" aria-label="Siguiente">
+                <span class="next__text">Siguiente</span>
+                <span class="icon-icon-arrow-up-dropdown"></span>
+              </a>
+              {% else %}
+              <a class="next next--disabled" href="#" aria-label="Siguiente">
+                <span class="next__text">Siguiente</span>
+                <span class="icon-icon-arrow-up-dropdown"></span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- END documents pagination -->
+
+    
+   
+{% endblock %}

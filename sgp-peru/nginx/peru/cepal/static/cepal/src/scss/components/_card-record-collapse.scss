@@ -1,0 +1,157 @@
+// Estilos tarjetas "Registros Administrativos"/ "Solicitudes" colapsables
+.card-record-collapse{
+    background-color: $color-white;
+    padding: 2.1rem 2.1rem 2.1rem 1rem;
+    margin-bottom: 1.6rem;
+    @include media-query(mintablet){
+        padding: 2.4rem 2.9rem 2.4rem 3.5rem;
+    }
+    
+    .collapse__header{
+        gap: 1rem;
+    }
+    .collapse__left{
+        display: flex;
+        gap: 1.4rem;
+        text-decoration: none;
+        &[aria-expanded="true"]{
+            .collapse__toggle{
+                .btn-circular::before{
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+    // Contenedor boton flecha abajo
+    .collapse__toggle{
+        .btn-circular{
+            width: 3.2rem;
+            height: 3.2rem;
+            font-size: 1rem;
+            color: var(--secondary-color);
+            &::before{
+                transition: all 300ms;
+            }
+        }
+    }
+    // Titulo
+    .collapse__title{
+        color: $color-black-b4;
+        font-weight: $medium;
+        font-size: 1.4rem;
+        @include media-query(minmobilexl){
+            font-size: 1.6rem;
+        }
+        @include media-query(mindesktop){
+            font-size: 1.8rem;
+        }
+        @include media-query(mindesktopLS){
+            font-size: 2rem;
+        }
+    }
+    // Contenedor "Call to action" ver más
+    .collapse__call{
+        .btn{
+            padding-left: 3.4rem;
+            padding-right: 3.4rem;
+            @include media-query(minmobilexl){
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+        }
+    }
+    // Contenido
+    .collapse__content{
+        border-top: 1px solid rgba($color-gray-v1, $alpha: 0.23);
+        margin-top: 1.4rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        // Pasos
+        .stepWizard{
+            // Contenedor
+            &__wrapper{
+                display: none;
+                @include media-query(mintablet){
+                    display: block;
+                    margin-bottom: 5.75rem;
+                }
+            }
+            // Titulo
+            &__title{
+                font-weight: $semibold;
+                color: $color-black-b4;
+                font-size: 1.6rem;
+                margin-bottom: 2.1rem;
+            }
+        }
+        // Zona destacada (como floating labels)
+        .highlight{
+            // Contenedor
+            &__wrapper{
+                display: flex;
+                flex-direction: column;
+                row-gap: 2.8rem;
+                margin-bottom: 2.55rem;
+                margin-top: 1.85rem;
+                @include media-query(mintablet){
+                    flex-direction: row;
+                    column-gap: 1.7rem;
+                    margin-bottom: 1.85rem;
+                    justify-content: space-between;
+                }
+            }
+            // Item
+            &__item{
+                position: relative;
+                width: 100%;
+                height: 6rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid $color-lightgray;
+                border-radius: 5px;
+                @include media-query(mintablet){
+                    width: calc(33.333% - calc(1.7rem / 2));
+                }
+            }
+            // Titulo
+            &__title{
+                position: absolute;
+                top: -1.3rem;
+                left: 1rem;
+                background-color: $color-white;
+                color: $color-black-b4;
+                font-weight: $semibold;
+                font-size: 1.6rem;
+            }
+            // Texto
+            &__text{
+                color: $color-gray-v1;
+                font-weight: $regular;
+                font-size: 1.6rem;
+            }
+        }
+        // Acciones
+        .requests__actions{
+            display: flex;
+            flex-direction: column;
+            row-gap: 2rem;
+            margin-top: 2.5rem;
+            @include media-query(mintablet){
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 2rem;
+            }
+            // Contenedor btn
+            .actions__left{
+                .btn{
+                    width: 100%;
+                    @include media-query(mintablet){
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+}

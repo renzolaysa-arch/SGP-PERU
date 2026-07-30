@@ -1,0 +1,146 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %}Dashboard {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<div class="provider-main-header mb-4">
+  <h2 class="provider-main-header-title">Dashboard</h2>
+</div>
+
+<section class="row provider-main-best">
+  <!-- BEST PROVIDERS -->
+  <div class="col-12 col-md-7">
+    <div class="best-providers box-shadow-four">
+      <h4 class="secondary-title-card">
+        Mejores proveedores
+      </h4>
+      <ul class="list-block style-scrooll">
+        <li class="list-header">
+          <div class="col-left">Proveedor</div>
+          <div class="col-right">RRAA</div>
+        </li>
+        {% for key, value in sorted_best_providers.items %}
+        <li class="list-item">
+          <div class="col-left">{{ key }}</div>
+            <div class="col-right">{{ value }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <!-- END BEST PROVIDERS -->
+  <!-- REGISTERED PROVIDERS -->
+  <div class="col-12 col-md-5 ps-md-0">
+    <div class="registered-providers figures-card-2 box-shadow-four">
+      <h4 class="secondary-title-card">
+        Proveedores registrados
+      </h4>
+      <div class="figures-card-content">
+        <p class="figures-card-num">{{total_providers}}</p>
+        <div class="figures-card-graph stats-bars">
+          <div class="bar bar-1"></div>
+          <div class="bar bar-2"></div>
+          <div class="bar bar-3"></div>
+          <div class="bar bar-4"></div>
+          <div class="bar bar-5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END REGISTERED PROVIDERS -->
+</section>
+
+<section class="row provider-main-figures">
+  <!-- FIGURES ITEM -->
+  <div class="col-12 col-md-6 col-lg-3 pe-md-0">
+    <div class="figures-card-1 figures-card-primary box-shadow-four">
+      <h3 class="cepal-title figures-card-title">
+          <span class="cepal-title-normal s">Proyectos</span> <br> Realizados
+      </h3>
+      <p class="figures-card-num">{{total_projects_asociate}}</p>
+      <a href="{% url 'projects:list_projects' %}" class="btn btn-white-bordered">
+        Ver todos los proyectos
+      </a>
+    </div>
+  </div>
+  <!-- END FIGURES ITEM -->
+  <!-- FIGURES ITEM -->
+  <div class="col-12 col-md-6 col-lg-3 pe-md-0">
+    <div class="figures-card-1  figures-card-secondary box-shadow-four">
+      <h3 class="cepal-title figures-card-title">
+          <span class="cepal-title-normal s">Registros </span>Administrativos
+      </h3>
+      <p class="figures-card-num">{{total_inventory}}</p>
+      <a href="{% url 'inventory:inventory_list' %}" class="btn btn-white-bordered">
+          Ver todos los RRAA
+      </a>
+    </div>
+  </div>
+  <!-- END FIGURES ITEM -->
+  <!-- NEW PROVIDERS -->
+  <div class="col-12 col-lg-6">
+    <div class="new-providers box-shadow-four">
+      <h4 class="secondary-title-card">
+        Nuevos proveedores
+      </h4>
+      <ul class="list-block style-scrooll">
+        <li class="list-header">
+          <div class="col-left">Proveedor</div>
+          <div class="col-right">RRAA</div>
+        </li>
+        {% for key, value in providers_inventory.items %}
+          <li class="list-item">
+            <div class="col-left">{{ key }}</div>
+            <div class="col-right">{{ value }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <!-- END NEW PROVIDERS -->
+  <!-- INDICADOR -->
+  <div class="col-12">
+      <div class="row provider-main-indicators">
+          <div class="col-12 col-md-6 pe-md-0">
+          <div class="card-type-list-primary box-shadow-four">
+              <h4 class="secondary-title-card">
+                  RRAA bajo custodia según temática
+              </h4>
+              <ul class="list-block style-scrooll">
+                  <li class="list-header">
+                      <div class="col-left">Temática</div>
+                      <div class="col-right">RRAA</div>
+                  </li>
+                  {% for inventory_thematic in thematic %}
+                      <li class="list-item">
+                          <div class="col-left"><a href="{% url 'inventory:inventory_list' %}?theme_inventory={{inventory_thematic.id}}">{{ inventory_thematic.nombre }}</a></div>
+                          <div class="col-right">{{ inventory_thematic.valor }}</div>
+                      </li>
+                  {% endfor %}
+              </ul>
+          </div>
+          </div>
+          <div class="col-12 col-md-6 mt-4 mt-md-0">
+              <div class="card-type-list-primary box-shadow-four">
+                  <h4 class="secondary-title-card">
+                      RRAA bajo custodia por proveedores
+                  </h4>
+                  <ul class="list-block style-scrooll">
+                      <li class="list-header">
+                          <div class="col-left">Proveedor</div>
+                          <div class="col-right">RRAA</div>
+                      </li>
+                      {% for inventory_provider in provider %}
+                          <li class="list-item">
+                              <div class="col-left"><a href="{% url 'inventory:inventory_list' %}?entity_provider={{inventory_provider.id}}">{{ inventory_provider.nombre }}</a></div>
+                              <div class="col-right">{{ inventory_provider.valor }}</div>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- END INDICADOR -->
+</section>

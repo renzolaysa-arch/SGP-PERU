@@ -1,0 +1,27 @@
+.demand-reception{
+    // Acordeon "Inicio"
+    .accordion-item[data-accordion-item="inicio"]{
+        .accordion-body{
+            .content-buttons{
+                display: flex;
+                justify-content: center;
+                @include media-query(mintablet){
+                    justify-content: flex-end;
+                }
+                .btn{
+                    width: 100%;
+                    @include media-query(mintablet){
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+    // 
+    // Acordeon "Proceso"
+    .accordion-item[data-accordion-item="proceso"]{
+        .simple-box{
+            margin-bottom: 1.5rem;
+        }
+    }
+}

@@ -1,0 +1,1028 @@
+header {
+    // z-index: 9999 !important;
+    z-index: 2049 !important;
+    .navbar {
+        box-shadow: 0 0 6px 0 rgba($color: #000, $alpha: 0.5);
+        padding: 3px 0;
+        z-index: 3;
+        background-color: $color-white;
+        min-height: 61px;
+        align-items: center;
+
+        @include media-query(mindesktop) {
+            padding: 7px 0;
+            height: 90px;
+        }
+
+        // Contenedor imagen logo (link a)
+        .navbar-brand {
+            max-width: 50%;
+            @include media-query(mindesktop) {
+                max-width: initial;
+            }
+            // Imagen Logo
+            img {
+                max-width: 72px;
+                vertical-align: middle;
+                @include media-query(mindesktop) {
+                    max-width: 122px;
+                }
+            }
+
+            &::before {
+                // content: var(--logo);
+                content: "";
+                display: inline-block;
+                vertical-align: middle;
+                width: var(--logo-w-mob);
+                height: var(--logo-h-mob);
+                background-image: var(--logo);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center center;
+                @include media-query(mindesktop) {
+                    width: var(--logo-w-des);
+                    height: var(--logo-h-des);
+                }
+            }
+            // Nombre Aplicación (ya no se usa)
+            &-txt {
+                color: #363636;
+                font-weight: $bold;
+                max-width: 17ch;
+                font-size: 1.1rem; //11px
+                display: inline-block;
+                vertical-align: middle;
+                word-break: break-all;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                margin-left: 1.9rem; //19px
+                position: relative;
+
+                // Linea separación logo y nombre app
+                &::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 1px;
+                    height: 109%;
+                    background-color: $color-gray-v1;
+                    opacity: 0.34;
+                    left: -0.93rem; //9.3px
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+
+        // Buscador
+        .search-records {
+            @include media-query(mindesktop) {
+                width: 40%;
+                display: flex;
+            }
+
+            // Caja que agrupa dropdown, input y submit lupa
+            .input-group {
+                border-radius: 10px;
+                align-items: center;
+                background-color: $color-white;
+                color: $color-gray;
+
+                @include media-query(mindesktop) {
+                    border: 1px solid $color-lightgray;
+                }
+
+                // Dropdown btn "Buscar por"
+                .dropdownSearch-btn {
+                    display: none;
+                    height: 100%;
+                    border: none;
+                    background-color: transparent;
+                    padding-right: 12px;
+                    padding-left: 10px;
+                    border-right: 1px solid rgb(112, 112, 112, 0.2);
+                    font-size: 1.3rem;
+                    color: $color-gray;
+
+                    @include media-query(mindesktop) {
+                        display: block;
+                    }
+                    @include media-query(mindesktopLS) {
+                        font-size: 1.6rem;
+                    }
+
+                    // Icono flecha abajo
+                    &::after {
+                        font-family: "icomoon";
+                        content: "\e90d";
+                        display: inline-block;
+                        margin-left: 1.5rem;
+                        vertical-align: middle;
+                        color: var(--secondary-color);
+                        border: 0;
+                        transition: all 300ms;
+                        font-size: 1rem;
+                    }
+
+                    &[aria-expanded="true"]::after {
+                        transform: rotate(180deg);
+                        transition: all 300ms;
+                    }
+                }
+
+                // Dropdown search
+                .dropdown-menu.dropdownSearch {
+                    box-shadow: 0px 3px 11px #0000001f;
+                    border-radius: 15px;
+                    padding: 15px 10px;
+                    margin-top: 5px;
+                    background-color: $color-lightgray-v1;
+
+                    // Contenedor checkbox y label
+                    .form-check,
+                    div#id_order div {
+                        margin-bottom: 18px;
+                        padding-left: 2.2rem;
+                        @include media-query(mindesktopLS) {
+                            padding-left: 2.5rem;
+                        }
+
+                        // Checkbox
+                        .form-check-input {
+                            font-size: 1.3rem;
+                            @include media-query(mindesktopLS) {
+                                font-size: 1.6rem;
+                            }
+                            // Cuando esta checkeado
+                            &:checked {
+                                background-color: var(--secondary-color);
+                                border-color: var(--secondary-lg);
+                            }
+                        }
+                        // Radios
+                        input[type="radio"] {
+                            width: 18px;
+                            height: 18px;
+                            background-color: $color-white;
+                            border-radius: 50%;
+                            border: 1px solid $color-lightgray;
+                            margin-right: 0.688rem;
+                            position: relative;
+                            appearance: none;
+                            vertical-align: middle;
+                            // cuando se marca
+                            &:checked {
+                                // Circulo interior
+                                &::before {
+                                    position: absolute;
+                                    content: "";
+                                    display: block;
+                                    width: 8px;
+                                    height: 8px;
+                                    background-color: var(--secondary-color);
+                                    border-radius: 50%;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                }
+                            }
+                        }
+                        // Label
+                        .form-check-label,
+                        label {
+                            color: $color-gray;
+                            font-weight: $regular;
+                            opacity: 0.75;
+                            font-size: 1.3rem;
+                            @include media-query(mindesktopLS) {
+                                font-size: 1.6rem;
+                            }
+                        }
+
+                        &:last-child {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+
+                // Input busqueda desktop
+                input[type="search"]#searchinput1,
+                input[type="text"]:not([id*="mobile"]) {
+                    display: none;
+                    padding: 10px 15px;
+                    border: 0;
+                    color: $color-gray;
+                    font-size: 1.3rem;
+
+                    @include media-query(mindesktop) {
+                        display: block;
+                    }
+                    @include media-query(mindesktopLS) {
+                        font-size: 1.6rem;
+                    }
+
+                    // &::placeholder {
+                    //     // font-size: 14px;
+                    //     font-size: 0.875rem;
+                    // color: $color-gray;
+                    // }
+                }
+
+                // MEGA MENU BUSQUEDA
+                .dropdownSearchMenu {
+                    width: 100%;
+                    height: 0;
+                    opacity: 0;
+                    transition: all 300ms ease-in-out;
+                    position: fixed;
+                    left: 0;
+                    z-index: -1;
+                    top: 61px; // alto header
+
+                    @include media-query(mindesktop) {
+                        top: 90px; // alto header
+                    }
+
+                    &.show {
+                        opacity: 1;
+                        z-index: 1;
+                        height: calc(100vh - 61px); // se resta alto header
+
+                        .dropdownSearchMenu-mod {
+                            height: calc(100vh - 61px); // se resta alto header
+
+                            @include media-query(mindesktop) {
+                                height: auto;
+                            }
+                        }
+                    }
+
+                    .dropdownSearchMenu-mod {
+                        background-color: $color-white;
+                        border-bottom: 1px solid rgb(112, 112, 112, 0.25);
+                        overflow-y: auto;
+                        height: 0;
+                        transition: all 300ms ease-in-out;
+
+                        // Buscador en mobile
+                        .dropdownSearchMobile {
+                            // Contenedor primer Dropdown
+                            .dropdownSearchByMobile-container {
+                                margin: 20px 0;
+
+                                // Boton Mobile "Buscar por"
+                                .dropdownSearchByMobile-btn {
+                                    border: 1px solid $color-lightgray;
+                                    border-radius: 10px;
+                                    background-color: $color-white;
+                                    color: $color-gray;
+                                    padding: 10px 15px;
+                                    width: 100%;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    font-size: 1.3rem;
+                                    @include media-query(mindesktopLS) {
+                                        font-size: 1.6rem;
+                                    }
+
+                                    // Icono flecha abajo
+                                    &::after {
+                                        font-family: "icomoon";
+                                        content: "\e90d";
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        color: var(--secondary-color);
+                                        border: 0;
+                                        transition: all 300ms;
+                                        font-size: 1rem;
+                                    }
+                                    // Rotar icono flecha
+                                    &[aria-expanded="true"]::after {
+                                        transform: rotate(180deg);
+                                        transition: all 300ms;
+                                    }
+                                }
+
+                                // Menu opciones
+                                .dropdownSearchByMobile-menu {
+                                    box-shadow: 0px 3px 11px #0000001f;
+                                    border-radius: 15px;
+                                    padding: 15px 10px;
+                                    margin-top: 5px;
+                                    background-color: $color-lightgray-v1;
+                                    width: 100%;
+
+                                    // Contenedor checkbox y label
+                                    .form-check,
+                                    div#id_order div {
+                                        margin-bottom: 18px;
+                                        padding-left: 2.2rem;
+                                        @include media-query(mindesktopLS) {
+                                            padding-left: 2.5rem;
+                                        }
+
+                                        // Checkbox
+                                        .form-check-input {
+                                            font-size: 1.3rem;
+                                            @include media-query(mindesktopLS) {
+                                                font-size: 1.6rem;
+                                            }
+                                            // Cuando esta checkeado
+                                            &:checked {
+                                                // background-color: var(--secondary-color); // solo para checkbox
+                                                border-color: var(--secondary-lg);
+                                            }
+                                        }
+                                        // Radios
+                                        input[type="radio"] {
+                                            width: 18px;
+                                            height: 18px;
+                                            background-color: $color-white;
+                                            border-radius: 50%;
+                                            border: 1px solid $color-lightgray;
+                                            margin-right: 0.688rem;
+                                            position: relative;
+                                            appearance: none;
+                                            vertical-align: middle;
+
+                                            // cuando se marca
+                                            &:checked {
+                                                // Circulo interior
+                                                &::before {
+                                                    position: absolute;
+                                                    content: "";
+                                                    display: block;
+                                                    width: 8px;
+                                                    height: 8px;
+                                                    background-color: var(--secondary-color);
+                                                    border-radius: 50%;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate(-50%, -50%);
+                                                }
+                                            }
+                                        }
+                                        // Label
+                                        .form-check-label,
+                                        label {
+                                            color: $color-gray;
+                                            font-weight: $regular;
+                                            opacity: 0.75;
+                                            font-size: 1.3rem;
+                                            @include media-query(mindesktopLS) {
+                                                font-size: 1.6rem;
+                                            }
+                                        }
+
+                                        &:last-child {
+                                            margin-bottom: 10px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .input-group {
+                                border: 1px solid $color-lightgray;
+                                border-radius: 10px;
+                                align-items: center;
+                                background-color: $color-white;
+                                margin: 20px 0;
+                                color: $color-gray;
+
+                                // Input busqueda mobile
+                                input[type="search"],
+                                input[type="text"] {
+                                    padding: 10px 15px;
+                                    border: 0;
+                                    border-top-left-radius: 10px;
+                                    border-bottom-left-radius: 10px;
+                                    color: $color-gray;
+                                    font-size: 1.3rem;
+                                }
+
+                                .btn-search {
+                                    margin-right: 0.5rem;
+                                }
+                            }
+
+                            @include media-query(mindesktop) {
+                                display: none;
+                            }
+                        }
+
+                        .dropdownSearchMenu-cont {
+                            text-align: left;
+                            padding-top: 28px;
+                            padding-bottom: 90px;
+                            border-top: 1px solid rgb(112, 112, 112, 0.25);
+                            @include media-query(desktopLS) {
+                                padding-bottom: 28px;
+                            }
+                        }
+
+                        // Titulo
+                        .dropdownSearchMenu-title {
+                            color: $color-black-b3;
+                            font-weight: $regular;
+                            margin-bottom: 37px;
+                            font-size: 2.2rem;
+
+                            @include media-query(minmobilexl) {
+                                font-size: 2.5rem;
+                            }
+                            @include media-query(mintablet) {
+                                font-size: 2.7rem;
+                            }
+                            @include media-query(mindesktopL) {
+                                font-size: 3rem;
+                            }
+                            @include media-query(mindesktopLS) {
+                                font-size: 3.5rem;
+                            }
+                            @include media-query(mindesktopXL) {
+                                font-size: 4rem;
+                            }
+                            @media only screen and (min-width: 1800px) {
+                                font-size: 4.5rem;
+                            }
+
+                            strong {
+                                font-weight: $bold;
+                                color: var(--primary-color);
+                            }
+                        }
+                        .dropdownSearchMenu-load {
+                            form {
+                                .row {
+                                    justify-content: space-between;
+                                }
+                            }
+                        }
+
+                        // Columnas titulo check
+                        .col-lg-3 {
+                            margin-bottom: 2.5rem;
+                            // Contenedor checkbox y label
+                            .form-check {
+                                margin-bottom: 0;
+                                padding-left: 3.4rem;
+
+                                // Checkbox
+                                .form-check-input {
+                                    font-size: 2.1rem;
+                                    margin-top: 1.1rem;
+                                    // Cuando esta checkeado
+                                    &:checked {
+                                        background-color: var(--secondary-color);
+                                        border-color: var(--secondary-lg);
+                                    }
+                                }
+                                // Label
+                                .form-check-label {
+                                    color: #363636;
+                                    font-weight: $semibold;
+                                    font-size: 2.5rem;
+                                }
+                            }
+                            .form__field {
+                                height: 100%;
+                            }
+                            // Contenedor fieldset
+                            .search__field {
+                                // Titulo
+                                &__title {
+                                    color: #363636;
+                                    font-weight: $semibold;
+                                    font-size: 2.5rem;
+                                    margin-bottom: 2.7rem;
+                                }
+                                // Contenedor elemento form
+                                &__form-element {
+                                    label {
+                                        display: flex;
+                                        align-items: center;
+                                        margin-bottom: 1rem;
+                                        color: $color-gray-v1;
+                                        transition: all 300ms;
+
+                                        &:hover {
+                                            text-decoration: underline;
+                                            color: var(--primary-color);
+                                            cursor: pointer;
+                                        }
+                                    }
+                                    input[type="checkbox"] {
+                                        width: 21px;
+                                        height: 21px;
+                                        background-color: $color-white;
+                                        border-radius: 5px;
+                                        border: 1px solid $color-lightgray;
+                                        margin-right: 1.3rem;
+                                        position: relative;
+                                        appearance: none;
+                                        // cuando se marca
+                                        &:checked {
+                                            background-color: var(--secondary-color);
+                                            border: 1px solid var(--secondary-color);
+
+                                            // Icono Chulo
+                                            &::before {
+                                                position: absolute;
+                                                font-family: "icomoon";
+                                                content: "\e916";
+                                                display: block;
+                                                font-size: 1.1rem;
+                                                color: $color-white;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // Contenedor boton submit formulario
+                            .container-button {
+                                display: flex;
+                                width: 100%;
+                                height: 100%;
+                                align-items: center;
+                                @include media-query(mintablet) {
+                                    justify-content: flex-end;
+                                }
+                                @include media-query(mindesktop) {
+                                    justify-content: flex-start;
+                                    align-items: flex-end;
+                                }
+
+                                .btn {
+                                    width: 100%;
+                                    @include media-query(mintablet) {
+                                        width: auto;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Listado menu
+                        .dropdownSearchMenu-list {
+                            margin: 27px 0;
+                            padding: 0;
+
+                            li {
+                                display: block;
+                                margin-bottom: 1rem;
+                                &:last-child {
+                                    margin-bottom: 0;
+                                }
+
+                                .dropdownSearchMenu-link {
+                                    cursor: pointer;
+                                    text-decoration: none;
+                                    color: $color-gray;
+                                    font-weight: $regular;
+                                    // font-size: pxTOem(16px);
+                                    font-size: 1.6rem;
+
+                                    &:hover {
+                                        text-decoration: underline;
+                                        color: var(--primary-color);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Submit
+                .btn-search#btnSearchHeader {
+                    margin-right: 0.5rem;
+                    display: none;
+
+                    @include media-query(mindesktop) {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .user-actions {
+            align-items: center;
+
+            .btn-user-login,
+            .country-indicator {
+                margin-right: 13px;
+            }
+
+            // Loguin desktop
+            .btn-user-login {
+                display: none;
+                @include media-query(mindesktop) {
+                    display: block;
+                }
+            }
+
+            // Contenedor bandera
+            .country-indicator {
+                &::after {
+                    // content: var(--flag);
+                    // display: block;
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 29px;
+                    height: 29px;
+                    content: "";
+                    background-image: var(--flag);
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    @include media-query(mindesktop) {
+                        width: 45px;
+                        height: 45px;
+                    }
+                }
+            }
+
+            // Boton Search mobile
+            .btn-search-mobile {
+                background-color: var(--secondary-color);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border-color: var(--secondary-color);
+                position: relative;
+                display: block;
+                margin-right: 20px;
+                padding: 0;
+                color: $color-white;
+                transition: all 300ms;
+                min-width: unset;
+                padding: 0;
+
+                @include media-query(mindesktop) {
+                    display: none;
+                }
+
+                &.active {
+                    background-color: var(--primary-color);
+                    // Cambiar a icono X
+                    &::after {
+                        content: "\e911";
+                        font-family: "icomoon" !important;
+                    }
+                }
+
+                //Icono Lupa
+                &::after {
+                    content: "\e919";
+                    font-family: "icomoon" !important;
+                    vertical-align: middle;
+                    font-size: 13.52px;
+                }
+
+                // Linea separacion
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 10%;
+                    left: calc(100% + 9px);
+                    background-color: rgb(112, 112, 112, 0.2);
+                    width: 1px;
+                    height: 80%;
+                }
+            }
+
+            // Burguer Btn
+            .navbar-toggler {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+
+                flex-direction: column;
+                justify-content: space-between;
+                width: 32px;
+                height: 24px;
+                position: relative;
+                transition: 0.5s ease-in-out;
+
+                @include media-query(mindesktop) {
+                    width: 42px;
+                    height: 32px;
+                }
+
+                &:focus,
+                &:active,
+                .navbar-toggler-icon:focus {
+                    outline: none;
+                    box-shadow: none;
+                    border: 0;
+                    position: relative;
+                }
+
+                span {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .toggler-icon {
+                    display: block;
+                    // position: absolute;
+                    height: 3px;
+                    width: 100%;
+                    background: $color-black-b3;
+                    border-radius: 1px;
+                    opacity: 1;
+                    left: 0;
+                    transform: rotate(0deg);
+                    transition: 0.25s ease-in-out;
+                    border-radius: 3px;
+
+                    &.middle-bar {
+                        margin-top: 0px;
+                    }
+                }
+
+                /* State when the navbar is collapsed */
+                &[aria-expanded="false"] {
+                    .top-bar {
+                        // position: absolute;
+                        // top: 0px;
+                        transform: rotate(0deg);
+                    }
+
+                    .middle-bar {
+                        opacity: 1;
+                        // position: absolute;
+                        // top: 10px;
+                        // filter: alpha(opacity=100);
+                    }
+
+                    .bottom-bar {
+                        // position: absolute;
+                        // top: 20px;
+                        transform: rotate(0deg);
+                    }
+                }
+
+                /* when navigation is clicked */
+                &[aria-expanded="true"] {
+                    .top-bar {
+                        top: inherit;
+                        // transform: rotate(135deg);
+                        transform: translateY(11px) rotate(45deg);
+
+                        @include media-query(mindesktop) {
+                            transform: translateY(15px) rotate(45deg);
+                        }
+                    }
+
+                    .middle-bar {
+                        opacity: 0;
+                        top: inherit;
+                        filter: alpha(opacity=0);
+                    }
+
+                    .bottom-bar {
+                        top: inherit;
+                        // transform: rotate(-135deg);
+                        transform: translateY(-11px) rotate(-45deg);
+
+                        @include media-query(mindesktop) {
+                            transform: translateY(-15px) rotate(-45deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Menu Principal
+    .navbarTogglerMenu {
+        width: 100%;
+        background-color: #000000c5;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        opacity: 0;
+        transition: opacity 300ms ease-in-out;
+        position: fixed;
+        top: 61px; // alto header
+        height: calc(100% - 61px); // se resta alto header
+        left: 0;
+        right: 0;
+        bottom: 0;
+        // overflow-y: auto;
+        pointer-events: none;
+
+        @include media-query(mindesktop) {
+            top: 0;
+            height: 100%;
+        }
+
+        &.show {
+            opacity: 1;
+            z-index: 99;
+            pointer-events: auto;
+            .mainmenu-container {
+                right: 0;
+            }
+        }
+
+        // Contenedor Menu Principal
+        .mainmenu-container {
+            width: 80%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 30px;
+            position: relative;
+            max-width: 467px;
+            position: absolute;
+            top: 0;
+            right: -100%;
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+            overflow-y: auto;
+
+            @include media-query(mindesktop) {
+                width: 30%;
+                padding-top: 80px;
+            }
+
+            // Boton cerrar menu Desktop
+            .btn-close {
+                display: none;
+                width: 4.2rem;
+                height: 4.2rem;
+                border: 1px solid var(--primary-color);
+                padding: 0;
+                border-radius: 50%;
+                box-sizing: border-box;
+                opacity: 1;
+                position: absolute;
+                right: 30px;
+                top: 24px;
+                transition: all 300ms;
+                background: unset;
+
+                @include media-query(mindesktop) {
+                    display: block;
+                }
+
+                @include media-query(mindesktopLS) {
+                    width: 5.6rem; //56px
+                    height: 5.6rem;
+                }
+
+                &:hover {
+                    transform: scale(0.9);
+                    transition: all 300ms;
+                }
+
+                span {
+                    color: var(--primary-color);
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 1.44rem;
+                    @include media-query(mindesktopLS) {
+                        font-size: 1.6rem;
+                    }
+                }
+            }
+
+            // Datos usuario
+            .navbar-data {
+                margin-top: 40px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid var(--primary-color);
+
+                .navbar-data-user {
+                    font-weight: $bold;
+                    color: $color-black-b3;
+                    font-size: 1.8rem;
+                    @include media-query(mindesktopLS) {
+                        font-size: 2rem;
+                    }
+                }
+
+                .navbar-content-info {
+                    display: flex;
+                    gap: 1.1rem;
+                }
+
+                .navbar-data-user-image {
+                    width: 46px;
+                    height: 46px;
+                    object-fit: cover;
+                    border-radius: 9px;
+                }
+
+                .navbar-data-user-name {
+                    font-weight: $semibold;
+                    color: var(--primary-color);
+                    margin: 0;
+                    padding-bottom: 1.6rem;
+                    // border-bottom: 1px solid var(--primary-color);
+                    font-size: 2.6rem;
+                    overflow-wrap: anywhere;
+                    @include media-query(mindesktopLS) {
+                        font-size: 3.6rem;
+                    }
+                }
+
+                .navbar-login-mobile {
+                    display: block;
+                    text-decoration: none;
+                    padding-bottom: 1.6rem;
+                    color: var(--primary-color);
+                    @include media-query(mindesktop) {
+                        display: none;
+                    }
+                    &:hover {
+                        color: $color-gray;
+                        transition: all 300ms;
+                    }
+
+                    // Icono usuario
+                    .icon-user-icon {
+                        vertical-align: middle;
+                        font-size: 2.5rem;
+                    }
+
+                    .navbar-login-mobile-txt {
+                        margin-left: 13px;
+                        font-weight: $semibold;
+                        vertical-align: middle;
+                        font-size: 1.8rem;
+                        @include media-query(mindesktopLS) {
+                            font-size: 2rem;
+                        }
+                    }
+                }
+            }
+
+            // MENU
+            .navbar-nav {
+                padding: 0;
+
+                // li items menu
+                .nav-item {
+                    border-bottom: 1px solid rgba($color: $color-lightgray, $alpha: 0.25);
+
+                    .nav-link {
+                        font-weight: $regular;
+                        color: $color-gray;
+                        padding-top: 1.6rem;
+                        padding-bottom: 2.1rem;
+                        font-size: 1.4rem;
+                        @include media-query(minmobilexl) {
+                            font-size: 1.6rem;
+                        }
+                        @include media-query(mindesktopLS) {
+                            font-size: 2rem;
+                        }
+                        &:hover {
+                            color: var(--primary-color);
+                        }
+                    }
+                }
+            }
+
+            // Logout
+            .navbar-logout {
+                margin-top: auto;
+                color: var(--primary-color);
+                text-decoration: none;
+                transition: all 300ms;
+                padding-top: 1.5rem;
+
+                .navbar-logout-icon {
+                    vertical-align: middle;
+                    font-size: 3.1rem;
+                }
+
+                .navbar-logout-txt {
+                    text-decoration: underline;
+                    margin-left: 13px;
+                    font-weight: $semibold;
+                    vertical-align: middle;
+                    font-size: 1.8rem;
+                    @include media-query(mindesktopLS) {
+                        font-size: 2rem;
+                    }
+                }
+
+                &:hover {
+                    color: $color-gray;
+                    transition: all 300ms;
+                }
+            }
+        }
+    }
+}

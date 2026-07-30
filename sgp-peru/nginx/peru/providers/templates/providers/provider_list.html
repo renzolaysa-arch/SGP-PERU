@@ -1,0 +1,220 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Listado de Proveedores {% endblock %}
+
+{% block content %}
+
+<section class="provider-list">
+  <div class="container">
+    <div class="block-list-result-header">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ser proveedor</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <!-- TITLE -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+          <h1 class="block-list-result-header-title">Ser Proveedor</h1>
+          <p class="block-list-result-header-description">En esta sección encontrará un resumen de la información acerca de los diferentes proveedores registrados y acceder a la información completa y/o contactar al proveedor.</p>
+        </div>
+      </div>
+      <!-- END TITLE -->
+    </div>
+
+    <!-- Main -->
+    <div class="row mt-5 block-main">
+      <div class="col-12">
+        <div class="filter-primary-filtermobile">
+          <button class="btn btn-filter-mobile">
+            <span class="icon-filter-icon"></span>
+            <span class="text">Filtro</span>
+            <span class="icon-icon-arrow-up-dropdown"></span>
+          </button>
+        </div>
+      </div>
+      <div class="col-12 d-lg-block col-lg-4">
+        <div class="filter-primary-filterdesktop form-filter-provider-list box-shadow-five">
+          <form class="filter-primary-form" method="get" id="form-filter">
+            <div class="accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" id="accordionButton" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    <span class="icon-filter-icon"></span>
+                    <span class="accordion-button-text">Filtro</span>
+                  </button>
+                </h2>
+                <div class="form-element-search">
+                  {{ filter.form.name }}
+                  <button class="btn-submit"></button>
+                </div>
+                <button class="btn btn-close-filter d-lg-none">
+                  <span class="icon-close-icon"></span>
+                </button>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Tipo de empresa</h3>
+                        {{ filter.form.type }}
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Sector</h3>
+                        <div class="input-select-primary">
+                          {{ filter.form.sector }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <div class="accordion">
+                      <div class="accordion-item form-field">
+                        <label class="accordion-header" id="panelsStayOpen-headingState">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseState" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseState">
+                            Estado
+                          </button>
+                        </label>
+                        <div id="panelsStayOpen-collapseState" class="accordion-collapse collapse mt-4 pt-2 show"
+                          aria-labelledby="panelsStayOpen-headingState">
+                          <div class="accordion-body">
+                            {{ filter.form.status }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="container-button">
+                      <input type="submit" value="Buscar" class="btn btn-blue">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <!-- End Filter Form -->
+
+      <div class="col-12 col-lg-8">
+        <div class="provider-list-result block-list-result-main">
+          <div class="block-result-header mb-5">
+            <h3 class="result-header-numbers">{{ provider_page }} de {{ provider_total }} <span>Resultados</span></h3>
+            <div class="input-field order-by">
+              {{ form_order_by }}
+            </div>
+          </div>
+
+          <div class="block-applied-filters">
+            <p class="applied-filters-title">Filtros aplicados</p>
+            <div class="active-filters">
+              <div class="active-filters-show"></div>
+              <button class="btn clear-filter">Limpiar filtros</button>
+            </div>
+          </div>
+
+          <div class="block-show-result my-5">
+            <div class="card-list">
+              {% for obj in provider_page_obj %}
+              <div class="card-list-item">
+                <span class="card-list-item-tag">{{ obj.type }}</span>
+                <h4 class="card-list-item-name">{{ obj.name }}</h4>
+                <ul class="list-data-provider">
+                  <li class="list-data-provider-item">
+                    <p class="list-data-provider-item-title">Estado</p>
+                    <p class="list-data-provider-item-value">{{obj.status}}</p>
+                  </li>
+                </ul>
+                <div class="container-button">
+                  <a href="{% url 'providers:provider_detail' obj.id %}" class="btn btn-white-bordered">Ver más</a>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- End Main -->
+
+  </div>
+</section>
+
+<!-- documents pagination -->
+<section class="provider-list-pagination">
+  <div class="container">
+    <div class="row justify-content-end" id="row-pagination-list">
+      <div class="col-12 col-lg-8 col-pagination">
+        <div class="pagination">
+          {% if provider_page_obj.has_previous %}
+            <a class="prev" href="{% my_url provider_page_obj.previous_page_number 'page' request.GET.urlencode %}" aria-label="Anterior">
+              <span class="icon-icon-arrow-up-dropdown"></span>
+              <span class="prev__text">Anterior</span>
+            </a>
+            {% else %}
+            <a class="prev prev--disabled" href="#" aria-label="Anterior">
+              <span class="icon-icon-arrow-up-dropdown"></span>
+              <span class="prev__text">Anterior</span>
+            </a>
+          {% endif %}
+          <nav class="pages">
+            <ul class="pages__ul">
+            {% for page_number in provider_page_obj.paginator.page_range %}
+              <li class="pages__li"><a href="{% my_url page_number 'page' request.GET.urlencode %}" class="page{% if page_number == provider_page_obj.number %} page--current{% endif %}">{{page_number}}</a></li>
+            {% endfor %}
+            </ul>
+          </nav>
+          {% if provider_page_obj.has_next %}
+            <a class="next" href="{% my_url provider_page_obj.next_page_number 'page' request.GET.urlencode %}" aria-label="Siguiente">
+              <span class="next__text">Siguiente</span>
+              <span class="icon-icon-arrow-up-dropdown"></span>
+            </a>
+            {% else %}
+            <a class="next next--disabled" href="#" aria-label="Siguiente">
+              <span class="next__text">Siguiente</span>
+              <span class="icon-icon-arrow-up-dropdown"></span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- END documents pagination -->
+
+<dialog class="modal fade" id="modalFilterMobile" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container position-relative">
+          <button class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
+            <span class="icon-close-icon"></span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body filter-primary-filterdesktop form-filter-provider-list">
+        <div class="container"></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'cepal/base.html' %} {% load static %} {% block title %} Detalle de
+la noticia {% endblock %} {% block content %} {% if new_item %}
+<main class="news-detail">
+	<section class="container">
+		<!-- BREADCRUMB -->
+		<div class="row">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item">
+						<a href="{% url 'contents:news' %}">Noticias</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Detalle noticia
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<!-- END BREADCRUMB -->
+
+		<div class="row detail__intro">
+			<div class="col-md-6 col-lg-5">
+				<div class="detail__intro-left">
+					<p class="detail__intro-date">{{new_item.created_date |date:"d F Y"}}</p>
+					<h1 class="detail__intro-title">{{new_item.title}}</h1>
+					<div class="detail__intro-desc">
+						{{new_item.previous_description | safe}}
+					</div>
+					<div class="detail__intro-autor">			
+
+					{% if new_item.photo_author %}
+						<img src="/media/{{new_item.photo_author}}" alt="Foto Autor {{new_item.author}}" title="Foto Autor {{new_item.author}}" />
+					{%else%}	
+						<img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="Foto Autor {{new_item.author}}" title="Avatar Autor {{new_item.author}}" style="width:60px;height:60px;" />
+					{% endif %}
+						<div class="detail__intro-autor__txt">
+							<p class="detail__intro-autor__label">Escrito por:</p>
+							<p class="detail__intro-autor__name">{{new_item.author}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% if new_item.main_image_new_desk %}
+			<div class="col-md-6 col-lg-7">
+				<div class="detail__intro-right">
+					<picture>
+						<source media="(min-width: 992px)" srcset="/media/{{new_item.main_image_new_desk}}" />
+						<img src="/media/{{new_item.main_image_new_mob}}" alt="{{new_item.title}}" />
+					</picture>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</section>
+
+	{% if new_item.sub_title is not None or new_item.youtube %}
+		<!-- DETAIL CONTENT -->
+		<section class="detail__content">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<!-- Subtitulo -->
+						{% if new_item.sub_title is not None%}
+						<h3 class="detail__content__subtitle">{{new_item.sub_title}}</h3>
+						{% endif %}
+						<!-- Descripción uno -->
+						<div class="detail__content__first-desc">{{new_item.description_uno | safe}}</div>
+						<!-- Video Youtube -->
+						{% if new_item.youtube is not None%}
+						<div class="detail__video">
+							<div class="detail__video-container">
+								<iframe src="https://www.youtube.com/embed/{{new_item.youtube}}" title="Video Noticia {{new_item.title}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  allowscriptaccess="always" allowfullscreen></iframe>
+							</div>
+							{% if new_item.cita_youtube is not None%}	
+							<p class="detail__video-caption">
+								{{new_item.cita_youtube | safe}}
+							</p>
+							{% endif %}
+						</div>
+						{% endif %}
+						<!-- Descripción dos -->
+						<div class="detail__content__second-desc">{{new_item.description_dos | safe}}</div>
+						{% if new_item.cita_noticia is not None%}
+						<blockquote>
+							{{new_item.cita_noticia | safe}}
+						</blockquote>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- END DETAIL CONTENT -->
+	{% endif %}
+	
+	{% if galleries %}
+	<!-- DETAIL GALLERY -->
+	<section class="detail__gallery">
+		<div class="container">
+			<div class="row">
+				<h2 class="detail__gallery__title">Galería</h2>
+			</div>
+		</div>
+		<div class="detail__gallery__wrapper">
+			{% for item in galleries %}
+			<picture class="detail__gallery__item">
+				<source media="(min-width: 992px)" srcset="/media/{{ item.img_desk_gallery}}" />
+				<img src="/media/{{ item.img_mob_gallery}}" alt="{{item.alt}}" title="{{item.title}}" />
+			</picture>
+			{% endfor %}
+		</div>
+	</section>
+	<!-- END DETAIL GALLERY -->
+	{% endif %}
+
+	<!-- RELATED NEWS -->
+	<section class="detail__related-news">
+		<div class="container-md gx-0 gx-md-4">
+            <h2 class="cepal-h2 mb-4 mb-md-5">
+                Noticias relacionadas
+            </h2>
+			{%if news_related %}
+            <div class="row col-lg-10 offset-lg-1 col-xxl-12 offset-xxl-0">
+                <div class="detail__related-news__list">
+					<!-- NEWS ITEM -->
+					{% for obj in news_related %} 
+						<div class="news__item box-shadow-primary">
+							<div class="news__item__img">
+								<img src="/media/{{obj.main_image_new_desk}}">
+							</div>
+							<div class="news__item__txt">
+								<div class="news__item__tags">
+									{% for tag in obj.tag_asociate.all %}
+										<span class="badge badge-{{tag.type_color_choice}}">{{tag.name_tag}}</span>
+									{% endfor %}
+								</div>
+								<p  class="news__item__date">{{obj.created_date |date:"d F Y"}}</p>
+								<h3 class="news__item__title cepal-h3"><a href="{% url 'contents:new' obj.id %}">{{obj.title}}</a></h3>
+								<div class="news__item__desc">{{obj.previous_description | safe}}</div>
+								<div class="news__item__call">
+									<a href="{% url 'contents:new' obj.id %}" class="news__item__link">
+										<span class="news__item__link-txt">Leer más</span><span class="icon-arrow-right-icon"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- END NEWS ITEM -->
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+			<div class="detail__related-news__call mt-3 mt-md-4 text-center">
+                <a href="/noticias" class="btn btn-secondary btn-secondary--contour">
+                    Ver todas las noticias
+                </a>
+            </div>
+		</div>
+	</section>
+	<!-- END RELATED NEWS -->
+
+</main>
+
+{% endif %} {% endblock %}

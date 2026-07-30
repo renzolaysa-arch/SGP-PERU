@@ -1,0 +1,277 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Crear Proveedor {% endblock %}
+
+{% block content %}
+
+<main class="multi-step-page">
+    <section class="container multi-step-page__header">
+        <!-- BREADCRUMB -->
+        <div class="row">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'providers:provider_main' %}">CRM Proveedores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Creación de nueva entidad proveedora</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+        <!-- Title -->
+        <div class="row justify-content-center mt-4 mb-5">
+          <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+            <h1 class="cepal-h1 multi-step-page__title">Nueva entidad proveedora</h1>
+            <p class="multi-step-page__desc">
+                En esta sección puede crear y registrar la información completa de una entidad proveedora.
+            </p>
+            <p class="createform__desc">Los campos marcados con (<span class="cepal-alert__text">*</span>) son obligatorios o requeridos.</p>
+          </div>
+        </div>
+        <!-- End Title -->
+    </section>
+
+    <section class="container multi-step-page__wrapper step-app" id="createProvider">
+        <div class="row">
+            <div class="col-lg-4 steps-card">
+                <div class="progressbar">
+                    <ul class="progressbar-primary box-shadow-five step-steps" id="progressbar">
+                        <li class="progressbar-step" id="step-1" data-step-target="step1"><span>Identificación de la entidad proveedora </span></li>
+                        <li class="progressbar-step" id="step-2" data-step-target="step2"><span>Ubicación del proveedor</span></li>
+                        <li class="progressbar-step" id="step-3" data-step-target="step3"><span>Identificación del contacto</span></li>
+                        <li class="progressbar-step" id="step-4" data-step-target="step4"><span>Información secundaria</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 form-card">
+                <form enctype="multipart/form-data" class="multi-step-page__form form box-shadow-five" action="/crear-proveedor/" method="POST" id="create-provider-form">
+                    {% csrf_token %}
+                    <div class="loading z-index-3 d-none">
+                        <div class="loader"></div>
+                        <p class="loading__text">Enviando...</p>
+                    </div>
+                    <div class="step-content">
+                        
+                        <!-- Paso 1 -->
+                        <div class="step-tab-panel" data-step="step1">
+                            <!-- Identificación de la entidad proveedora -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_name-2">Nombre</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.name }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_identification_number">Número de Identificación Tributaria</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.identification_number }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_description">Descripción</label>
+                                    <div class="form__element form__element--textarea">
+                                        {{ form_create_provider.description }}
+                                        <p class="form__element__info counter" data-maxlength="255"></p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_sector">Sector</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_provider.sector }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_type">Tipo</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_provider.type }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_image">Imagen</label>
+                                    <div class="form__element form__element--file">
+                                        {{ form_create_provider.image }}
+                                    </div>
+                                    <p class="form__element__info mt-3">
+                                        Las imágenes deben ser exactamente de 80x80 píxeles
+                                    </p>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_mision">Misión</label>
+                                    <div class="form__element form__element--textarea">
+                                        {{ form_create_provider.mision }}
+                                        <p class="form__element__info counter" data-maxlength="255"></p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_sicode">Código de identificación</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.sicode }}
+                                        <p class="form__element__info counter" data-maxlength="15"></p>
+                                    </div>
+                                </fieldset>                                
+                            </div>
+                        </div>
+                        <!-- End Paso 1 -->
+
+                        <!-- Paso 2 -->
+                        <div class="step-tab-panel" data-step="step2">
+                            <!-- Ubicación del proveedor -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100">
+                                    <label for="id_territorial_level">Nivel territorial</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.territorial_level }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_web">Página web</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.web }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_mail">Correo electrónico</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.mail }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_telephone">Teléfonos</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.telephone }}
+                                    </div>
+                                </fieldset>
+                                <div id="divipolasWrapper" class="form__group--two-col w-100">
+                                    <fieldset class="form__field w-100 d-none">
+                                        <label for="id_location">Ubicación</label>
+                                        <div class="form__element form__element--select">
+                                            {{ form_create_provider.location }}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Paso 2 -->
+
+                        <!-- Paso 3 -->
+                        <div class="step-tab-panel" data-step="step3">
+                            <!-- Identificación del contacto -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_agent_mame">Nombre del principal representante</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.agent_mame }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_agent_position">Cargo del principal representante</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.agent_position }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_official_name">Nombre del funcionario enlace</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.official_name }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_official_position">Cargo del funcionario enlace</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.official_position }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_official_mail">Correo electrónico del funcionario enlace</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.official_mail }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100">
+                                    <label for="id_official_telephone">Teléfono del funcionario enlace</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.official_telephone }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <!-- End Paso 3 -->
+
+                        <!-- Paso 4 -->
+                        <div class="step-tab-panel" data-step="step4">
+                            <!-- Información secundaria -->
+                            <div class="form__group--two-col">
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_domain">Dominio</label>
+                                    <div class="form__element">
+                                        {{ form_create_provider.domain }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_status">Estado</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form_create_provider.status }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_category">Categorías</label>
+                                    <div class="form__element form__element--select-multiple">
+                                        {{ form_create_provider.category }}
+                                        <p class="form__element__info">
+                                            Puede seleccionar más de uno.
+                                            <!-- Mantenga presionado "Control" o "Comando" en Mac, para seleccionar más de uno. -->
+                                        </p>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form__field w-100 required">
+                                    <label for="id_topic">Temáticas</label>
+                                    <div class="form__element form__element--select-multiple">
+                                        {{ form_create_provider.topic }}
+                                        <p class="form__element__info">
+                                            Puede seleccionar más de uno.
+                                            <!-- Mantenga presionado "Control" o "Comando" en Mac, para seleccionar más de uno. -->
+                                        </p>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <!-- End Paso 4 -->
+
+                    </div>
+                    <div class="container-buttons step-footer">
+                        <button type="button" data-step-action="prev" class="btn btn-secondary btn-secondary--contour step-btn"><span class="icon-back"></span>Volver</button>
+                        <button type="submit" class="btn btn-secondary btn-secondary--fill step-btn" id="createProviderSubmit"><span class="icon-save"></span> Guardar y salir</button>
+                        <button type="button" data-step-action="next" class="btn btn-secondary btn-secondary--fill step-btn">Continuar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Modal confirmation Provider -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationProvider" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Crear entidad proveedora</h2>
+            </div>
+            <div class="modal-body">
+                <p class="description">Se ha creado la nueva entidad proveedora.</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour create-new" type="button" aria-label="Volver">Nueva entidad proveedora</button>
+                    <a class="btn btn-primary btn-primary--contour goto-list" href="{% url 'providers:provider_list' %}">CRM proveedores</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation Provider -->
+
+{% endblock %}

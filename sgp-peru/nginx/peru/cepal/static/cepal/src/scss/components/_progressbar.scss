@@ -1,0 +1,224 @@
+.progressbar{
+  position: relative;
+  transform: rotate(0deg); //importante para posicionar el nieto (texto li span) con respecto a este elemento(abuelo) y no el padre
+  @include media-query(mindesktop){
+    transform: none;
+  }
+  // Contenedor (ul)
+  &-primary {
+    $circle-width-mobile: 4rem;
+    $circle-width-desk: 6rem;
+    $progressbar-padding-y: 3rem;
+    $progressbar-padding-x: 2rem;
+  
+    display: flex;
+    padding: $progressbar-padding-y $progressbar-padding-x;
+    list-style: none;
+  
+    overflow: hidden;
+    overflow-x: scroll;
+  
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    
+    @include media-query(mindesktop){
+      display: block;
+      padding: $progressbar-padding-y;
+      padding-right: $progressbar-padding-x;
+    }
+  
+    // Item paso (li)
+    .progressbar-step {
+      position: relative;
+      counter-increment: list;
+      min-height: 12rem;
+      font-size: 1.8rem;
+      width: 100%;
+      display: inline-flex;
+      // justify-content: center;
+      min-width: 112px;
+      @include media-query(minmobilexl){
+        min-height: 11rem;
+      }
+      
+      @include media-query(mindesktop){
+        display: inline-block;
+        font-size: 1.4rem;
+      }
+      @include media-query(mindesktopL){
+        font-size: 1.8rem;
+      }
+  
+      &:last-child{
+        min-width: unset;
+        width: auto;
+      }
+  
+      // Línea
+      &::before {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        background-color: $color-gray-line-provider;
+        width: 100%;
+        height: 0.1rem;
+        top: calc(#{$circle-width-mobile} / 2);
+        // left: 50%;
+        left: 0;
+        z-index: 1;
+        @include media-query(minmobilexl){
+          top: calc(#{$circle-width-desk} / 2);
+        }
+        @include media-query(mindesktop){
+          top: 10%;
+          left: 1.7rem;
+          width: 0.1rem;
+          height: 100%;
+        }
+      }
+      // Circulo y número
+      &::after {
+        content: counter(list);
+        width: $circle-width-mobile;
+        height: $circle-width-mobile;
+        color: var(--secondary-color); // antes $color-black-b4
+        font-size: 2.5rem;
+        font-weight: 600;
+        border-radius: 50%;
+        box-shadow: 0rem .3rem .6rem #00000024;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-white;
+        position: relative;
+        z-index: 2;
+        @include media-query(minmobilexl){
+          width: $circle-width-desk;
+          height: $circle-width-desk;
+        }
+        @include media-query(mindesktop){
+          position: absolute;
+          top: 0.4rem;
+          left: -1.2rem;
+          font-size: 2.2rem;
+        }
+        @include media-query(mindesktopL){
+          font-size: 2.5rem;
+        }
+      }
+  
+      // Quitar última línea
+      &:last-child::before {
+        content: none;
+      }
+  
+      // Texto
+      span {
+        display: none;
+        color: $color-black-b4;
+        font-size: inherit;
+        font-weight: $regular;
+        margin-top: 1rem;
+        position: fixed; //para posicionar absoluto con respecto al abuelo
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: $progressbar-padding-y;
+        width: calc(100% - (#{$progressbar-padding-x} * 2));
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+  
+        @include media-query(mindesktop){
+          display: block;
+          // padding: 1rem 2rem 1rem 6.5rem;
+          border-radius: 0 4rem 4rem 0;
+          width: auto;
+          position: static;
+          left: unset;
+          bottom: unset;
+          transform: none;
+          text-align: left;
+          margin-left: 0;
+          margin-right: 0;
+
+          line-height: 2.3rem;
+          padding: 0rem 2rem 0rem 6.5rem;
+          height: 48px;
+          display: flex;
+          align-items: center;
+        }
+      }
+  
+      // Completado
+      &.is-done, &.done {
+        // Línea
+        &::before {
+          background-color: var(--secondary-color);
+          height: 0.3rem;
+  
+          @include media-query(mindesktop){
+            width: 0.3rem;
+            height: 100%;
+          }
+        }
+        // Circulo y número
+        &::after {
+          box-shadow: 0rem .3rem .6rem #00000044;
+        }
+        // Texto
+        span {
+          @include media-query(mindesktop){
+            max-width: 90%;
+            position: relative;
+            // Icono circulo con check
+            &::after{
+              content: "\e928";
+              font-family: 'icomoon';
+              font-size: 2rem;
+              color: $color-green;
+              display: inline-block;
+              vertical-align: middle;
+              position: absolute;
+              right: -$progressbar-padding-x;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+          }
+        }
+      }
+  
+      // Item activo actual
+      &.current, &.active {
+        // Circulo y número
+        &::after {
+          box-shadow: 0rem .3rem .6rem #00000034;
+          color: $color-white;
+          background-color: var(--primary-color);
+          @include media-query(mindesktop){
+            color: var(--secondary-color);
+            background-color: $color-white;
+          }
+        }
+  
+        // Texto
+        span {
+          display: block;
+          color: var(--primary-color);
+          @include media-query(mindesktop){
+            display: flex;
+            color: $color-white;
+            background-color: var(--primary-color);
+            font-weight: $semibold;
+          }
+        }
+      }
+  
+    }
+  }
+}

@@ -1,0 +1,734 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %}Proveedor | {{ provider.name }}{% endblock %}
+{% load project_tags %}
+{% block content %}
+
+<main class="provider-detail">
+  <div class="container">
+    <!-- BREADCRUMB -->
+    <div class="row">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'providers:provider_main' %}">CRM proveedores</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'providers:provider_list' %}">Listado de proveedores</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Detalle proveedor</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- END BREADCRUMB -->
+    <!-- PROVIDER INFORMATION -->
+    <section class="row user__information">
+      <div class="col-12 gx-0">
+        <div class="user__first">
+          <div class="user__left">
+            <div class="user__image">
+              <img src="/media/{{ provider.image }}" alt="Foto del perfil">
+            </div>
+            <h1 class="user__name cepal-h1">{{provider.name}}</h1>
+          </div>
+          <div class="user__right">
+          </div>
+        </div>
+      </div>
+      <div class="col-12 gx-0">
+        <div class="user__second">
+          <div class="taxonomy">
+            <span class="taxonomy__title">Categorías:</span>
+            <span class="badge badge-purple">Actividades</span>
+            <span class="badge badge-yellow">Población</span>
+          </div>
+          <div class="taxonomy">
+            <span class="taxonomy__title">Temática:</span>
+            <span class="badge badge-green">Salud</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END PROVIDER INFORMATION -->
+  </div>
+  <section class="provider-content">
+    <div class="container">
+      <nav class="tabs__container">
+        <ul class="nav nav-tabs nav-tabs--mod1">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#records">Registros Administrativos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#documents">Documentos</a>
+          </li>
+          {% if request.user|has_group:"Unidad Central" %}
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#data">Datos</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#requests">Solicitudes</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="tab-content">
+      <!-- PROVIDER RECORDS -->
+      <div class="tab-pane container active providerRecords" id="records">
+        <div class="row results">
+          <div class="col-12">
+            <div class="results__header">
+              <div class="results__total">
+                {{ inventory_page }} de {{ inventory_total }} Resultados
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-10 offset-lg-1">
+            <div class="results__wrapper">
+              
+              {% if inventory_page_obj %}
+
+                {% for obj in inventory_page_obj %}
+                <div class="card-record-collapse box-shadow-six">
+                  <div class="collapse__header">
+                    <a class="collapse__left" data-bs-toggle="collapse" href="#" role="button" aria-expanded="false" aria-controls="records-collapse-2">
+                      <div class="collapse__toggle"><span class="btn btn-circular icon-chevron-down-icon"></span></div>
+                      <div class="collapse__title">{{ obj.title }}</div>
+                    </a>
+                    <div class="collapse__right">
+                      <div class="collapse__call">
+                        <a href="{% url 'inventory:detail_inventory' obj.id %}" class="btn btn-secondary btn-secondary--contour">Ver más</a>
+                      </div>
+                    </div>                  
+                  </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <p>El proveedor no cuenta con registros administrativos</p>
+              {% endif %}
+            </div>
+            <!-- records pagination -->
+            <div class="pagination">
+              {% if inventory_page_obj.has_previous %}
+                <a class="first" href="{% my_url 1 'page' request.GET.urlencode %}" aria-label="Primero">
+                  <span class="icon-arrow-first-item-icon"></span>
+                </a>
+                <a class="prev" href="?page={{inventory_page_obj.previous_page_number}}" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+                {% else %}
+                <a class="first first--disabled" href="#" aria-label="Primero">
+                  <span class="icon-arrow-first-item-icon"></span>
+                </a>
+                <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                  <span class="prev__text">Anterior</span>
+                </a>
+              {% endif %}
+ 
+              <nav class="pages">
+                <ul class="pages__ul">
+                {% for page_number in inventory_page_obj.paginator.page_range %}
+                  <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == inventory_page_obj.number %} page--current{% endif %}">{{page_number}}</a></li>
+                {% endfor %}
+                </ul>
+              </nav>
+
+              {% if inventory_page_obj.has_next %}
+                <a class="next" href="?page={{inventory_page_obj.next_page_number}}" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+                <a class="last" href="{% my_url inventory_page_obj.paginator.num_pages 'page' request.GET.urlencode %}" aria-label="Ultima">
+                  <span class="icon-arrow-last-item-icon"></span>
+                </a>
+                {% else %}
+                <a class="next next--disabled" href="#" aria-label="Siguiente">
+                  <span class="next__text">Siguiente</span>
+                  <span class="icon-icon-arrow-up-dropdown"></span>
+                </a>
+                <a class="last last--disabled" href="#" aria-label="Ultima">
+                  <span class="icon-arrow-last-item-icon"></span>
+                </a>
+              {% endif %}
+            </div>
+            <!-- END records pagination -->
+          </div>
+        </div>
+      </div>
+      <!-- END PROVIDER RECORDS -->
+      <!-- PROVIDER DOCUMENTS -->
+      <div class="tab-pane container fade providerDocuments" id="documents">
+        <!-- filter form -->
+        <div class="row">
+          <div class="col-12">
+            <div class="filterModal__mobile box-shadow-four" data-bs-toggle="modal" data-bs-target="#filterModal">
+              <span class="icon-filter-icon"></span><span class="txt">Filtros</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filterModal__modal modal modal--closein" id="filterModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="modal-header__title"><span class="icon-filter-icon"></span><span class="txt">Filtros</span></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form method="get" class="filterModal__form form">
+                  <div class="form__group--three-col ">
+                    <fieldset class="form__field" id="field-0">
+                      {{ filter.form.name.label_tag }}
+                      <div class="form__element form__element--searchinput">
+                        {{ filter.form.name }}
+                      </div>
+                    </fieldset>
+                  <fieldset class="form__field" id="field-2">
+                  {{ filter.form.stage_document.label_tag}}
+                  <div class="form__element form__element--select">
+                    {{ form_filter_provider.stage_document }}
+                  </div>
+                </fieldset>
+                    <fieldset class="form__field" id="field-1">
+                      {{ filter.form.created_date.label_tag }}
+                      <div class="form__element form__element--date">
+                        {{ filter.form.created_date }}
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="form__actions text-center">
+                    <input type="submit" value="Buscar" class="btn btn-secondary btn-secondary--fill">
+                  </div>
+                </form>
+                <a href="." id="clearFilter" class="clearFilter">Limpiar Filtros</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END filter form -->
+        <div class="row results">
+          <div class="col-12 col-lg-10 offset-lg-1">
+            <div class="results__header">
+              <div class="results__total">
+                {{ documents_page }} de {{ documents_total }} Resultados
+              </div>
+              <div class="results__call">
+                <button class="btn btn-primary btn-primary--fill" data-bs-toggle="modal" data-bs-target="#documentsmodal"><span class="icon-upload-icon"></span>Cargar documento</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-10 offset-lg-1 results__secondcol {% if documents_page < 1 %}no_result{% endif %}">
+            <!-- documents-results -->
+            <div class="results__wrapper">
+              {% if provider %}
+                <div class="document__list">
+                  {% for obj in documents_page_obj %}
+                    <article class="document__item">
+                      <div class="document__tags">
+                      
+                      {% if obj.stage_document == "Firma de documentos" %}
+                        <a  class="badge badge-secondaryalpha">Firma de documentos</a>
+                        {% elif obj.stage_document == "Inicio" %}
+                        <a  class="badge badge-bgwhite badge-bgwhite--turquoise">Inicio</a>
+                        {% elif obj.stage_document == "En proceso" %}                        
+                        <a  class="badge badge-bgwhite badge-bgwhite--purplev1">En proceso</a>
+                        {% elif obj.stage_document == "Finalizado" %}
+                        <a  class="badge badge-bgwhite badge-bgwhite--greenapple">Finalizado</a>
+                        {% else  %}
+                        <a  class="badge badge-secondaryalpha">{{ obj.stage_document }}</a>
+                      {% endif %}
+                      </div>
+                      <div class="document__row">
+                        <div class="document__title">
+                          {{ obj.name }}                        
+                        </div>
+                        <div class="document__center">
+                          <div class="document__date">
+                            <span class="document__txt">{{ obj.created_date }}</span>
+                            <span class="document__subtitle">Fecha creación</span>
+                          </div>
+                          <div class="document__size">
+                            <span class="document__txt">{{ obj.documents.size|filesizeformat }}</span>
+                            <span class="document__subtitle">Peso</span>
+                          </div>
+                          <div class="document__format">
+                            <span class="document__txt">PDF</span>
+                            <span class="document__subtitle">Formato</span>
+                          </div>
+                        </div>
+                        <div class="document__call">
+                          <a href="/media/{{ obj.documents }}" target="_blank" class="btn btn-secondary btn-secondary--contour">Descargar</a>
+                        </div>
+                      </div>
+                    </article>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+            <!-- END documents-results -->
+            <!-- documents pagination -->
+            {% if provider %}
+              {% if documents_page_obj.next_page_number > 1  %}
+                <div class="pagination">
+                  {% if documents_page_obj.has_previous %}
+                    <a class="first" href="{% my_url 1 'page' request.GET.urlencode %}" aria-label="Primero">
+                      <span class="icon-arrow-first-item-icon"></span>
+                    </a>
+                    <a class="prev" href="?page={{documents_page_obj.previous_page_number}}" aria-label="Anterior">
+                      <span class="icon-icon-arrow-up-dropdown"></span>
+                      <span class="prev__text">Anterior</span>
+                    </a>
+                    {% else %}
+                    <a class="first first--disabled" href="#" aria-label="Primero">
+                      <span class="icon-arrow-first-item-icon"></span>
+                    </a>
+                    <a class="prev prev--disabled" href="#" aria-label="Anterior">
+                      <span class="icon-icon-arrow-up-dropdown"></span>
+                      <span class="prev__text">Anterior</span>
+                    </a>
+                  {% endif %}
+    
+                  <nav class="pages">
+                    <ul class="pages__ul">
+                    {% for page_number in documents_page_obj.paginator.page_range %}
+                      <li class="pages__li"><a href="?page={{page_number}}" class="page{% if page_number == documents_page_obj.number %} page--current{% endif %}">{{page_number}}</a></li>
+                    {% endfor %}
+                    </ul>
+                  </nav>
+
+                  {% if documents_page_obj.has_next %}
+                    <a class="next" href="?page={{documents_page_obj.next_page_number}}" aria-label="Siguiente">
+                      <span class="next__text">Siguiente</span>
+                      <span class="icon-icon-arrow-up-dropdown"></span>
+                    </a>
+                    <a class="last" href="{% my_url documents_page_obj.paginator.num_pages 'page' request.GET.urlencode %}" aria-label="Ultima">
+                      <span class="icon-arrow-last-item-icon"></span>
+                    </a>
+                    {% else %}
+                    <a class="next next--disabled" href="#" aria-label="Siguiente">
+                      <span class="next__text">Siguiente</span>
+                      <span class="icon-icon-arrow-up-dropdown"></span>
+                    </a>
+                    <a class="last last--disabled" href="#" aria-label="Ultima">
+                      <span class="icon-arrow-last-item-icon"></span>
+                    </a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endif %}
+            <!-- END documents pagination -->
+          </div>
+        </div>
+      </div>
+      <!-- END PROVIDER DOCUMENTS -->
+      {% if request.user|has_group:"Unidad Central" %}
+        <!-- PROVIDER DATA -->
+        <div class="tab-pane container fade providerData" id="data">
+          <div class="row">
+            <div class="col-12 col-lg-10 offset-lg-1">
+              <form method="POST" enctype="multipart/form-data" action="{% url 'providers:provider_save' provider.id %}" class="providerData__form form" >
+                {% csrf_token %}
+                <div class="form__group">
+                  <fieldset class="form__field required" id="field-0">
+                    <label for="name_provider">Nombre</label>
+                    <div class="form__element">
+                      {{ provider_form.name }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-1">
+                    {{ provider_form.identification_number.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.identification_number }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-2">
+                    {{ provider_form.description.label_tag }}
+                    <div class="form__element form__element--textarea">
+                      {{ provider_form.description }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-3">
+                    {{ provider_form.sector.label_tag }}
+                    <div class="form__element form__element--select">
+                      {{ provider_form.sector }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-4">
+                    {{ provider_form.type.label_tag }}
+                    <div class="form__element form__element--select">
+                      {{ provider_form.type }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-5">
+                    {{ provider_form.mision.label_tag }}
+                    <div class="form__element form__element--textarea">
+                      {{ provider_form.mision }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-6">
+                    {{ provider_form.sicode.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.sicode }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-7">
+                    {{ provider_form.territorial_level.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.territorial_level }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-8">
+                    {{ provider_form.web.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.web }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-9">
+                    {{ provider_form.mail.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.mail }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-9">
+                    {{ provider_form.telephone.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.telephone }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-10">
+                    <label for="id_location">Ubicación:</label>
+                    <div class="form__element form__element--select">
+                      {{ provider_form.location }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-11">
+                    {{ provider_form.agent_mame.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.agent_mame }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-12">
+                    {{ provider_form.agent_position.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.agent_position }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-13">
+                    {{ provider_form.official_name.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.official_name }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-14">
+                    {{ provider_form.official_position.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.official_position }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-15">
+                    {{ provider_form.official_mail.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.official_mail }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-16">
+                    {{ provider_form.official_telephone.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.official_telephone }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-17">
+                    {{ provider_form.image.label_tag }}
+                    <div class="form__element form__element--file">
+                      {{ provider_form.image }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-18">
+                    {{ provider_form.domain.label_tag }}
+                    <div class="form__element">
+                      {{ provider_form.domain }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-19">
+                    {{ provider_form.status.label_tag }}
+                    <div class="form__element form__element--select">
+                      {{ provider_form.status }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-20">
+                    {{ provider_form.category.label_tag }}
+                    <div class="form__element form__element--multiselect">
+                      {{ provider_form.category }}
+                    </div>
+                  </fieldset>
+                  <fieldset class="form__field" id="field-21">
+                    {{ provider_form.topic.label_tag }}
+                    <div class="form__element form__element--multiselect">
+                      {{ provider_form.topic }}
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="providerData__call">
+                  <input type="submit" value="Guardar Cambios" class="btn btn-secondary btn-secondary--fill">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- END PROVIDER DATA -->
+      {% endif %}
+      <!-- PROVIDER REQUESTS -->
+      <div class="tab-pane container fade providerRequests" id="requests">
+        <div class="row results">
+          <!--div class="col-12">
+            <div class="results__header">
+              <div class="results__total">
+                6 de 30 Resultados
+              </div>
+            </div>
+          </div-->
+          <div class="col-12 col-lg-10 offset-lg-1 mt-5">
+            <div class="results__wrapper">
+              <!-- Collapse item -->
+              {% if demands_list %}
+              {% for data in  demands_list%}
+              <div class="card-record-collapse box-shadow-six">
+                <!-- Heading -->
+                <div class="collapse__header">
+                  <!-- Equipo Back, importante cambiar en el href, el 1 por el id del item -->
+                  <a class="collapse__left" data-bs-toggle="collapse" href="#requests-collapse-{{ data.id }}" role="button" aria-expanded="false" aria-controls="requests-collapse-{{ data.id }}">
+                    <div class="collapse__toggle"><span class="btn btn-circular icon-chevron-down-icon"></span></div>
+                    <div class="collapse__title">{{ data.title }}</div>
+                  </a>
+                  <div class="collapse__right">
+                    <div class="collapse__call">
+                      <a href="{% url 'demand:demand_detail' data.id %}" class="btn btn-secondary btn-secondary--contour">Ver más</a>
+                    </div>
+                  </div>                  
+                </div>
+                <!-- Content -->
+                <!-- Equipo Back, importante cambiar en el 1 por el id del item -->
+                <div class="collapse" id="requests-collapse-{{ data.id }}">
+                  <div class="collapse__content">
+                    <div class="loading">
+                      <div class="loader">
+                      </div>
+                      <p class="loading__text">Cargando...</p>
+                    </div>
+                    <!-- BLOCK ACTIVITY MAGAGMENT -->
+                    <div class="block-activity-management style-scrooll">
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                      <div class="block-activity-management-item box-activities d-flex flex-column">
+                        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <div class="block-activity-management-item-header mb-3">
+                          <h4 class="block-activity-management-item-title">Actividades</h4>
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+                        <div class="block-activity-management-item-content style-scrooll d-flex flex-column justify-content-center">
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <div class="activity-item box-shadow-secondary box-{{ data.reception_demand_process }}" data-name="reception">
+                            <div class="activity-item-info">
+                              <p class="activity-item-info-title">Recepción </p>
+                              {% if request.user|has_group:"Unidad Central" %}
+                                {% if data.url_reception != None %}
+                                  <a href='{{ data.url_reception }}'  class="activity-item-info-link">Ver evidencias</a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="activity-item-percentage">{{ data.porcent_reception }}%</p>
+                          </div>
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <div class="activity-item box-shadow-secondary box-{{ data.negotiation_demand_process }}" data-name="negotiation">
+                            <div class="activity-item-info">
+                              <p class="activity-item-info-title">Relacionamiento </p>
+                              {% if request.user|has_group:"Unidad Central" %}
+                                {% if data.url_negotiation != None %}
+                                  <a href='{{ data.url_negotiation }}'  class="activity-item-info-link">Ver evidencias</a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="activity-item-percentage">{{ data.porcent_negotiation }}%</p>
+                          </div>
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <div class="activity-item box-shadow-secondary box-{{ data.transfer_demand_process }}" data-name="transfer">
+                            <div class="activity-item-info">
+                              <p class="activity-item-info-title">Transferencia</p>
+                              {% if request.user|has_group:"Unidad Central" %}
+                                {% if data.url_transfer != None %}
+                                  <a href='{{ data.url_transfer }}'  class="activity-item-info-link">Ver evidencias</a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="activity-item-percentage">{{ data.porcent_transfer }}%</p>
+                          </div>
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <div class="activity-item box-shadow-secondary box-{{ data.preparation_demand_process }}" data-name="preparation">
+                            <div class="activity-item-info">
+                              <p class="activity-item-info-title">Preparación</p>
+                              {% if request.user|has_group:"Unidad Central" %}
+                                {% if data.url_preparation != None %}
+                                  <a href='{{ data.url_preparation }}'  class="activity-item-info-link">Ver evidencias</a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="activity-item-percentage">{{ data.porcent_preparation }}%</p>
+                          </div>
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <div class="activity-item box-shadow-secondary box-{{ data.evaluation_demand_process }}" data-name="evaluation">
+                            <div class="activity-item-info">
+                              <p class="activity-item-info-title">Evaluación</p>
+                              {% if request.user|has_group:"Unidad Central" %}
+                                {% if data.url_evaluation != None %}
+                                  <a href='{{ data.url_evaluation }}'  class="activity-item-info-link">Ver evidencias</a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="activity-item-percentage">{{ data.porcent_evaluation }}%</p>
+                          </div>
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+                      </div>
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+            
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                      <div class="block-activity-management-item box-start d-flex flex-column">
+                        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <div class="block-activity-management-item-header mb-3">
+                          <h4 class="block-activity-management-item-title">Inicio</h4>
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+                        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+                      </div>
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+            
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                      <div class="block-activity-management-item box-process d-flex flex-column">
+                        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <div class="block-activity-management-item-header mb-3">
+                          <h4 class="block-activity-management-item-title">En proceso</h4>
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+                        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+                      </div>
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+            
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                      <div class="block-activity-management-item box-revision d-flex flex-column">
+                        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <div class="block-activity-management-item-header mb-3">
+                          <h4 class="block-activity-management-item-title">En revisión</h4>
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+                        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+                      </div>
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+            
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                      <div class="block-activity-management-item box-finalized d-flex flex-column">
+                        <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <div class="block-activity-management-item-header mb-3">
+                          <h4 class="block-activity-management-item-title">Finalizado</h4>
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+                        <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+                        <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+                          <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+                          <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+                        </div>
+                        <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+                      </div>
+                      <!-- COLUMN ACTIVITY MAGAGMENT -->
+                    </div>
+                    <!-- END BLOCK ACTIVITY MAGAGMENT -->
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+                <p>No se encuentran solicitudes asociadas al proveedor</p>
+              {% endif %}
+              <!-- END Collapse item -->
+            </div>
+            <!-- Equipo back, guiarse por paginacion del tab documents -->
+          </div>
+        </div>
+      </div>
+      <!-- END PROVIDER REQUESTS -->
+    </div>
+  </section>
+  <!-- DOCUMENTS LOAD MODAL -->
+  <div class="modal fade modal--closein documentsmodal" id="documentsmodal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header-title">
+            <span class="icon-upload-icon"></span>
+            <span class="documentsmodal__title">Cargar Documento</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" enctype="multipart/form-data" action="{% url 'providers:provider_document_create' provider.id %}" class="form documentsmodal__form">
+            {% csrf_token %}
+            <div class="form__group">
+              <fieldset class="form__field required" id="field-0">
+                {{ documets_form.name.label_tag }}
+                <div class="form__element">
+                  {{ documets_form.name }}
+                </div>
+              </fieldset>
+               <fieldset class="form__field required" id="field-2">
+                  {{ filter.form.stage_document.label_tag}}
+                  <div class="form__element form__element--select">
+                    {{ form_filter_provider.stage_document }}
+                  </div>
+                </fieldset>
+              <fieldset class="form__field required" id="field-1">
+                {{ documets_form.documents.label_tag }}
+                <div class="form__element form__element--file">
+                  {{ documets_form.documents }}
+                  <p class="form__element__info mt-2">Solo se aceptan archivos en formato PDF con un peso máximo de 5MB</p>
+                </div>
+              </fieldset>
+            </div>
+            {{ documets_form.provider }}
+
+            <div class="documentsmodal__call mt-4">
+              <input type="submit" value="Enviar" class="btn btn-secondary btn-secondary--fill">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END DOCUMENTS LOAD MODAL -->
+</main>
+
+{% endblock %}

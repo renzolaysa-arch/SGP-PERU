@@ -1,0 +1,70 @@
+// ==================== COLORES ====================
+$color-white: #ffffff;
+$color-white-w1: #f8f8fa;
+$color-white-w2: #f8f8f8;
+$color-white-body: #fcfcfc;
+
+$color-black: #141414;
+$color-black-b1: #1a1a1a;
+$color-black-b2: #1a1818;
+$color-black-b3: #1b1e1c;
+$color-black-b4: #454545;
+
+$color-gray: #565654;
+$color-gray-v1: #707070;
+$color-gray-v2: #777777;
+$color-lightgray: #c1c1c1;
+$color-lightgray-v1: #f6f6f6;
+$color-lightgray-v2: #dddddd;
+$color-greyshade: #eeeeee;
+$color-gray-line-provider: #f2f0f1;
+
+$color-red-google: #cc2e2e;
+$color-darkred-google: #d31a1a;
+$color-error-forms: #d54f84;
+$color-error-input-fill: #b6044b;
+
+$color-blue-facebook: #1e4eba;
+$color-light-blue: #0077A84D;
+
+$color-orange: #ed7b18;
+
+$color-green: #36a97a;
+$color-green-v1: #569B9E;
+$color-green-apple: #98BD1F;
+$color-turquoise:#54B8C0;
+
+$color-purple: #5B569E;
+$color-purple-v1: #8A4E8C;
+$color-limeyellow: #D6DD00;
+$color-yellow-in-process:#fffb00;
+// ==================== BREAKPOINTS ====================
+$mobilex: 375px !default;
+$mobilexl: 480px !default;
+$mobile: 576px !default;
+$tablet: 768px !default;
+$desktop: 992px !default;
+$desktopL: 1200px !default;
+$desktopLS: 1400px !default;
+$desktopXL: 1600px !default;
+// ==================== FONT WEIGHTS ====================
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+$extrabold: 800;
+// ==================== ANCHO MAXIMO PÁGINA ====================
+$pagewidth: 1400px;
+
+// ==================== BOOTSTRAP OVERRIDE ====================
+
+.container,
+.row {
+  --bs-gutter-x: 3rem;
+}
+
+.modal-backdrop {
+  // Sombra modales par sobre escribir el de Bootstrap
+	--bs-backdrop-zindex: 2050;
+}

@@ -1,0 +1,106 @@
+{% comment %} {% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Bitácora {% endblock %}
+{% block content %}
+{% endblock %} {% endcomment %}
+
+<section class="block-binacle-header mb-5">
+    <h2 class="block-binacle-header-title">Bitácora</h2>
+    <p class="block-binacle-header-description">Encontrará su historial de comentarios.</p>
+</section>
+
+<section class="block-binacle-body container">
+    <div class="row d-flex align-items-start">
+    {% if list_tread %}    
+        <div class="nav flex-column nav-pills col-12 col-md-4 col-xl-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">        
+           <!-- <button class="nav-link active" id="tab-item-1" data-bs-toggle="pill" data-bs-target="#nav-item-1" type="button" role="tab" aria-controls="nav-item-1" aria-selected="true">25 de Jul de 2022</button>
+            -->
+            {%for item in list_tread %}
+                <a href="#" data-link="{% url 'thread:thread_comments' item.id %}" class="nav-link" >{{item}}</a>
+            {% endfor %}
+            <a href="#" data-link="{% url 'thread:create_thread' %}" class="btn btn-success btn-success--fill" id="createThread"><span class="icon-vieta"></span>Crear Tema</a>
+        </div>
+        
+        {% if comments_for_tread is not None %}
+            <div class="tab-content col-12 col-md-8 col-xl-9" id="v-pills-tabContent">
+                <div class="loading loading--absolute d-none">
+                    <div class="loader"></div>
+                    <p class="loading__text">Cargando...</p>
+                    <p class="loading__text loading__text--error d-none"></p>
+                </div>
+            </div>
+        {% else %}
+            <div class="tab-content col-12 col-md-8 col-xl-9" id="v-pills-tabContent">
+                <p>Haga clic en algún tema para ver la discusión.</p>
+                <div class="loading loading--absolute d-none">
+                    <div class="loader"></div>
+                    <p class="loading__text">Cargando...</p>
+                    <p class="loading__text loading__text--error d-none"></p>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+    <div class="col-12 g-0">
+        <p><b>No hay Temas para comentar.</b></p>
+        <p>Creé un tema haciendo clic en el siguiente botón</p>
+    </div>
+    <div class="nav flex-column nav-pills col-12 col-md-4 col-xl-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"> 
+        <a href="#" data-link="{% url 'thread:create_thread' %}" class="btn btn-success btn-success--fill" id="createThread"><span class="icon-vieta"></span>Crear Tema</a>        
+    </div>
+    <div class="tab-content col-12 col-md-8 col-xl-9" id="v-pills-tabContent">
+                
+    </div>
+    {% endif %}
+    </div>
+</section>
+
+<!-- Modal confirmation binacle -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationBinacle" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Eliminar tema</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="loading loading--absolute d-none">
+                    <div class="loader"></div>
+                    <p class="loading__text">Cargando...</p>
+                    <p class="loading__text loading__text--error d-none"></p>
+                </div>
+                <p class="description">¿Está seguro de eliminar el tema y todos sus comentarios?</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour action-binacle"><span class="icon-icon-bell-notificacion-remove"></span>Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation binacle -->
+
+<!-- Modal confirmation crear Thread -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationThread" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Crear nuevo Tema</h2>
+            </div>
+            <div class="modal-body">
+                <p class="description">Se ha creado el nuevo tema en bitácora.</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour create-new" type="button" aria-label="Volver">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation crear Thread -->

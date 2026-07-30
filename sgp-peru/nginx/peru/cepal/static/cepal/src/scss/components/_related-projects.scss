@@ -1,0 +1,175 @@
+.related-projects {
+  margin: 1.5rem 0 8rem;
+  
+  @include media-query(tablet) {
+    position: relative;
+
+    &::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 65%;
+      z-index: -2;
+      background-image: url("./assets/images/bg_textura_mobile_three.png");
+      background-color: var(--primary-color);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+
+  .row {
+    position: relative;
+  }
+
+  .block-description {
+    position: relative;
+    padding: 8.3rem 5.6rem 8.3rem 3rem;
+    border-radius: 20px;
+    height: 498px;
+    width: 360px;
+
+    @include media-query(desktop) {
+      padding: 8.3rem 7.6rem 8.3rem 3rem;
+    }
+    @include media-query(tablet) {
+      width: 100%;
+      padding: 4rem 1.6rem 15rem;
+      height: auto;
+    }
+
+    // Imagen fondo
+    &::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-image: url("./assets/images/bg_textura_three.png");
+      background-color: var(--primary-color);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 20px;
+
+      @include media-query(tablet) {
+        display: none;
+      }
+    }
+
+    &-title {
+      font-size: 4rem;
+      font-weight: 700;
+      color: $color-white;
+      margin-bottom: 2rem;
+
+      @include media-query(desktopL) {
+        font-size: 3.4rem;
+      }
+      @include media-query(mobilexl) {
+        font-size: 2.9rem;
+      }
+    }
+
+    &-description {
+      color: $color-white;
+      font-size: 1.6rem;
+    }
+
+    .container-buttons {
+      @include media-query(tablet) {
+        text-align: center;
+      }
+      .btn {
+        height: 50px;
+        border: 1px solid $color-white;
+        border-radius: 25px;
+        color: $color-white;
+        font-size: 1.6rem;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        margin-top: 3.5rem;
+      }
+    }
+
+  }
+
+  .related-projects-list {
+    position: absolute;
+    right: 0;
+    width: 78%;
+    bottom: 0;
+
+    @include media-query(desktopLS) {
+      width: 73%;
+    }
+    @include media-query(desktopL) {
+      width: 68%;
+    }
+    @include media-query(desktop) {
+      width: 58%;
+    }
+    @include media-query(tablet) {
+      width: 100%;
+      position: relative;
+      margin-top: -9rem;
+    }
+    
+    .card-list-project {
+      padding-bottom: 5rem;
+
+      @include media-query(tablet) {
+        padding-bottom: 4rem;
+      }
+      
+      &-item {
+        width: 345px;
+
+        @include media-query(tablet) {
+          width: 400px;
+        }
+        @include media-query(mobile) {
+          width: 370px;
+        }
+        @include media-query(mobilexl) {
+          width: 307px;
+        }
+      }
+
+      & > .owl-stage-outer {
+        margin: -6px;
+        padding: 6px;
+      }
+
+      & > .owl-nav {
+        position: absolute;
+        bottom: -10px;
+        right: 1.2rem;
+        font-size: 0;
+      }
+
+      & > .owl-dots {
+        position: absolute;
+        left: 9.2rem;
+        bottom: 10px;
+
+        @include media-query(tablet) {
+          width: 100%;
+          left: 50%;
+          bottom: 0;
+          transform: translateX(-50%);
+        }
+      }
+    }
+
+  }
+}

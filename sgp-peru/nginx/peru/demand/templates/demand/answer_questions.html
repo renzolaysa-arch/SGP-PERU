@@ -1,0 +1,194 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Preguntas calidad {% endblock %}
+{% block content %}
+    <form method="post" class="form-answer form consistency-quality-cuestions container" id="answer">
+        {% csrf_token %}
+        {% if process == "consistencia" %}
+            <div class="all-questions">
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.consistency_question_1.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.consistency_question_1  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.consistency_question_2.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.consistency_question_2  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.consistency_question_3.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.consistency_question_3  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% elif process == "estandarizacion" %}
+            <div class="all-questions">
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.standarization_question_1.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.standarization_question_1  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.standarization_question_2.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.standarization_question_2  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.standarization_question_3.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.standarization_question_3  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% elif process == "anomalias" %}
+            <div class="all-questions">
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.detection_question_1.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.detection_question_1  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.detection_question_2.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.detection_question_2  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.detection_question_3.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.detection_question_3  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% elif process == "anonimizacion" %}
+            <div class="all-questions">
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.anonymization_question_1.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.anonymization_question_1  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.anonymization_question_2.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.anonymization_question_2  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="question">
+                    <div class="label-question">
+                    {{ form.anonymization_question_3.label }}
+                    </div>
+                    <div class="assessment-criteria content-radio" data-iddemand="{{ demand.id }}">
+                    {% for choices in form.anonymization_question_3  %}
+                        {% if choices.data.index != '0' %}
+                        <div class="filter-radio d-flex flex-column align-items-center gap-3">
+                            {{ choices }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if not answer_questions %}
+            <div class="content-buttons d-flex justify-content-end mt-5">
+                <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

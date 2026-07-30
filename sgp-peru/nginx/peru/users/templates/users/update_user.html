@@ -1,0 +1,289 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Editar Perfil {% endblock %}
+{% block content %}
+
+<main class="update-user">
+    <section class="container">
+        <!-- BREADCRUMB -->
+        <div class="row">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mi tablero</li>
+              </ol>
+            </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+    </section>
+
+    <section class="profile-head-unit groups-profile">
+        <div class="container">
+            <div class="row">
+                <!-- Left data -->
+                <div class="col-12 col-lg-3 col-xxl-2">
+                    <div class="update-user__left groups-profile-menu-sidebar">
+                        <div class="data-profile mb-5">
+                            <div class="data-profile-images">
+                                {% if user_profile.profile_image %}
+                                    <img src="/media/{{ user_profile.profile_image }}"  alt="Foto del perfil">
+                                {% else %}
+                                    <img src="/static/cepal/dist/assets/images/default-avatar.png" alt="Avatar usuario">
+                                {% endif %}
+                            </div>
+                            <div class="data-profile-name">
+                                <p class="data-profile-welcome">Bienvenido,</p>
+                                <h2 class="data-profile-name-headunit">{{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Left data -->
+
+                <!-- Right data -->
+                <div class="col-12 col-lg-9 col-xxl-10">
+                    <div class="head-unit-main groups-profile-main box-shadow-primary">
+                        <h1 class="update-user__title">Datos de Usuario</h1>
+
+                        <div class="update-user__datacard">
+                            <div class="update-user__datacard__left">
+                                <div class="update-user__datacard__image">
+                                    {% if user_profile.profile_image %}
+                                       <img src="/media/{{ user_profile.profile_image }}"  alt="Foto del perfil">
+                                    {% else %}
+                                       <img src="/static/cepal/dist/assets/images/default-avatar.png" alt="Avatar usuario">
+                                    {% endif %}
+                                </div>
+                                <div class="update-user__datacard__actions">
+                                    <button class="btn btn-secondary btn-secondary--contour" data-bs-toggle="modal" data-bs-target="#editProfileModal" >Editar perfil</button>
+                                </div>
+                            </div>
+                            <div class="update-user__datacard__right">
+                                <div class="update-user__datacard__tag"><span class="badge badge-secondaryalpha">{{ type }}</span></div>
+                                <head class="update-user__datacard__name"><b>Nombre de usuario:</b> <br>{{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</head>
+                                <div class="update-user__datacard__items">
+                                    <div class="update-user__datacard__item">
+                                        <span class="update-user__datacard__item__title">
+                                            Correo eléctronico: 
+                                        </span>
+                                        {% if user %}
+                                        <span class="update-user__datacard__item__value">
+                                            {{ user_profile.user.email }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    {% if user_profile.document_type %}
+                                    <div class="update-user__datacard__item">
+                                        <span class="update-user__datacard__item__title">
+                                            Tipo de identificación
+                                        </span>
+                                        {% if user %}
+                                        <span class="update-user__datacard__item__value">
+                                            {{ user_profile.document_type }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="update-user__datacard__item">
+                                        <span class="update-user__datacard__item__title">
+                                            Estado
+                                        </span>
+                                        {% if user %}
+                                        <span class="update-user__datacard__item__value">
+                                            {% if user_profile.user.is_active %}
+                                                Activo
+                                            {% else %}
+                                                Inactivo
+                                            {% endif %}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    {% if user_profile.valid_data is not None %}
+                                    <div class="update-user__datacard__item">
+                                        <span class="update-user__datacard__item__title">
+                                            Data verificada:
+                                        </span>                                        
+                                        <span class="update-user__datacard__item__value">
+                                            {% if user_profile.valid_data %}
+                                                Verificada
+                                            {% else %}
+                                                No Verificada
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    {% endif %}
+                                    {% if user_profile.identification_number %}
+                                    <div class="update-user__datacard__item">
+                                        <span class="update-user__datacard__item__title">
+                                            Número de identificación
+                                        </span>
+                                        {% if user %}
+                                        <span class="update-user__datacard__item__value">
+                                            {{ user_profile.identification_number }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- END Right data -->
+
+            </div>
+        </div>
+    </section>
+    <!-- Modal edit profile -->
+    <dialog class="modal fade" id="editProfileModal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- Formulario -->
+                    <form  method="POST" enctype="multipart/form-data" class="form update-user__form" action="">
+                        {% csrf_token %}
+                        {% if profile_form %}
+                            <div class="update-user__datacard--modal">
+                                <div class="update-user__datacard__left">
+                                    <div class="update-user__datacard__image">
+                                        {% if user_profile.profile_image %}
+                                            <img src="/media/{{ user_profile.profile_image }}"  alt="Foto del perfil" id="photo">
+                                        {% else %}
+                                            <img src="/static/cepal/dist/assets/images/default-avatar.png" alt="Avatar usuario" id="photo">
+                                        {% endif %}
+                                    </div>
+                                    <div class="update-user__datacard__actions">
+                                        <div class="form__element form__element--filecustom">
+                                            <div class="form__element--filecustom__hide">
+                                                {{ profile_form.profile_image }}
+                                            </div>
+                                            <div class="form__actions-wrapper">
+                                                <button type="button" class="btn--nostyle takephoto-btn" aria-label="Tomar foto" data-bs-toggle="modal" data-bs-target="#modalTakePhoto" id="showModalTake"><span class="icon-camera"></span></button>
+                                                <button type="button" class="btn--nostyle custom-upload-btn" id="customUploadBtn" aria-label="Subir archivo"><span class="icon-upload-icon"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if profile_form.profile_image.help_text %}
+                                        <p class="update-user__datacard__info">
+                                            {{ profile_form.profile_image.help_text|safe }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                                {% if profile_form.fields|length > 1 %}
+                                    <div class="update-user__datacard__right">
+                                        <div class="form__group--two-col">
+                                            {% if profile_form.name %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_name">Nombre:</label>
+                                                    <div class="form__element">
+                                                        {{ profile_form.name }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.last_name %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_last_name">Apellido:</label>
+                                                    <div class="form__element">
+                                                        {{ profile_form.last_name }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.document_type %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_document_type">Tipo de identificación:</label>
+                                                    <div class="form__element form__element--select">
+                                                        {{ profile_form.document_type }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.identification_number %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_identification_number">Número de identificación:</label>
+                                                    <div class="form__element">
+                                                        {{ profile_form.identification_number }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.email %}
+                                                <fieldset class="form__field w-100">
+                                                    <label for="id_email">Correo electrónico:</label>
+                                                    <div class="form__element">
+                                                        {{ profile_form.email }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.entity_provider %}
+                                                <fieldset class="form__field w-100">
+                                                    <label for="id_entity_provider">Entidad proveedora:</label>
+                                                    <div class="form__element form__element--select">
+                                                        {{ profile_form.entity_provider }}
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.is_active %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_is_active">Estado:</label>
+                                                    <div class="form__element form__element--checkbox">
+                                                        {{ profile_form.is_active }} Activo
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                            {% if profile_form.valid_data %}
+                                                <fieldset class="form__field">
+                                                    <label for="id_valid_data">Data:</label>
+                                                    <div class="form__element form__element--checkbox">
+                                                        {{ profile_form.valid_data }} Verificada
+                                                    </div>
+                                                </fieldset>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+    
+                            <div class="update-user__form__actions">
+                                <button type="button" class="btn btn-secondary btn-secondary--contour" data-bs-dismiss="modal"><span class="icon-back"></span>Volver</button>
+                                <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Guardar y salir">
+                            </div>
+                        {% endif %}
+                    </form>
+                    <!-- END Formulario -->
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <!-- END Modal edit profile -->
+    
+    <!-- Modal Take Photo -->
+    <dialog class="modal fade modal-finalized-transfer" id="modalTakePhoto" role="dialog">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+              <span class="icon-camera"></span>
+            </div>
+            <div class="modal-header">
+              <h2 class="modal-title">Tomar Fotografía</h2>
+              <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="description hidden">La aplicación requiere acceso a su cámara. Haga clic en el ícono de cámara bloqueada en la barra de direcciones de su navegador.</p>
+              <div class="camera">
+                <video id="video" width="150" height="150">Transmisión de video no disponible.</video>
+              </div>
+              <canvas id="canvas" width="150" height="150"></canvas>
+    
+              <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Volver" data-bs-toggle="modal" data-bs-target="#editProfileModal"><span class="icon-back"></span>Volver</button>
+                <button type="button" class="btn btn-secondary btn-secondary--fill" aria-label="Tomar Foto" id="takePhotoBtn"><span class="icon-camera"></span>Tomar Foto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </dialog>
+    <!-- End Modal Take Photo -->
+    
+</main>
+
+{% endblock %}

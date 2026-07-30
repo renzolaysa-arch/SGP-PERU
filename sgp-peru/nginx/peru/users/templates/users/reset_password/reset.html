@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">¿Olvidó su contraseña?</h2>
+            <button id = "password-done" type="button" className="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            <p>Ingrese el correo electrónico con el que se registró para recibir las instrucciones y restablecer su contraseña.</p>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'reset_password' %}">
+                {% csrf_token %}
+                <div class="label-emial">
+                    <label for="id_email">Correo electrónico</label>
+                </div>
+                <div class="imput-email">
+                    {{ password_reset_form.email }}
+                </div>
+                <div class="container-button">
+                    <button class="btn btn-user-login btn-reset" type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

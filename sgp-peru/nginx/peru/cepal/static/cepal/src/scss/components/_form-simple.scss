@@ -1,0 +1,678 @@
+// Estilos Generales para un formulario simple
+// Estilos para un formulario simple, los tamaños de los campos se manejan en la interna
+.form {
+    // Contenedor campos form
+    &__group {
+        display: flex;
+        flex-direction: column;
+        @include media-query(mintablet) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            column-gap: 1.4rem;
+        }
+
+        // Variante dos columnas en desktop
+        &--two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+
+            @include media-query(mindesktop) {
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 1.4rem;
+                row-gap: 2.5rem;
+
+                // Para items que ocupen todas las columnas
+                .w-100 {
+                    grid-column: 1 / 3;
+                }
+            }
+        }
+
+        // Variante tres columnas en desktop
+        &--three-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+
+            @include media-query(mindesktop) {
+                grid-template-columns: repeat(3, 1fr);
+                column-gap: 1.4rem;
+                row-gap: 2.5rem;
+
+                // Para items que ocupen todas las columnas
+                .w-100 {
+                    grid-column: 1 / 4;
+                }
+            }
+        }
+    }
+
+    // Contenedor label e input
+    &__field {
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        @include media-query(mindesktop) {
+            margin-bottom: 0;
+        }
+        // Label
+        label {
+            font-weight: $semibold;
+            // color: $color-gray;
+            color: $color-black-b4;
+            font-size: 1.6rem;
+            margin-bottom: 0.6rem;
+            @include media-query(minmobilexl) {
+                font-size: 1.8rem;
+            }
+        }
+        // Variante label que envuelve el "form__element" e input
+        &--labeled {
+            // Label
+            label {
+                margin-bottom: 0;
+
+                .form__element {
+                    margin-top: 0.6rem;
+                }
+            }
+        }
+
+        &.select-with-flexdatalist {
+            .flexdatalist-multiple {
+                display: flex;
+                flex-wrap: wrap;
+                max-height: 12rem;
+                overflow: auto;
+            }
+        }
+
+        // info requerido
+        &.required {
+            // color: $color-error-forms;
+            // opacity: .7;
+
+            label:not(.error){
+                &::after{
+                    content: "*";
+                    color: $color-error-forms;
+                    position: static;
+                    font-size: inherit;
+                }
+            }
+        }
+    }
+
+    // Contenedor elementos formulario(inputs, selects, etc)
+    &__element {
+        position: relative;
+        // Input y selects
+        input,
+        select,
+        textarea {
+            border: 1px solid $color-lightgray;
+            border-radius: 5px;
+            color: $color-black-b4;
+            // color: $color-gray-v1;
+            font-size: 1.4rem;
+            padding: 1.2rem;
+            height: auto;
+            width: 100%;
+            resize: none;
+            @include media-query(mindesktop) {
+                font-size: 1.6rem;
+            }
+            // Placeholders
+            &::placeholder {
+                color: #9b9b9b;
+            }
+            // Cuando tienen error
+            &.error-validacion {
+                border-color: $color-error-forms;
+                background-color: rgba($color: $color-error-input-fill, $alpha: 0.05);
+            }
+            // Cuando esta deshabilitado
+            &[disabled] {
+                background-color: rgba($color: $color-gray-v2, $alpha: 0.5);
+            }
+            // // Cuando es valida
+            // &.valid{
+            //     border-color: $color-green;
+            //     background-color: #ddffdd;
+            // }
+        }
+        // Alertas Errores validación
+        p.error-validacion {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: $color-error-forms;
+            margin-bottom: 0;
+        }
+        // Input Search
+        &--searchinput {
+            // Circulo y lupa
+            &::before,
+            &::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+            }
+            // Circulo
+            &::before {
+                content: "";
+                width: 40px;
+                height: 40px;
+                right: 8px;
+                background-color: var(--primary-color);
+                border-radius: 50%;
+            }
+            // Icono Lupa
+            &::after {
+                font-family: "icomoon";
+                content: "\e919";
+                color: $color-white;
+                right: 1.85rem;
+                font-size: 1.7rem;
+            }
+            // Input
+            input {
+                padding-right: 50px;
+            }
+        }
+
+        // Select
+        &--select {
+            // Icono Flecha
+            &::after {
+                content: "\e90d";
+                font-family: "icomoon";
+                color: var(--secondary-color);
+                font-size: 1.5rem;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 1.8rem;
+                pointer-events: none;
+            }
+            select {
+                appearance: none;
+                padding-right: 3.8rem;
+            }
+        }
+
+        // Select multiple
+        &--multiselect {
+            select {
+                height: 120px;
+            }
+        }
+
+        &--select-multiple {
+            select {
+                max-height: 12rem;
+                overflow: auto;
+            }
+        }
+
+        // Select multiple, se ve como un select normal y sus opciones como unos checkboxes
+        &--select-multiple-check {
+            .ms-choice {
+                border: 1px solid $color-lightgray;
+                border-radius: 5px;
+                color: $color-gray-v1;
+                font-size: 1.4rem;
+                padding: 1.2rem;
+                height: 50px;
+                width: 100%;
+                @include media-query(mindesktop) {
+                    font-size: 1.6rem;
+                }
+                // Icono Flecha
+                &::after {
+                    content: "\e90d";
+                    font-family: "icomoon";
+                    color: var(--secondary-color);
+                    font-size: 1.5rem;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 1.8rem;
+                    pointer-events: none;
+                }
+            }
+            .ms-choice > span {
+                top: 50%;
+                transform: translateY(-50%);
+                padding-left: 1.2rem;
+            }
+            .ms-choice > span.placeholder {
+                color: $color-gray-v1;
+                background-color: transparent;
+                opacity: 1;
+            }
+            // Ocultar icono flecha plugin
+            .ms-choice > div.icon-caret {
+                display: none;
+            }
+            .ms-drop {
+                ul > li label {
+                    color: $color-gray-v1;
+                    font-size: 1.4rem;
+                    display: flex;
+                    align-items: center;
+                    padding-left: 1.6rem;
+                    @include media-query(mindesktop) {
+                        font-size: 1.6rem;
+                    }
+                }
+                input[type="checkbox"] {
+                    margin-top: 0;
+                    width: 21px;
+                    height: 21px;
+                    background-color: $color-white;
+                    border-radius: 5px;
+                    border: 1px solid $color-lightgray;
+                    margin-right: 1.3rem;
+                    position: relative;
+                    appearance: none;
+                    // top: 50%;
+                    // transform: translateY(-50%);
+                    // cuando se marca
+                    &:checked {
+                        background-color: var(--secondary-color);
+                        border: 1px solid var(--secondary-color);
+
+                        // Icono Chulo
+                        &::before {
+                            position: absolute;
+                            font-family: "icomoon";
+                            content: "\e916";
+                            display: block;
+                            font-size: 1.1rem;
+                            color: $color-white;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Textarea
+        &--textarea {
+            textarea {
+                height: 130px;
+                resize: none;
+            }
+        }
+
+        // File
+        &--file {
+            input[type="file"] {
+                background-color: $color-white;
+
+                // Boton "upload file"
+                &::file-selector-button {
+                    cursor: pointer;
+                    color: $color-white;
+                    background-color: var(--secondary-color);
+                    border: 0.1rem solid var(--secondary-color);
+                    border-radius: 2.5rem;
+                    transition: all 300ms;
+                    padding: 8px clamp(8px, 5%, 40px);
+                    margin-right: 1rem;
+
+                    &:hover {
+                        color: var(--secondary-color);
+                        background-color: $color-white;
+                    }
+                }
+            }
+            // Informacion del formato y tamaño archivo
+            .form__info {
+                font-size: 1.4rem;
+                .form__info-item {
+                    margin-right: 1rem;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    strong {
+                        font-weight: $semibold;
+                    }
+                }
+            }
+            // Checkbox para "limpiar" imagen
+            input[type="checkbox"] {
+                width: 21px;
+                height: 21px;
+                background-color: $color-white;
+                border-radius: 5px;
+                border: 1px solid $color-lightgray;
+                margin-right: 0.5rem;
+                position: relative;
+                appearance: none;
+                padding: 0;
+                vertical-align: middle;
+                // cuando se marca
+                &:checked {
+                    background-color: var(--secondary-color);
+                    border: 1px solid var(--secondary-color);
+
+                    // Icono Chulo
+                    &::before {
+                        position: absolute;
+                        font-family: "icomoon";
+                        content: "\e916";
+                        display: block;
+                        font-size: 1.1rem;
+                        color: $color-white;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+            // Label del check
+            label {
+                font-size: 1.6rem;
+                font-weight: $regular;
+                margin-bottom: 0;
+                vertical-align: middle;
+                color: $color-black-b3;
+            }
+        }
+
+        // Subida personalizada (se reemplaza el original con un button)
+        &--filecustom {
+            &__hide {
+                display: none;
+            }
+
+            input[type="file"] {
+                display: none;
+                margin: 0;
+            }
+
+            .custom-upload-btn,
+            .takephoto-btn {
+                font-size: 2.7rem;
+                color: var(--secondary-color);
+            }
+
+            a {
+                word-break: break-all;
+            }
+
+            p.error-validacion {
+                position: static;
+            }
+        }
+
+        // Checkbox
+        &--checkbox {
+            display: flex;
+            // Input
+            input {
+                width: 21px;
+                height: 21px;
+                background-color: $color-white;
+                border-radius: 5px;
+                border: 1px solid $color-lightgray;
+                margin-right: 1.3rem;
+                position: relative;
+                appearance: none;
+                // cuando se marca
+                &:checked {
+                    background-color: var(--secondary-color);
+                    border: 1px solid var(--secondary-color);
+
+                    // Icono Chulo
+                    &::before {
+                        position: absolute;
+                        font-family: "icomoon";
+                        content: "\e916";
+                        display: block;
+                        font-size: 1.1rem;
+                        color: $color-white;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+        }
+
+        // Radio
+        &--radio {
+            // Input
+            input {
+                width: 18px;
+                height: 18px;
+                background-color: $color-white;
+                border-radius: 50%;
+                border: 1px solid $color-lightgray;
+                margin-right: 0.688rem;
+                position: relative;
+                appearance: none;
+                // cuando se marca
+                &:checked {
+                    // Circulo interior
+                    &::before {
+                        position: absolute;
+                        content: "";
+                        display: block;
+                        width: 8px;
+                        height: 8px;
+                        background-color: var(--secondary-color);
+                        border-radius: 50%;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+        }
+
+        &.form__element--flexdatalist {
+            
+            .flexdatalist-multiple {
+                font-size: 1.4rem;
+                height: auto;
+                padding: 1rem 1.2rem;
+
+                li:not(.input-container) {
+                    padding: 0.7rem 2.5rem 0.7rem 0.7rem;
+                    margin: 0.4rem 0.3rem 0.4rem 0;
+
+                    .text {
+                        word-break: break-all;
+                    }
+
+                    .fdl-remove {
+                        padding: 0.7rem 0.5rem;
+                    }
+
+                }
+                
+                li.input-container {
+                    width: 100%;
+                    // padding: 0 2.5rem 1rem 0;
+                    margin: 0;
+                    
+                    input {
+                        width: 100% !important;
+    
+                        &:focus-visible {
+                            outline: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Lista Multiple
+        &--multilist {
+            border: 1px solid $color-lightgray;
+            border-radius: 5px;
+            color: $color-gray-v1;
+            font-size: 1.4rem;
+            padding: 1.5rem 1.2rem;
+            @include media-query(mindesktop) {
+                font-size: 1.6rem;
+            }
+
+            input {
+                border: 0px;
+                outline: 0px;
+                width: auto;
+            }
+
+            .multilist__item {
+                float: left;
+                border: 1px solid #ccc;
+                margin-bottom: 5px;
+                margin-right: 5px;
+                padding: 0.75rem 1.2rem;
+                border-radius: 5px;
+                line-height: 2.8rem;
+            }
+
+            .multilist__cancel {
+                border: 1px solid var(--secondary-color);
+                border-radius: 50%;
+                font-size: 2.8rem;
+                color: var(--secondary-color);
+                cursor: pointer;
+                float: right;
+                text-align: center;
+                margin-left: 20px;
+                margin-top: 1px;
+            }
+
+            // Pluguin jqueryFlexdatalist
+            // ul
+            .flexdatalist-multiple {
+                // Input
+                li.input-container {                    
+                    input {
+                        padding: 1.2rem;
+                        min-width: 26rem !important;
+
+                        @include media-query(mobilexl) {
+                            min-width: 23rem !important;
+                        }
+                    }
+                } 
+
+                // li
+                .value {
+                    // border: 1px solid #ccc;
+                    margin-bottom: 5px;
+                    margin-right: 5px;
+                    padding: 0.75rem 1.2rem;
+                    border-radius: 5px;
+                    line-height: 2.8rem;
+                    width: 100%;
+                    display: inline-flex;
+                    justify-content: space-between;
+                    @include media-query(mindesktop) {
+                        width: auto;
+                        min-width: 180px;
+                    }
+
+                    // Icono remover
+                    span.fdl-remove {
+                        font-weight: unset;
+                        padding: 0;
+                        font-size: 0; //ocultamos x por defecto
+                        line-height: 2.8rem;
+                        cursor: pointer;
+                        position: static;
+                        opacity: 1;
+
+                        color: var(--secondary-color);
+                        margin-left: 1.89rem;
+
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                        vertical-align: middle;
+
+                        &::before {
+                            content: "\e914";
+                            font-family: "icomoon";
+                            font-size: 2.8rem;
+                            border: 1px solid var(--secondary-color);
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fecha
+        // &--date{
+        // }
+
+        // Hora
+        // &--time{
+        // }
+
+        // Elemento con texto informativo, (Ej. en el multiselect: Mantenga presionado "Control" o "Comando" en Mac, para seleccionar más de uno.)
+        &__info {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+    }
+
+    // Para mostrar info de campos requeridos
+    &__required-info {
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 0;
+        color: $color-error-forms;
+    }
+}
+
+.block-form-notes {
+    form {
+        textarea {
+            border-radius: 2rem;
+            box-shadow: 0rem 0.3rem 0.6rem #00000024;
+            background-color: $color-white;
+            border: 0;
+            padding: 1.5rem 2rem 2rem;
+            width: 100%;
+            height: 12rem;
+            outline: none;
+            resize: none;
+        }
+    }
+
+    &-button {
+        text-align: right;
+
+        .btn {
+            font-size: 1.4rem;
+            height: 4rem;
+            padding: 0;
+            margin: 1rem 2rem 0 0;
+        }
+    }
+}
+
+.email-error{
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: $color-error-forms;
+}

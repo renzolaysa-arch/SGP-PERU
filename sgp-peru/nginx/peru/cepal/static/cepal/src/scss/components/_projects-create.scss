@@ -1,0 +1,57 @@
+.projects-create{
+    // Formulario
+    .form{
+        margin-bottom: 6rem;
+        background-color: $color-white;
+        padding: 3rem;
+
+        .form__field {
+            justify-content: flex-end;
+        }
+
+        .form__field:last-child{
+            @include media-query(desktop){
+                margin-bottom: 0;
+            }
+        }
+
+        .highlight-father{
+            margin-bottom: 3rem;
+        }
+
+        .form__element--textarea{
+            .django-ckeditor-widget{
+                width: 100%;
+            }
+        }
+
+        input,
+        select,
+        textarea {
+            &.error {
+                border-color: $color-error-forms;
+            }
+        }
+
+        label.error {
+            color: $color-error-forms;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        // Contenedor "Call to action"
+        .container-buttons{
+            display: flex;
+            @include media-query(mintablet){
+                justify-content: flex-end;
+            }
+            .btn{
+                width: 100%;
+                @include media-query(mintablet){
+                    width: auto;
+                }
+            }
+        }
+    }
+}

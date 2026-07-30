@@ -1,0 +1,243 @@
+//Normalize
+// @import 'base/normalize'; //ya bootstrap utiliza otra herramienta similar
+
+// Import fuente Outfit
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;600;700;800;900&display=swap');
+
+//Fuentes
+@import "base/fonts";
+
+//Variables
+@import "base/variables";
+
+// ==================== PAISES ====================
+
+@import "countries/colombia";
+
+@import "countries/bolivia";
+
+@import "countries/chile";
+
+@import "countries/peru";
+
+// ==================== BASE ====================
+//Mixins
+@import "base/mixins";
+
+//Estilos Generales
+@import "base/base";
+
+// Owl Carousel
+@import "base/owl.carousel.min";
+
+// Iconos como fuentes
+@import "base/icon-fonts";
+
+//Animated on Scroll Styles
+// @import 'base/animateOnScroll';
+
+// Pluguin jQuery-flexdatalist
+@import 'base/jquery.flexdatalist.css';
+
+// plugin Multiple-select
+@import '../../node_modules/multiple-select/dist/multiple-select.min.css';
+
+// plugin Select2
+@import '../../node_modules/select2/dist/css/select2.min.css';
+
+@import 'base/fix-select2';
+
+// ==================== COMPONENTES====================
+
+// BUTTONS
+@import 'components/buttons';
+
+// TYPE OF CARDS
+@import 'components/type-of-cards';
+
+//HEADER
+@import "components/header";
+
+// BANNER HOME
+@import "components/banner-home";
+
+// BENEFITS HOME
+@import "components/benefits-home";
+
+// PROJECTS HOME
+@import "components/projects-home";
+
+// FIGURES(CIFRAS) HOME
+@import "components/figures-home";
+
+// NEWS HOME
+@import "components/news-home";
+
+// EDUCATIONAL HOME
+@import "components/educational-home";
+
+// TESTIMONIALS HOME
+@import "components/testimonials-home";
+
+//FOOTER
+@import "components/footer";
+
+//LOGIN
+@import "components/login";
+
+//NEW PROVIDER
+@import "components/provider";
+
+// FILTER MODAL
+@import 'components/filter-modal';
+
+// FORM SIMPLE
+@import 'components/form-simple';
+
+//PROVIDER PERFIL 
+@import 'components/provider-profile';
+@import 'components/provider-inventory';
+@import 'components/provider-main';
+@import 'components/provider-list';
+
+//FILTROS
+@import 'components/filter-forms';
+
+//PROVIDER DETAIL
+@import 'components/provider-detail';
+
+//PROJECT RELATED
+@import 'components/related-projects';
+
+//CARDS ACTIVITY 
+@import 'components/cards-activity';
+
+//CARDS LIST PROJECT
+@import 'components/card-list-project';
+
+//BREADCRUMB
+@import 'components/breadcrumb';
+//NOTIFICATIONS MODULE
+@import 'components/notifications-module';
+
+//HEAD UNIT PERFIL, FUNCTIONARY PERFIL - DASHBOARD 
+@import 'components/groups-profile';
+@import 'components/user-list-dashboard';
+
+// LIST-BLOCK
+@import 'components/list-block';
+@import 'components/block-list-result';
+
+// FIFURES CARDS (CIFRAS)
+@import 'components/figures-cards';
+
+// STATS BARS
+@import 'components/stats-bars';
+
+// PAGINATION
+@import 'components/pagination';
+
+//MODALES
+@import 'components/modal';
+
+// PESTAÑAS(TABS)
+@import 'components/tabs';
+// DEMAND DETAIL
+@import 'components/demand-detail';
+
+//COLLAPSE
+@import 'components/collapse';
+
+// STEP WIZARD
+@import 'components/step-wizard';
+
+// VALUE LIST
+@import 'components/valuelist';
+
+// ACTIVITY BOARD
+@import 'components/activity-board';
+
+// GLOSARY
+@import 'components/glosary';
+
+// FREQUENTLY ASKED QUESTIONS (FAQ)
+@import 'components/faq';
+
+// MACROPROCESS TYPE
+@import 'components/macroprocess-type';
+
+// PROJECTS CARDS
+@import 'components/projects-card';
+
+// DETAIL
+@import 'components/detail';
+
+// DETAIL INVENTORY
+@import 'components/detail_inventory';
+
+// CARD RECORD COLLAPSE
+@import 'components/card-record-collapse';
+
+// BOX RESULTS
+@import 'components/box-results';
+@import 'components/progressbar';
+
+// DEMAND RECEPTION
+@import 'components/demand-reception';
+
+// DEMAND RELATION (SOLICITUDES RELACIONAMIENTO)
+@import 'components/demand-relation';
+
+// DEMAND TRANSFER (TRANSFERENCIA)
+@import 'components/demand-transfer';
+
+// DEMAND PREPARATION (PREPARACION)
+@import 'components/demand-preparation';
+
+// DEMAND EVALUATION (EVALUACION)
+@import 'components/demand-evaluation';
+
+// LOADERS
+@import 'components/loaders';
+
+// NEWS
+@import 'components/news';
+
+// CREATE FORM
+@import 'components/createform';
+
+// CREATE PROJECTS
+@import 'components/projects-create';
+
+// DEMAND CREATE
+@import 'components/demand-create';
+
+// INTERNAS FORMULARIOS MULTI-STEP ("inventory_create", "provider_create")
+@import 'components/multi-step-page';
+
+// HIGHLIGHT
+@import 'components/highlight';
+
+// CREATE USER
+@import 'components/create-user';
+
+//ACADEMIC CONTENT
+@import 'components/_academic-conent';
+
+// ACTUALIZAR DATOS USUARIO
+@import 'components/update-user';
+
+// ACTUALIZAR DATOS USUARIO
+@import 'components/detail-document';
+
+// 404
+@import 'components/404';
+
+// TABLE-GRID
+@import 'components/table-grid';
+
+// TRANSFERENCIAS
+@import 'components/transfers';
+
+// COMMENTS
+@import 'components/comments';

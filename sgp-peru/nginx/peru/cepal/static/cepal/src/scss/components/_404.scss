@@ -1,0 +1,180 @@
+.banner-background-404 {
+    background-image: var(--img-404-des);
+    width: 100%;
+    height: 870px;
+    object-fit: cover;
+    object-position: center center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-size: 100% 100%;
+
+
+    @include media-query(tablet) {
+        padding-top: 4%;
+        height: 100%;
+    }
+
+    .content-404 {
+
+        // Contenedor texto
+        .banner-item-txt {
+            color: $color-white;
+            text-align: left;
+            padding-bottom: 29px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+
+            @include media-query(mintablet) {
+                padding-bottom: 65px;
+            }
+
+            // Titulo
+            .banner-item-title {
+                margin-top: 0;
+                margin-bottom: 26px;
+                min-height: 8rem;
+                font-size: 2.3rem;
+
+                @include media-query(minmobilexl) {
+                    font-size: 3rem;
+                }
+
+                @include media-query(mintablet) {
+                    font-size: 2rem;
+                }
+
+                @include media-query(mindesktop) {
+                    font-size: 2.3rem;
+                }
+
+                @include media-query(mindesktopL) {
+                    font-size: 2.5rem;
+                }
+
+                @include media-query(mindesktopLS) {
+                    font-size: 3rem;
+                }
+
+                @include media-query(mindesktopXL) {
+                    font-size: 3.5rem;
+                }
+
+                @media only screen and (min-width: 1800px) {
+                    font-size: 4rem;
+                }
+
+                .banner-item-title1 {
+                    display: block;
+                    font-weight: $regular;
+                }
+
+                .banner-item-title2 {
+                    display: block;
+                    font-weight: $bold;
+                    font-size: 2.3rem;
+
+                    @include media-query(minmobilexl) {
+                        font-size: 3rem;
+                    }
+
+                    @include media-query(mintablet) {
+                        font-size: 2.3rem;
+                    }
+
+                    @include media-query(mindesktop) {
+                        font-size: 2.8rem;
+                    }
+
+                    @include media-query(mindesktopL) {
+                        font-size: 3rem;
+                    }
+
+                    @include media-query(mindesktopLS) {
+                        font-size: 3.5rem;
+                    }
+
+                    @include media-query(mindesktopXL) {
+                        font-size: 4rem;
+                    }
+
+                    @media only screen and (min-width: 1800px) {
+                        font-size: 4.5rem;
+                    }
+                }
+            }
+
+            // Subtitulo
+            .banner-item-subtitle {
+                font-weight: $bold;
+                margin-bottom: 11px;
+                font-size: clamp(1.8rem, calc(1.68rem + 1.68vw), 2.4rem);
+
+                @include media-query(mindesktop) {
+                    margin-bottom: 9px;
+                }
+            }
+
+            // Descripción
+            .banner-item-desc {
+                max-width: 572px;
+                margin-bottom: 18px;
+                // font-weight: $semibold;
+                font-weight: 500;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 5;
+                overflow: hidden;
+                min-height: 12.5rem;
+                font-size: 1.4rem;
+                line-height: 2.4rem;
+
+                @include media-query(mintablet) {
+                    min-height: 11.5rem;
+                }
+
+                @include media-query(mindesktop) {
+                    margin-bottom: 51px;
+                    font-size: 1.6rem;
+                }
+
+                @include media-query(mindesktopXL) {
+                    line-height: 3rem;
+                    font-size: 1.8rem;
+                }
+            }
+
+            // Contenedor "Call to action"
+            .banner-item-linkcontainer {
+                margin-top: auto;
+                margin-bottom: 0;
+
+                // Boton
+                .banner-item-link.btn-white {
+                    font-size: 1.4rem;
+                    padding-top: .8rem;
+                    padding-bottom: .8rem;
+
+                    @include media-query(mindesktop) {
+                        font-size: 1.6rem;
+                    }
+                }
+            }
+        }
+
+        .svg-image-404-container {
+
+            display: flex;
+            justify-content: center;
+
+            @include media-query(desktopL) {
+                img {
+                    width: 70%;
+                }
+
+            }
+        }
+    }
+}

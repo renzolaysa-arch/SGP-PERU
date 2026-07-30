@@ -1,0 +1,406 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %} Detalle de Solicitudes {% endblock %}
+{% load project_tags %}
+{% block content %}
+
+<section class="detail-list mb-5">
+  <div class="container">
+    <div class="block-list-result-header">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalle de solicitud</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <div class="row mt-lg-0 mt-5">
+        <div class="col-12 col-md-6 details-provider">
+          <h1 class="details-provider-title">{{ demand }}</h1>
+          <p class="details-provider-description">{{ demand.description }}</p>
+          {% if demand.type == 'ex' %}
+          <span class="btn btn-demand-ex">Solicitud externa</span>
+          {% else %}
+          <span href="#activityBoard" class="btn btn-demand-in">Solicitud interna</span>
+          {% endif %}
+          {% if demand.type == 'ex' %}
+          <a href="#activityBoard" class="btn btn-white-bordered">Tablero de actividades</a>
+          {% endif %}
+        </div>
+
+        <div class="col-12 col-md-6 mt-5 mt-md-0 list-cards-info">
+          <div class="list-cards-info-item box-shadow-primary">
+            <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Avatar" class="list-cards-info-item-image">
+            <h3 class="list-cards-info-item-name">Estado</h3>
+            <p class="list-cards-info-item-des">{{ demand.status }}</p>
+          </div>
+          <div class="list-cards-info-item box-shadow-primary">
+            <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Avatar" class="list-cards-info-item-image">
+            <h3 class="list-cards-info-item-name">Número de Solicitud</h3>
+            <p class="list-cards-info-item-des">{{demand.id}}</p>
+          </div>
+          <div class="list-cards-info-item box-shadow-primary">
+            <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Avatar" class="list-cards-info-item-image">
+            <h3 class="list-cards-info-item-name">Proveedor</h3>
+            <p class="list-cards-info-item-des">{{demand.inventory.entity_provider.name}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="detail-list-data mt-5">
+  <div class="container">
+    <nav class="detail-list-data-tabs tabs__container">
+      <ul class="nav nav-tabs nav-tabs--mod1" id="nav-tab">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="tab" href="#nav-metadata">Metadata</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#nav-information">Información del solicitante</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane container fade show active" id="nav-metadata">
+      <div class="metadata-cards-list">
+        <div class="metadata-cards-list-item box-shadow-primary">
+          <div class="item-block mb-4">
+            <h4 class="title">Registro administrativo</h4>
+            <p class="description">{{demand.inventory.title }}</p>
+          </div>
+          <div class="item-block mb-4">
+            <h4 class="title">Proyecto Relacionado</h4>
+            <p class="description">{{demand.project.name }}</p>
+          </div>
+          <div class="item-block mb-4">
+            <h4 class="title">Temática</h4>
+            <p class="description">{{demand.theme }}</p>
+          </div>
+        </div>
+        <div class="metadata-cards-list-item box-shadow-primary">
+          <div class="item-block mb-4">
+            <h4 class="title">Categoría</h4>
+            <p class="description">{{demand.category.name }}</p>
+          </div>
+          <div class="item-block mb-4">
+            <h4 class="title">Estado</h4>
+            <p class="description">{{demand.status.name }}</p>
+          </div>
+          <div class="item-block mb-4">
+            <h4 class="title">Fecha de publicación:</h4>
+            <p class="description">{{demand.created_date.day }} de
+              {{demand.created_date|date:"M" }} de {{demand.created_date|date:"Y" }}</p>
+          </div>
+        </div>
+        <div class="metadata-cards-list-item box-shadow-primary">
+          <div class="item-block">
+            <h4 class="title mb-3">Palabras clave</h4>
+            <ul class="keyword-list style-scrooll">
+              {% for key_word in demand.key_words.all %}
+              <li class="keyword-list-item">{{ key_word.name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade container" id="nav-information">
+      <div class="metadata-cards-list">
+        <div class="metadata-cards-list-item box-shadow-primary">
+          <div class="item-block mb-4">
+            <h4 class="title">Funcionario</h4>
+            <p class="description">{{ demand.functionary }}</p>
+          </div>
+          <div class="item-block">
+            <h4 class="title">Correo</h4>
+            <p class="description">{{ demand.functionary.user.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+    </div>
+  </div>
+
+</section>
+
+{% if request.user|has_group:"Funcionario"%}
+<section class="detail-list-notes">
+  <div class="container mb-5">
+    <div class="row">
+      <div class="col-12 block-notes">
+        <h2 class="detail-list-notes-title mb-4">Notas</h2>
+
+        {% if notes %}
+        <div class="card-type-notes box-shadow-primary">
+          <div class="card-type-notes-list style-scrooll">
+            {% for note in notes %}
+            <div class="card-type-notes-list-item">
+              <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Avatar"
+                class="card-type-notes-list-item-image">
+              <div class="card-type-notes-list-item-data">
+                <h3 class="card-type-notes-list-item-name">{{ note.first_name }} {{ note.last_name }}</h3>
+                <span class="card-type-notes-list-item-date">{{ note.created_date|timesince }}</span>
+              </div>
+              <p class="card-type-notes-list-item-description">{{ note.commentary }}</p>
+              {% if note.owner_comment %}
+              <form method="post" action='/eliminar-nota/{{demand.id}}/{{note.id}}' enctype="multipart/form-data">
+                {% csrf_token %}
+                <!--<textarea name="commentary" cols="100" rows="8" placeholder="Realizar un comentario" id="id_commentary" required></textarea>-->
+                <button type="button" class="delete-note">
+                  <span class="icon-icon-bell-notificacion-remove"></span>
+                </button>
+              </form>
+              {% endif %}
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+
+        {% else %}
+        <h3>No hay notas para mostrar</h3>
+        {% endif %}
+
+        <div class="block-form-notes mt-3">
+          <form method="post" id="noteDemands">
+            {% csrf_token %}
+            {{ form_note.commentary }}
+            <div class="block-form-notes-button">
+              <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Agregar nota">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal confirmation delete note -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationNote" role="dialog">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-alert__wrapper-icon">
+        <span class="icon-alert"></span>
+      </div>
+      <div class="modal-header">
+        <h2 class="modal-title">Eliminar nota</h2>
+        <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="loading loading--absolute d-none">
+          <div class="loader"></div>
+          <p class="loading__text">Cargando...</p>
+          <p class="loading__text loading__text--error d-none"></p>
+        </div>
+        <p class="description">¿Está seguro de eliminar la nota?</p>
+
+        <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+          <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button"
+            aria-label="Volver"><span class="icon-back"></span>Volver</button>
+          <button type="button" class="btn btn-primary btn-primary--contour action-note-delete"><span
+              class="icon-icon-bell-notificacion-remove"></span>Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+<!-- End Modal confirmation delete note -->
+
+{% endif %}
+
+{% if demand.type == 'ex' %}
+<section class="detail-list-management my-5" id="activityBoard">
+  <div class="container mb-5">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="detail-list-management-title mb-4">Tablero de actividades de gestión <span>de la solicitud</span>
+        </h2>
+      </div>
+
+      <div class="col-12">
+        <!-- BLOCK ACTIVITY MAGAGMENT -->
+        <div class="block-activity-management style-scrooll position-relative overflow-hidden">
+          <div class="loading loading--absolute">
+            <div class="loader">
+            </div>
+            <p class="loading__text">Cargando...</p>
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+          <div class="block-activity-management-item box-activities d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <div class="block-activity-management-item-header mb-3">
+              <h4 class="block-activity-management-item-title">Actividades</h4>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+            <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <div class="activity-item box-shadow-secondary box-{{ process_board.status_reception }}"
+                data-name="reception">
+                <div class="activity-item-info">
+                  <p class="activity-item-info-title">Recepción</p>
+                  {% if request.user|has_group:"Unidad Central" %}
+                  {% if process_board.url_reception is not None %}
+                  <a href='{{ process_board.url_reception }}' class="activity-item-info-link">Ver evidencias</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <p class="activity-item-percentage">{{ process_board.porcent_reception }}%</p>
+              </div>
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <div class="activity-item box-shadow-secondary box-{{ process_board.status_negotiation }}"
+                data-name="negotiation">
+                <div class="activity-item-info">
+                  <p class="activity-item-info-title">Relacionamiento </p>
+                  {% if request.user|has_group:"Unidad Central" %}
+                  {% if process_board.url_negotiation is not None %}
+                  <a href='{{ process_board.url_negotiation }}' class="activity-item-info-link">Ver evidencias</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <p class="activity-item-percentage">{{ process_board.porcent_negotiation }}%</p>
+              </div>
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <div class="activity-item box-shadow-secondary box-{{ process_board.status_transfer }}"
+                data-name="transfer">
+                <div class="activity-item-info">
+                  <p class="activity-item-info-title">Transferencia</p>
+                  {% if request.user|has_group:"Unidad Central" %}
+                  {% if process_board.url_transfer is not None %}
+                  <a href='{{ process_board.url_transfer }}' class="activity-item-info-link">Ver evidencias</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <p class="activity-item-percentage">{{ process_board.porcent_transfer }}%</p>
+              </div>
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <div class="activity-item box-shadow-secondary box-{{ process_board.status_preparation }}"
+                data-name="preparation">
+                <div class="activity-item-info">
+                  <p class="activity-item-info-title">Preparación</p>
+                  {% if request.user|has_group:"Unidad Central" %}
+                  {% if process_board.url_preparation is not None %}
+                  <a href='{{ process_board.url_preparation }}' class="activity-item-info-link">Ver evidencias</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <p class="activity-item-percentage">{{ process_board.porcent_preparation }}%</p>
+              </div>
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <div class="activity-item box-shadow-secondary box-{{ process_board.status_evaluation }}"
+                data-name="evaluation">
+                <div class="activity-item-info">
+                  <p class="activity-item-info-title">Evaluación</p>
+                  {% if request.user|has_group:"Unidad Central" %}
+                  {% if process_board.url_evaluation is not None %}
+                  <a href='{{ process_board.url_evaluation }}' class="activity-item-info-link">Ver evidencias</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <p class="activity-item-percentage">{{ process_board.porcent_evaluation }}%</p>
+              </div>
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+          <div class="block-activity-management-item box-start d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <div class="block-activity-management-item-header mb-3">
+              <h4 class="block-activity-management-item-title">Inicio</h4>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+            <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+          <div class="block-activity-management-item box-process d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <div class="block-activity-management-item-header mb-3">
+              <h4 class="block-activity-management-item-title">En proceso</h4>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+            <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+          <div class="block-activity-management-item box-revision d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <div class="block-activity-management-item-header mb-3">
+              <h4 class="block-activity-management-item-title">En revisión</h4>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+            <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+          <div class="block-activity-management-item box-finalized d-flex flex-column">
+            <!-- COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <div class="block-activity-management-item-header mb-3">
+              <h4 class="block-activity-management-item-title">Finalizado</h4>
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT HEADER -->
+            <!-- COLUMN ACTIVITY MAGAGMENT BODY -->
+            <div class="block-activity-management-item-content style-scrooll d-flex flex-column">
+              <!-- COLUMN ACTIVITY MAGAGMENT ITEM -->
+              <!-- END COLUMN ACTIVITY MAGAGMENT ITEM -->
+            </div>
+            <!-- END COLUMN ACTIVITY MAGAGMENT BODY -->
+          </div>
+          <!-- COLUMN ACTIVITY MAGAGMENT -->
+        </div>
+        <!-- END BLOCK ACTIVITY MAGAGMENT -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,79 @@
+<div class="user-list-header mb-4">
+   <h2 class="user-list-header-title" id="title-today">Evaluaciones asignadas</h2>
+   </div>
+
+
+<div class="user-list-body list-transfers">
+   <section class="show-user-list transfer-table-container">
+      <div class="table-responsive style-scrooll">
+         {% if evaluations|length > 0 %}
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th scope="col">ID</th>
+                     <th scope="col">Solicitud</th>
+                     <th scope="col">RRAA</th>
+                     <th scope="col">Proveedor</th>
+                     <th scope="col">Fecha de notificación</th>
+                     <th scope="col">Frecuencia de evaluación</th>
+                     <th scope="col"># de evaluación</th>
+                     <th scope="col">Fecha de evaluación</th>
+                     <th scope="col"></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for evaluation in evaluations %}
+                  <tr class="evTr" evaluation="{{ evaluation.evaluation_answer }}">
+                     <td class="transfer-id evId">{{ evaluation.id }}</td>
+                     <th scope="col" class="evDemandTitle">{{ evaluation.evaluation.demand.title }}</th>
+                     <th scope="col">{{ evaluation.evaluation.demand.inventory.title }}</th>
+                     <th scope="col">{{ evaluation.evaluation.demand.provider_entity.name }}</th>
+                     <td class="transfer-date_notification">{{ evaluation.date_notification|date:'Y-m-d' }}</td>
+                     <td class="transfer-frequency"><p>{{ evaluation.frequency }} Meses</p></td>
+                     <td class="transfer-frequency_delivery">{{ evaluation.frequency_delivery }}</td>
+                     <td class="transfer-frequency_date_delivery">{{ evaluation.frequency_date_delivery|date:'Y-m-d' }}</td>
+                     {% if evaluation.evaluation_answer is True %}
+                        <td class="transfer-action"><a class="openEvaluationQuestions" href="#" data-link="{% url 'demand:answer_cuestions_evaluations' evaluation.evaluation.demand.id evaluation.id %}" data-answer="true">Evaluado</a></td>
+                     {% else %}
+                        <td class="transfer-action"><a class="openEvaluationQuestions" href="#" data-link="{% url 'demand:answer_cuestions_evaluations' evaluation.evaluation.demand.id evaluation.id %}" data-answer="false">Evaluar</a></td>
+                     {% endif %}
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         {% else %}
+            <p class="mt-4">No hay evaluaciones asignadas</p>
+         {% endif %}
+      </div>
+   </section>
+</div>
+
+<!-- Modal Evaluation Question -->
+<dialog class="modal fade modal-finalized-transfer" id="modalEvaluationQuestions" role="dialog">
+   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+       <div class="modal-content">
+           <div class="modal-alert__wrapper-icon">
+               <span class="icon-icon-check"></span>
+           </div>
+           <div class="modal-header">
+               <h2 class="modal-title">Evaluación #</h2>
+               <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+           </div>
+           <div class="modal-body">
+               <div class="loading loading--absolute d-none">
+                   <div class="loader"></div>
+                   <p class="loading__text">Cargando...</p>
+                   <p class="loading__text loading__text--error d-none"></p>
+               </div>
+               <p class="description">Evaluar la solicitud</p>
+               <div id="questionsWrapper">
+               </div>
+               <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                  <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+                  <button type="button" class="btn btn-primary btn-primary--contour action-send-form">Evaluar</button>
+               </div>
+           </div>
+       </div>
+   </div>
+</dialog>
+<!-- End Modal Evaluation Question -->

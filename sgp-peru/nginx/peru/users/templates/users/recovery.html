@@ -1,0 +1,49 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Recovery Password {% endblock %}
+
+{% block content %}
+<section class="recory-screen">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- BANNER RECOVERY -->
+            <div class="col banner-auth-screen">
+                <picture>
+                    <source media="(max-width: 767px)"
+                        srcset="{% static 'cepal/dist/assets/images/banner_movil.png' %}">
+                    <img src="{% static 'cepal/dist/assets/images/banner_login.png' %}" alt="banner-login"
+                        title="banner-recovery">
+                </picture>
+            </div>
+            <!-- END BANNER RECOVERY -->
+            <!-- CARD RECOVERY-->
+            <div class="col card-container container-recovery">
+
+                <div class="container-text">
+                    <h1 class="cepal-h1 recovery-title">
+                        Restablecer contraseña
+                    </h1>
+                    <p class="recovery-subtitle">Por seguridad, debes digitar tu contraseña con mínimo seis (6) caracteres, además te recomendamos que la definas con letras mayúsculas, minúsculas, números y al menos un carácter especial</p>
+                </div>
+
+                <!-- FORM RECOVERY-->
+                <form class="recovery-form" action="" method="POST">
+                    <div class="input-container pass-container pass">
+                        <label for="password">Contraseña:</label>
+                        <input id = "password" type="password">
+                    </div>
+                    <div class="input-container pass-container conpass">
+                        <label for="conpassword">Confirmar Contraseña:</label>
+                        <input  id = "confpassword" type="password">
+                    </div>
+                    <div class="container-button">
+                        <input id = "recovery-button" class="btn btn-user-login" type="button" value="Aceptar">
+                    </div>
+                </form>
+                <!-- END FORM RECOVERY-->
+            </div>
+            <!-- END CARD RECOVERY -->
+        </div>
+    </div>
+</section>
+{% endblock %}

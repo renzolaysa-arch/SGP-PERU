@@ -1,0 +1,306 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load project_tags %}
+{% load inventory_extras %}
+{% block title %} Listado de inventario {% endblock %}
+
+{% block content %}
+
+<section class="inventory-list">
+  <div class="container">
+    <div class="block-list-result-header">
+      <!-- BREADCRUMB -->
+      <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mis Inventarios</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- END BREADCRUMB -->
+
+      <!-- TITLE -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-12 col-md-8 col-xl-6 text-center pt-3">
+          <h1 class="block-list-result-header-title">Inventario de RRAA</h1>
+        </div>
+      </div>
+      <!-- END TITLE -->
+    </div>
+
+    <!-- Main -->
+    <div class="row mt-5 block-main">
+      <!-- Filter Form -->
+      <div class="col-12">
+        <div class="filter-primary-filtermobile">
+          <button class="btn btn-filter-mobile">
+            <span class="icon-filter-icon"></span>
+            <span class="text">Filtro</span>
+            <span class="icon-icon-arrow-up-dropdown"></span>
+          </button>
+        </div>
+      </div>
+      <div class="col-12 d-lg-block col-lg-4">
+        <div class="filter-primary-filterdesktop form-filter-provider-list box-shadow-five">
+          <form class="filter-primary-form" method="get" id="form-filter">
+            <div class="accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" id="accordionButton" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    <span class="icon-filter-icon"></span>
+                    <span class="accordion-button-text">Filtro</span>
+                  </button>
+                </h2>
+                <div class="form-element-search">
+                  {{ filter.form.title}}
+                  <button class="btn-submit"></button>
+                </div>
+                <button class="btn btn-close-filter d-lg-none">
+                  <span class="icon-close-icon"></span>
+                </button>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Proveedor</h3>
+                        <div class="form__element form__element--select">
+                          {{ filter.form.entity_provider }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">En custodia del INE</h3>
+                        <div class="form__element form__element--select">
+                          {{ filter.form.custody }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Fecha de publicación</h3>
+                        <div class="form__element form__element--date">
+                          {{ filter.form.created_date }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Fecha de actualización</h3>
+                        <div class="form__element form__element--date">
+                          {{ filter.form.modified_date }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Tema</h3>
+                        <div class="form__element form__element--select">
+                          {{ filter.form.theme_inventory }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="form-field mb-4">
+                      <div class="input-field">
+                        <h3 class="input-field-title">Temática del área</h3>
+                        <div class="form__element form__element--select">
+                          {{ filter.form.name_thematic_inventory }}
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <div class="container-button">
+                      <input type="submit" value="Buscar" class="btn btn-blue">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+      <!-- End Filter Form -->
+
+      <div class="col-12 col-lg-8">
+        <div class="block-list-result-main">
+
+          <!-- Block of show amount of result -->
+          <div class="block-result-header mb-4">
+            <h3 class="result-header-numbers">{{ inventory_page }} de {{ inventory_total }} <span>Resultados</span></h3>
+            <div class="input-field order-by">
+              {{ form_order_by }}
+            </div>
+          </div>
+          <!-- End Block of show amount of result -->
+
+          <!-- Block Show Filters-->
+          <div class="block-applied-filters">
+            <p class="applied-filters-title">Filtros aplicados</p>
+            <div class="active-filters">
+              <div class="active-filters-show"></div>
+              <button class="btn clear-filter">Limpiar filtros</button>
+            </div>
+          </div>
+          <!-- End Block show applied filters -->
+          
+          <!-- Show result -->
+          <div class="block-show-result my-5">
+            <div class="card-list" id="requestCardList">
+              <!--Card Item-->
+              {% for obj in list_custom %}
+                <div class="cards-activity-item box-shadow-five">
+                  <div class="cards-activity-item-header d-flex gap-3 flex-wrap align-items-center {% if obj.checked %}active{% endif %}" data-idinventario="{{ obj.id }}">
+                    {% if obj.tags %}
+                        {% for tag in obj.tags.all %}
+                            <span class="tag">{{tag.tags_sample_data}}</span>
+                        {% endfor %}
+                    {% endif %}
+                    {% if request.user|has_group:"Funcionario" or request.user|has_group:"Proveedor" %}
+                      <div class="content-option">
+                        <span class="content-option-text">Seguir inventario</span>
+                        <label class="button-slider">
+                          <input type="checkbox" class="button-slider-input" data-follow="{{ obj.checked }}"
+                          {% if obj.checked %}
+                            checked
+                          {% endif %}>
+                          <span class="button-slider-switch"></span>
+                        </label>
+                      </div>
+                      {% endif %}
+                  </div>
+
+                  <div class="cards-activity-item-body">
+                    <p class="item-description">{{ obj.name_rraa }}</p>
+                    <ul class="data-list">
+                      <li class="data-list-item">
+                        <p class="data-list-item-title">Proveedor</p>
+                        <p class="data-list-item-value">{{ obj.provider }}</p>
+                      </li>
+                      <li class="data-list-item">
+                        <p class="data-list-item-title">Fecha de solicitud</p>
+                        <p class="data-list-item-value">{{ obj.date_request |date:"d F Y" }}</p>
+                      </li>
+                      <li class="data-list-item">
+                        <p class="data-list-item-title">Estado</p>
+                        <p class="data-list-item-value">{{ obj.status }}</p>  
+                      </li>
+                      <li class="data-list-item">
+                        <p class="data-list-item-title">En custodia</p>
+                        <p class="data-list-item-value">{% if obj.custody %}Si{% else %}No{% endif %}</p>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="cards-activity-item-footer">
+                    <div class="container-button my-4">
+                      <a href="{% url 'inventory:detail_inventory' obj.id %}" class="btn btn-white-bordered">Ver más</a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              <!-- End Card Item-->
+            </div>
+          </div>
+          <!-- End Show Result-->
+
+        </div>
+      </div>
+
+    </div>
+    <!-- End Main -->
+  </div>
+</section>
+
+<!-- pagination -->
+<section class="request-list-pagination">
+  <div class="container">
+    <div class="row justify-content-end" id="row-pagination-list">
+      <div class="col-12 col-lg-8 col-pagination">
+        <div class="pagination">
+          {% if inventory_page_obj.has_previous %}
+            <a class="prev" href="{% my_url inventory_page_obj.previous_page_number 'page' request.GET.urlencode %}" aria-label="Anterior">
+              <span class="icon-icon-arrow-up-dropdown"></span>
+              <span class="prev__text">Anterior</span>
+            </a>
+            {% else %}
+            <a class="prev prev--disabled" href="#" aria-label="Anterior">
+              <span class="icon-icon-arrow-up-dropdown"></span>
+              <span class="prev__text">Anterior</span>
+            </a>
+          {% endif %}
+          <nav class="pages">
+            <ul class="pages__ul">
+            {% for page_number in inventory_page_obj.paginator.page_range %}
+              <li class="pages__li"><a href="{% my_url page_number 'page' request.GET.urlencode %}" class="page{% if page_number == inventory_page_obj.number %} page--current{% endif %}">{{page_number}}</a></li>
+            {% endfor %}
+            </ul>
+          </nav>
+          {% if inventory_page_obj.has_next %}
+            <a class="next" href="{% my_url inventory_page_obj.next_page_number 'page' request.GET.urlencode %}" aria-label="Siguiente">
+              <span class="next__text">Siguiente</span>
+              <span class="icon-icon-arrow-up-dropdown"></span>
+            </a>
+            {% else %}
+            <a class="next next--disabled" href="#" aria-label="Siguiente">
+              <span class="next__text">Siguiente</span>
+              <span class="icon-icon-arrow-up-dropdown"></span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END pagination -->
+
+<dialog class="modal fade modal-primary-style" id="follow-demand" role="dialog">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Seguir Inventario</h2>
+            <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="loading loading--absolute">
+              <div class="loader"></div>
+              <p class="loading__text">Cargando...</p>
+              <p class="loading__text loading__text--error d-none"></p>
+            </div>
+            <p class="description">Está seguro que quiere seguir el inventario <strong><span>Primer Inventario</span></strong></p>
+
+            <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+              <button class="btn btn-white-bordered btn-acept-modal" type="button" aria-label="Aceptar">Aceptar</button>
+              <button class="btn btn-red-with-white btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Close">Cancelar</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal fade" id="modalFilterMobile" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container position-relative">
+          <button class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
+            <span class="icon-close-icon"></span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body filter-primary-filterdesktop form-filter-provider-list">
+        <div class="container"></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+{% endblock %}

@@ -1,0 +1,93 @@
+// Navegación Tabs (Pestañas)
+// Contenedor tabs(nav)
+.tabs__container{
+    width: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    // ul
+    .nav-tabs{
+        
+        // Variante "mod1" - Pestañas horizontales, estilo separador carpeta c/u color secundario
+        &--mod1{
+            --bs-nav-tabs-border-radius: 1rem; //border radius superior
+            --bs-nav-tabs-link-active-color: var(--secondary-color); // color texto activo
+            --bs-nav-tabs-link-active-bg: #{rgba($color: var(--secondary-rgb), $alpha: 0.05)}; // fondo tab activo
+            --bs-nav-link-color: #{$color-white}; // color enlaces
+            --bs-nav-link-hover-color: #{$color-white}; // color enlaces hover
+            flex-wrap: nowrap;
+            width: max-content;
+            gap: 2px;
+            border-bottom: 0;
+            // li
+            .nav-item{
+                // link
+                .nav-link{
+                    background-color: var(--secondary-color);
+                    padding: 1.2rem 2.1rem;
+                    min-width: 150px;
+                    text-align: center;
+                    @include media-query(mintablet){
+                        padding: 2.1rem;
+                    }
+                    // Pestaña Activa
+                    &.active{
+                        background-color: rgba($color: var(--secondary-rgb), $alpha: 0.05);
+                        font-weight: $bold;
+                    }
+                }
+            }
+        }
+
+        // Variante "mod2" - Pestañas horizontales, redondas estilo glosario
+        &--mod2{
+            --bs-nav-tabs-border-width: 0;
+            --bs-nav-tabs-link-active-color: #{$color-white}; // color texto activo
+            --bs-nav-tabs-link-active-bg: var(--secondary-color); // fondo tab activo
+            --bs-nav-link-color: var(--secondary-color); // color enlaces
+            --bs-nav-link-hover-color: var(--secondary-color); // color enlaces hover
+            gap: 0.7rem;
+            @include media-query(mintablet){
+                justify-content: center;
+            }
+            @include media-query(mindesktop){
+                gap: 2.8rem;
+            }
+            // li
+            .nav-item{
+                // link
+                .nav-link{
+                    padding: 0;
+                    border-radius: 50%;
+                    width: 4.4rem;
+                    height: 4.4rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $color-white;
+                    font-weight: $medium;
+                    @include media-query(mindesktop){
+                        width: 5.4rem;
+                        height: 5.4rem;
+                    }
+                    // Pestaña Activa
+                    &.active{
+                        background-color: var(--secondary-color);
+                        font-weight: 900;
+                    }
+                }
+            }
+        }
+    }
+}
+// Contenedores contenido
+// .tab-pane{
+// }

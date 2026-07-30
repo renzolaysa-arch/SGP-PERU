@@ -1,0 +1,106 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% block title %} Perfil Funcionario {% endblock %}
+{% load project_tags %}
+{% block content %}
+
+<section class="container">
+    <!-- BREADCRUMB -->
+    <div class="row">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mi tablero</li>
+          </ol>
+        </nav>
+    </div>
+    <!-- END BREADCRUMB -->
+</section>
+
+<section class="profile-functionary groups-profile" id="groupsProfile">
+    <div class="container">
+        <div class="row">
+            <div class="loading z-index-3">
+                <div class="loader">
+                </div>
+                <div class="loading__text">Cargando...</div>
+            </div>
+            <div class="col-12 col-lg-3 col-xxl-2">
+                <div class="functionary-menu-sidebar groups-profile-menu-sidebar box-shadow-primary" id="groupsProfileMenuSidebar">
+                    <div class="data-profile mb-5">
+                        <div class="data-profile-images">
+                            {% if data.image %}
+                                <img src="/media/{{data.image}}" alt="Foto del perfil">
+                            {% else %}
+                                <img src="/static/cepal/dist/assets/images/avatar-user.png" alt="Foto del perfil">
+                            {% endif %}
+                        </div>
+                        <div class="data-profile-name">
+                            <p class="data-profile-welcome">Bienvenido,</p>
+                            <h2 class="data-profile-name-headunit">{{data.name}}</h2>
+                        </div>
+                    </div>
+
+                    <div class="tab-sidebar">
+                        <ul class="tab-sidebar-nav">
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'activity_board_functionary' %}">Dashboard</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'notification' %}">Notificaciones</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'inventories' %}">Inventario</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'demands_functionary' %}">Solicitudes</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'activities_management' %}">Gestión de actividades</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'thread:binacle' %}">Bitácora</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'evaluations' %}">Evaluaciones</a></li>
+                            <li class="tab-sidebar-nav-item"><a class="link none-event" href="#" data-link="{% url 'access_rra' %}">Acceso a RRAA</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-9 col-xxl-10">
+                <div class="head-unit-main groups-profile-main box-shadow-primary position-relative" id="groupsProfileMain">
+                    <div class="loading loading--absolute">
+                        <div class="loader"></div>
+                        <p class="loading__text">Cargando...</p>
+                        <p class="loading__text loading__text--error d-none">Error inesperado</p>
+                    </div>
+                    <div class="content" id="groupsProfileMainContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal confirmation notification -->
+<dialog class="modal fade modal-finalized-transfer" id="modalConfirmationNotify" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-alert__wrapper-icon">
+                <span class="icon-alert"></span>
+            </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Eliminar notificación</h2>
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="loading loading--absolute d-none">
+                    <div class="loader"></div>
+                    <p class="loading__text">Cargando...</p>
+                    <p class="loading__text loading__text--error d-none"></p>
+                </div>
+                <p class="description">¿Está seguro de eliminar la notificación?</p>
+
+                <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                    <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal"
+                        type="button" aria-label="Volver"><span class="icon-back"></span>Volver</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour action-notification-delete"><span
+                            class="icon-icon-bell-notificacion-remove"></span>Eliminar</button>
+                    <button type="button" class="btn btn-primary btn-primary--contour action-notification-hide"><span
+                            class="icon-icon-bell-notificacion-read"></span>Marcar leída</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- End Modal confirmation notification -->
+
+{% endblock %}

@@ -1,0 +1,1075 @@
+{% extends 'cepal/base.html' %}
+{% load static %}
+{% load providers_extras %}
+{% block title %}
+  Cuadro de resultados
+{% endblock %}
+{% block content %}
+  <main class="demand-transfer bg-int-secondary">
+    <section class="results-box-header mb-5" >
+      <div class="container">
+        <!-- BREADCRUMB -->
+        <div class="row">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'demand:demand_list' %}">Mis solicitudes</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'demand:demand_detail' demand.id %}">Detalle de solicitud</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Cuadro de resultados</li>
+            </ol>
+          </nav>
+        </div>
+        <!-- END BREADCRUMB -->
+
+        <div class="row mt-lg-0 mt-5 mb-5">
+          <!-- Column Left -->
+          <div class="col-12 col-md-6 results-box-data">
+            <h1 class="results-box-data-title">{{ demand.title }}</h1>
+            <div class="results-box-data-content">
+              <div class="activity">
+                <p class="activity-title">Actividad:</p>
+                <div class="activity-badge">
+                  <img src="/static/cepal/dist/assets/images/transferencia-mg-col.svg" alt="icon" title="icon" />
+                  <span >Transferencia</span>
+                </div>
+              </div>
+              <p class="description">{{ demand.description }}</p>
+            </div>
+          </div>
+          <!-- End Column Left -->
+
+          <!-- Column Right -->
+          {% if participations %}
+            <div class="col-12 col-md-6 mt-5 mt-md-0">
+              <div class="card-type-participants">
+                <h2 class="card-type-participants-title">Participantes</h2>
+                <!-- Participants List -->
+                <div class="card-type-participants-list style-scrooll">
+                  <!-- Participants List Item -->
+                  {% for participation in participations %}
+                    <div class="card-type-participants-list-item">
+                      <div class="participant-data">
+                        <span class="participant-data-type type-functionary">{{ participation.user.groups.all.0.name }}</span>
+                        <p class="participant-data-name">{{ participation.user.first_name }} {{ participation.user.last_name }}</p>
+                      </div>
+                      <div class="participant-data-email">
+                        <p class="participant-email">{{ participation.user.username }}</p>
+                        <button class="btn btn-copy" data-bs-toggle="tooltip" data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip" data-bs-title="Copiar">
+                          <span class="icon-copy"></span>
+                        </button>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <!-- End Participants List Item -->
+                </div>
+                <!-- End Participants List -->
+              </div>
+            </div>
+          {% endif %}
+          <!-- End Column Right -->
+        </div>
+
+        <div class="row">
+          <div class="col-12 mt-5 pt-4">
+            <div class="highlight-list highlight-list--three-cols">
+              <!-- Highlight Item -->
+              <div class="highlight-list-item">
+                <div class="field-informative">
+                  <div class="field-informative-title">Proveedor</div>
+                  <p class="field-informative-text">{{ demand.provider_entity }}</p>
+                </div>
+              </div>
+              <!-- End Highlight Item -->
+
+              <!-- Highlight Item -->
+              <div class="highlight-list-item">
+                <div class="field-informative">
+                  <div class="field-informative-title">Fecha de inicio</div>
+                  <p class="field-informative-text">{{ demand.created_date|date:'d' }} de {{ demand.created_date|date:'M' }} de {{ demand.created_date|date:'Y' }}</p>
+                </div>
+              </div>
+              <!-- End Highlight Item -->
+
+              <!-- Highlight Item -->
+              <div class="highlight-list-item">
+                <div class="field-informative">
+                  <div class="field-informative-title">Fecha de finalización</div>
+                  <p class="field-informative-text">{{ negotiation.date_agreement|date:'d' }} de {{ negotiation.date_agreement|date:'M' }} de {{ negotiation.date_agreement|date:'Y' }}</p>
+                </div>
+              </div>
+              <!-- End Highlight Item -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-box-body my-5" data-name="{{ sub_process }}">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="accordion accordion-secondary" id="accordionActivityManagement">
+              <!-- Loader -->
+              <div class="loading">
+                <div class="loader">
+                </div>
+                <p class="loading__text">Cargando...</p>
+              </div>
+
+              <!-- Collapse item -->
+              <div class="accordion-item box-shadow-six mb-3" data-accordion-item="inicio">
+                <div class="accordion-header">
+                  <h2 class="accordion-header-title" id="accordion-initiation">
+                    <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/transferencia/inicio/">Inicio</a>
+                  </h2>
+                </div>
+                <div id="initiation" class="accordion-collapse collapse show" aria-labelledby="accordion-initiation" data-bs-parent="#accordionActivityManagement">
+                  <div class="accordion-body">
+                    <div class="highlight-list highlight-list--three-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Solicitud</div>
+                          <p class="field-informative-text">#{{ demand.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Fecha de inicio</div>
+                          <p class="field-informative-text">{{ negotiation.date_agreed|date:'d' }} de {{ negotiation.date_agreed|date:'M' }} de {{ negotiation.date_agreed|date:'Y' }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Frecuencia de entrega</div>
+                          <p class="field-informative-text">
+                            Cada {{ negotiation.time }}
+                            {% if negotiation.type_time == 'days' and negotiation.time > 1 %}
+                              días{% elif negotiation.type_time == 'days' and negotiation.time == 1 %}día{% elif negotiation.type_time == 'weeks' and negotiation.time > 1 %}Semanas{% elif negotiation.type_time == 'weeks' and negotiation.time == 1 %}Semana{% elif negotiation.type_time == 'months' and negotiation.time > 1 %}Meses{% elif negotiation.type_time == 'months' and negotiation.time == 1 %}Mes{% elif negotiation.type_time == 'years' and negotiation.time > 1 %}Años{% elif negotiation.type_time == 'years' and negotiation.time == 1 %}Año
+                            {% endif %}
+                          </p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Fecha de finalización</div>
+                          <p class="field-informative-text">{{ negotiation.date_agreement|date:'d' }} de {{ negotiation.date_agreement|date:'M' }} de {{ negotiation.date_agreement|date:'Y' }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+                    
+                    <form method="post" class="demand-transfer__beginform mt-5" data-iddemand="{{ demand.id }}" id="transferBeginform">
+                      <div class="highlight-list highlight-list--one-cols">
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative content-data">
+                            <div class="field-informative-title">Canales habilitados</div>
+                            <div class="form__element form__element--select">
+                              {{ form.channel }}
+                            </div>
+                          </div>                          
+                        </div>
+                        <!-- End Highlight Item -->
+                      </div>
+                      <div class="highlight-list highlight-list--one-cols mt-5">
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative highlight-list-item-form content-data">
+                            <div class="field-informative-title">Actualizar transferencia</div>
+
+                            {% csrf_token %}
+                            {{ form.transfer }}
+                            <div class="inputs-fields">
+                              <div class="input-field d-flex flex-column">
+                                <label for="stateTransfer" class="input-field-label required">Estado</label>
+                                <div class="form__element form__element--select">
+                                  {{ form.status_transfer }}
+                                </div>
+                              </div>
+
+                              <div class="input-field d-flex flex-column">
+                                <label for="numTransfer" class="input-field-label required">Nombre Entrega</label>
+                                {{ form.number_deliveries }}
+                              </div>
+
+                              <div class="input-field d-flex flex-column">
+                                <label for="idTransfer" class="input-field-label required">Entrega</label>
+                                <div class="form__element form__element--select">
+                                  {{ form.frequency_delivery }}
+                                </div>
+                              </div>
+
+                              <div class="input-field d-flex flex-column">
+                                <label for="frequencieUpdate" class="input-field-label required">Fecha de entrega</label>
+                                {{ form.date_delivery }}
+                              </div>
+
+                            </div>
+
+                            <div class="inputs-fields mt-4 pt-2">
+                              <div class="input-field d-flex flex-column">
+                                <label for="frequencieCommentary" class="input-field-label required">Comentarios</label>
+                                {{ form.comment }}
+                              </div>
+                            </div>
+                            <div class="content-buttons">
+                              <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Guardar" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Highlight Item -->
+                      </div>
+                      <div class="highlight-list highlight-list--one-cols mt-5">
+                        <!-- Highlight Item -->
+                        <div class="highlight-list-item">
+                          <div class="field-informative content-data">
+                            <div class="field-informative-title">Transferencias</div>
+
+                            <!-- Item list transfer -->
+                            {% if transfers %}
+                              <div class="list-of-transfer list-of-transfer--style-one style-scrooll">
+                                {% for transfer in transfers %}
+                                  <div class="list-of-transfer-item style-scrooll">
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title">Estado</h5>
+                                      <p class="list-of-transfer-item-text">
+                                        {% if transfer.status_transfer == 'ac' %}
+                                          Aceptada{% elif transfer.status_transfer == 'pe' %}Pendiente{% elif transfer.status_transfer == 'de' %}Rechazado
+                                        {% endif %}
+                                      </p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title"># Entrega</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.number_deliveries }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title"># Frecuencia</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.frequency_delivery }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title"># Fecha acordada</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.frequency_date_delivery }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title">Canal</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.channel }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title">Fecha de entrega</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.date_delivery|date:'d' }} de {{ transfer.date_delivery|date:'M' }} de {{ transfer.date_delivery|date:'Y' }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                    <!-- Column list transfer -->
+                                    <div class="list-of-transfer-item-column">
+                                      <h5 class="list-of-transfer-item-title">Comentarios</h5>
+                                      <p class="list-of-transfer-item-text">{{ transfer.comment }}</p>
+                                    </div>
+                                    <!-- End Column list transfer -->
+
+                                  </div>
+                                {% endfor %}
+                              </div>
+                              {% else %}
+                              <div class="list-of-transfer list-of-transfer--style-one style-scrooll d-flex justify-content-center align-items-center">
+                                <p>Actualmente no hay transferencias disponibles para mostrar. Por favor, actualice una transferencia para ver los detalles aquí.</p>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="content-buttons">
+                          {% if transfers %}
+                            <a class="btn btn-secondary btn-secondary--fill" href="{% url 'demand:process_transfer_process' demand.id %}">Continuar</a>
+                            {% else %}
+                            <button class="btn btn-secondary btn-secondary--fill pe-none" disabled>Continuar</button>
+                          {% endif %}
+                        </div>
+                        <!-- End Highlight Item -->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- END Collapse item -->
+              <!-- Collapse item -->
+              <div class="accordion-item box-shadow-six mb-3" data-accordion-item="proceso">
+                <div class="accordion-header">
+                  <h2 class="accordion-header-title w-100" id="accordion-process">
+                    <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/transferencia/proceso/">En proceso</a>
+                  </h2>
+                </div>
+                <div id="process" class="accordion-collapse collapse" aria-labelledby="accordion-process" data-bs-parent="#accordionActivityManagement">
+                  <div class="accordion-body">
+                    <div class="highlight-list highlight-list--three-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Solicitud</div>
+                          <p class="field-informative-text">#{{ demand.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Frecuencia de entrega</div>
+                          <p class="field-informative-text">
+                            Cada {{ negotiation.time }}
+                            {% if negotiation.type_time == 'days' and negotiation.time > 1 %}
+                              días{% elif negotiation.type_time == 'days' and negotiation.time == 1 %}día{% elif negotiation.type_time == 'weeks' and negotiation.time > 1 %}Semanas{% elif negotiation.type_time == 'weeks' and negotiation.time == 1 %}Semana{% elif negotiation.type_time == 'months' and negotiation.time > 1 %}Meses{% elif negotiation.type_time == 'months' and negotiation.time == 1 %}Mes{% elif negotiation.type_time == 'years' and negotiation.time > 1 %}Años{% elif negotiation.type_time == 'years' and negotiation.time == 1 %}Año
+                            {% endif %}
+                          </p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+
+                    <div class="highlight-list highlight-list--one-cols mt-5">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative content-data">
+                          <div class="field-informative-title">Transferencias</div>
+
+                          <!-- Filter transfer -->
+                          <div class="filter-transfer">
+                            <div class="input-field">
+                              <label for="filterTransferList" class="input-field-label">Mes</label>
+                              <div class="form__element form__element--select">
+                                <select name="month" class="input-field-select" id="filterTransferList">
+                                  <option value="">Todos</option>
+                                  <option value="01">Enero</option>
+                                  <option value="02">Febrero</option>
+                                  <option value="03">Marzo</option>
+                                  <option value="04">Abril</option>
+                                  <option value="05">Mayo</option>
+                                  <option value="06">Junio</option>
+                                  <option value="07">Julio</option>
+                                  <option value="08">Agosto</option>
+                                  <option value="09">Septiembre</option>
+                                  <option value="10">Octubre</option>
+                                  <option value="11">Noviembre</option>
+                                  <option value="12">Diciembre</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- End Filter transfer -->
+
+                          {% if transfers %}
+                            <div class="list-of-transfer list-of-transfer--style-two style-scrooll">
+                              <!-- Item list transfer -->
+                              {% for transfer in transfers %}
+                                <div class="list-of-transfer-item style-scrooll">
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Estado</h5>
+                                    <p class="list-of-transfer-item-text">
+                                      {% if transfer.status_transfer == 'ac' %}
+                                        Aceptada{% elif transfer.status_transfer == 'pe' %}Pendiente{% elif transfer.status_transfer == 'de' %}Rechazado
+                                      {% endif %}
+                                    </p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title"># Entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.number_deliveries }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title"># Frecuencia</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.frequency_delivery }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title"># Fecha acordada</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.frequency_date_delivery }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Canal</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.channel }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Fecha de entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.date_delivery|date:'d' }} de {{ transfer.date_delivery|date:'M' }} de {{ transfer.date_delivery|date:'Y' }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Comentarios</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.comment }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                </div>
+                              {% endfor %}
+                              <!-- End Item list transfer -->
+                            </div>
+
+                            {% else %}
+                              <div class="list-of-transfer list-of-transfer--style-two style-scrooll d-flex justify-content-center align-items-center">
+                                <p>No se encontraron resultados para el mes seleccionado.</p>
+                              </div>
+                          {% endif %}
+                        </div>
+                        <form method="post" id="formStep1">
+                          {% csrf_token %}
+                          <div class="content-buttons">
+                            <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Continuar" />
+                          </div>
+                        </form>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END Collapse item -->
+              <!-- Collapse item -->
+              <div class="accordion-item box-shadow-six mb-3" data-accordion-item="revision">
+                <div class="accordion-header">
+                  <h2 class="accordion-header-title w-100" id="accordion-review">
+                    <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/transferencia/revision/">En revisión</a>
+                  </h2>
+                </div>
+                <div id="review" class="accordion-collapse collapse" aria-labelledby="accordion-review" data-bs-parent="#accordionActivityManagement">
+                  <div class="accordion-body">
+                    <div class="highlight-list highlight-list--three-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Solicitud</div>
+                          <p class="field-informative-text">#{{ demand.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Frecuencia de entrega</div>
+                          <p class="field-informative-text">
+                            Cada {{ negotiation.time }}
+                            {% if negotiation.type_time == 'days' and negotiation.time > 1 %}
+                              días{% elif negotiation.type_time == 'days' and negotiation.time == 1 %}día{% elif negotiation.type_time == 'weeks' and negotiation.time > 1 %}Semanas{% elif negotiation.type_time == 'weeks' and negotiation.time == 1 %}Semana{% elif negotiation.type_time == 'months' and negotiation.time > 1 %}Meses{% elif negotiation.type_time == 'months' and negotiation.time == 1 %}Mes{% elif negotiation.type_time == 'years' and negotiation.time > 1 %}Años{% elif negotiation.type_time == 'years' and negotiation.time == 1 %}Año
+                            {% endif %}
+                          </p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+
+                    <div class="highlight-list highlight-list--one-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative content-data">
+                          <div class="field-informative-title">Transferencias</div>
+
+                          <!-- Filter transfer -->
+                          <div class="filter-transfer">
+                            <div class="input-field">
+                              <label for="filterTransferList" class="input-field-label">Mes</label>
+                              <div class="form__element form__element--select">
+                                <select name="month" class="input-field-select" id="filterTransferList">
+                                  <option value="">Todos</option>
+                                  <option value="01">Enero</option>
+                                  <option value="02">Febrero</option>
+                                  <option value="03">Marzo</option>
+                                  <option value="04">Abril</option>
+                                  <option value="05">Mayo</option>
+                                  <option value="06">Junio</option>
+                                  <option value="07">Julio</option>
+                                  <option value="08">Agosto</option>
+                                  <option value="09">Septiembre</option>
+                                  <option value="10">Octubre</option>
+                                  <option value="11">Noviembre</option>
+                                  <option value="12">Diciembre</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- End Filter transfer -->
+
+                          <!-- Item list transfer -->
+                          {% if transfers %}
+                            <div class="list-of-transfer list-of-transfer--style-three style-scrooll">
+                              {% for transfer in transfers %}
+                                <div class="list-of-transfer-item">
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Estado</h5>
+                                    <p class="list-of-transfer-item-text">
+                                      {% if transfer.status_transfer == 'ac' %}
+                                        Aceptada{% elif transfer.status_transfer == 'pe' %}Pendiente{% elif transfer.status_transfer == 'de' %}Rechazado
+                                      {% endif %}
+                                    </p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title"># Entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.number_deliveries }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Canal</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.channel }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Fecha de entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.date_delivery|date:'d' }} de {{ transfer.date_delivery|date:'M' }} de {{ transfer.date_delivery|date:'Y' }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Comentarios</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.comment }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column col-buttons">
+                                    {% if transfer.reviewed == True %}
+                                      <button class="btn btn-secondary btn-secondary--contour--opacity-30 review enabled" data-id="{{ transfer.id }}" data-name="{{ transfer.reviewed }}" data-bs-toggle="modal" data-bs-target="#transferReview-{{ transfer.id }}">Revisado</button>
+                                    {% else %}
+                                      <button class="btn btn-secondary btn-secondary--contour review enabled" data-id="{{ transfer.id }}" data-name="{{ transfer.reviewed }}" data-bs-toggle="modal" data-bs-target="#transferReview-{{ transfer.id }}">Revisar</button>
+                                    {% endif %}
+                                  </div>
+                                  <!-- End Column list transfer -->
+                                </div>
+                              {% endfor %}
+                            </div>
+
+                            {% else %}
+                              <div class="list-of-transfer list-of-transfer--style-two style-scrooll d-flex justify-content-center align-items-center">
+                                <p>No se encontraron resultados para el mes seleccionado.</p>
+                              </div>
+
+                          {% endif %}
+                            <!-- End Item list transfer -->
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+
+                    <form method="post" id="reviewTransferForm">
+                      {% csrf_token %}
+                      <div class="content-buttons">
+                        <input type="submit" class="btn btn-secondary btn-secondary--fill" value="Continuar" />
+                      </div>
+                    </form>
+
+                  </div>
+                  
+                  {% for transfer in transfers %}
+                    <!-- REVIEW TRANSFER MODAL -->
+                    <div class="modal fade modal--closein transfer-review" data-id="{{ transfer.id }}" id="transferReview-{{ transfer.id }}" role="dialog">
+                      <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <form method="post" class="form form-review-transfer" id="formReview">
+                              {% csrf_token %}
+                              <input type="hidden" name="review" value="{{ transfer.id }}" />
+                              <div class="highlight-list highlight-list--two-cols">
+                                <!-- Highlight Item -->
+                                <div class="highlight-list-item">
+                                  <div class="field-informative">
+                                    <div class="field-informative-title">Estado</div>
+                                    <p class="field-informative-text">
+                                      {% if transfer.status_transfer == 'ac' %}
+                                        Aceptada{% elif transfer.status_transfer == 'pe' %}Pendiente{% elif transfer.status_transfer == 'de' %}Rechazado
+                                      {% endif %}
+                                    </p>
+                                  </div>
+                                </div>
+                                <!-- End Highlight Item -->
+                                <!-- Highlight Item -->
+                                <div class="highlight-list-item">
+                                  <div class="field-informative">
+                                    <div class="field-informative-title"># Entrega</div>
+                                    <p class="field-informative-text">{{ transfer.number_deliveries }}</p>
+                                  </div>
+                                </div>
+                                <!-- End Highlight Item -->
+                              </div>
+                              {% if transfer.reviewed == True %}
+                                <!-- Question -->
+                                <div class="inputs-fields d-flex align-items-end">
+                                  <div class="input-field d-flex flex-column">
+                                    <label for="dateReview" class="input-field-label">Fecha de revisión</label>
+                                    <input type="date" value="{{ transfer.date_reviewed|date:'Y-m-d' }}" name="date_review" class="input-normal" id="dateReview" disabled/>
+                                  </div>
+                                  <div class="input-field d-flex flex-column">
+                                    <label for="hourReview" class="input-field-label">Hora de revisión</label>
+                                    <input type="time" name="hour_review" value="{{ transfer.date_reviewed|time:'H:i' }}" class="input-normal" id="hourReview" disabled/>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label">{{ form.open_base.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      <select name="answer"  disabled="disabled">
+                                        <option value="">
+                                          {% if transfer.open_base == 'Y' %}
+                                            Si
+                                            {% else %}
+                                            No
+                                          {% endif %}
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label">{{ form.expected_size.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      <select name="answer"  disabled="disabled">
+                                        <option value="">
+                                          {% if transfer.expected_size == 'Y' %}
+                                            Si
+                                          {% else %}
+                                            No
+                                          {% endif %}
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label">{{ form.meets_terms.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      <select name="answer"  disabled="disabled">
+                                        <option value="">
+                                          {% if transfer.meets_terms == 'Y' %}
+                                            Si
+                                          {% else %}
+                                            No
+                                          {% endif %}
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label">{{ form.approve_reception_bd.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      <select name="answer"  disabled="disabled">
+                                        <option value="">
+                                          {% if transfer.approve_reception_bd == 'Y' %}
+                                            Si
+                                          {% else %}
+                                            No
+                                          {% endif %}
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100 d-flex flex-column">
+                                    <label for="stateReception" class="input-field-label">Comentario</label>
+                                    <div class="form__element form__element--textarea">
+                                      <textarea name="comment_review" cols="40" rows="10" placeholder="Agregue comentarios del proceso" id="comment_review" disabled>{{ transfer.comment_review }}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- End Question -->
+
+                                <p class="form-review-transfer-description">Esta transferencia ya se encuentra revisada.</p>
+                              {% else %}
+                                <!-- Question -->
+                                <div class="inputs-fields d-flex align-items-end mb-mobile">
+                                  <div class="input-field d-flex flex-column">
+                                    <label for="dateReview" class="input-field-label required">Fecha de revisión</label>
+                                    <div class="form__element">
+                                      <input type="date" value="{{ transfer.date_reviewed|date:'Y-m-d' }}" name="date_review" class="input-normal" id="dateReview" />
+                                    </div>
+                                  </div>
+                                  <div class="input-field d-flex flex-column">
+                                    <label for="hourReview" class="input-field-label required">Hora de revisión</label>
+                                    <div class="form__element">
+                                      <input type="time" name="hour_review" value="{{ transfer.date_reviewed|time:'g:i' }}" class="input-normal" id="hourReview" />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label required">{{ form.open_base.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      {{ form.open_base }}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label required">{{ form.expected_size.label }}</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form.expected_size }}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label required">{{ form.meets_terms.label }}</label>
+                                    <div class="form__element form__element--select">
+                                      {{ form.meets_terms }}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100">
+                                    <label for="stateReception" class="input-field-label required">{{ form.approve_reception_bd.label }}</label>
+                                    <div class="form__element form__element--select">
+                                        {{ form.approve_reception_bd }}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="inputs-fields d-flex mb-4">
+                                  <div class="input-field w-100 d-flex flex-column">
+                                    <label for="stateReception" class="input-field-label required">Comentario</label>
+                                    <div class="form__element form__element--textarea">
+                                      <textarea name="comment_review" cols="40" rows="10" placeholder="Agregue comentarios del proceso" id="comment_review">{{ transfer.comment_review }}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- End Question -->
+
+                                <p class="form-review-transfer-description">Antes de confirmar la revisión, compruebe que la información diligenciada es la correcta ya que esta acción es irreversible.</p>
+
+                                <div class="content-buttons">
+                                  <input type="submit" class="btn btn-primary btn-primary--fill" value="Confirmar revisión" />
+                                </div>
+                              {% endif %}
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END REVIEW TRANSFER MODAL -->
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- END Collapse item -->
+              <!-- Collapse item -->
+              <div class="accordion-item box-shadow-six mb-3" data-accordion-item="finalizado">
+                <div class="accordion-header">
+                  <h2 class="accordion-header-title w-100" id="accordion-finalized">
+                    <a class="accordion-button" type="button" href="/solicitud/{{ demand.id }}/transferencia/finalizado/">Finalizado</a>
+                  </h2>
+                </div>
+                <div id="finalized" class="accordion-collapse collapse" aria-labelledby="accordion-finalized" data-bs-parent="#accordionActivityManagement">
+                  <div class="accordion-body">
+                    <div class="highlight-list highlight-list--three-cols">
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">ID Solicitud</div>
+                          <p class="field-informative-text">#{{ demand.id }}</p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative">
+                          <div class="field-informative-title">Frecuencia de entrega</div>
+                          <p class="field-informative-text">
+                            Cada {{ negotiation.time }}
+                            {% if negotiation.type_time == 'days' and negotiation.time > 1 %}
+                              días{% elif negotiation.type_time == 'days' and negotiation.time == 1 %}día{% elif negotiation.type_time == 'weeks' and negotiation.time > 1 %}Semanas{% elif negotiation.type_time == 'weeks' and negotiation.time == 1 %}Semana{% elif negotiation.type_time == 'months' and negotiation.time > 1 %}Meses{% elif negotiation.type_time == 'months' and negotiation.time == 1 %}Mes{% elif negotiation.type_time == 'years' and negotiation.time > 1 %}Años{% elif negotiation.type_time == 'years' and negotiation.time == 1 %}Año
+                            {% endif %}
+                          </p>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+
+                    <div class="highlight-list highlight-list--one-cols">
+
+                      <!-- Highlight Item -->
+                      <div class="highlight-list-item">
+                        <div class="field-informative content-data">
+                          <div class="field-informative-title">Transferencias</div>
+
+                          <div class="list-of-transfer list-of-transfer--style-three style-scrooll">
+                            {% if transfers %}
+                              {% for transfer in transfers %}
+                                <div class="list-of-transfer-item">
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Estado</h5>
+                                    <p class="list-of-transfer-item-text">
+                                      {% if transfer.status_transfer == 'ac' %}
+                                        Aceptada{% elif transfer.status_transfer == 'pe' %}Pendiente{% elif transfer.status_transfer == 'de' %}Rechazado
+                                      {% endif %}
+                                    </p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title"># Entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.number_deliveries }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Canal</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.channel }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Fecha de entrega</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.date_delivery|date:'d' }} de {{ transfer.date_delivery|date:'M' }} de {{ transfer.date_delivery|date:'Y' }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column">
+                                    <h5 class="list-of-transfer-item-title">Comentarios</h5>
+                                    <p class="list-of-transfer-item-text">{{ transfer.comment }}</p>
+                                  </div>
+                                  <!-- End Column list transfer -->
+
+                                  <!-- Column list transfer -->
+                                  <div class="list-of-transfer-item-column col-buttons">
+                                    {% if transfer.reviewed %}
+                                      {% if transfer.finalize %}
+                                        <button class="btn btn-success btn-success--contour finalize enabled" data-id="{{ transfer.id }}" data-name="{{ transfer.finalize }}" data-bs-toggle="modal" data-bs-target="#modalFinalizedTransfer-{{ transfer.id }}">Finalizada</button>
+                                      {% else %}
+                                        <button class="btn btn-secondary btn-secondary--contour finalize enabled" data-id="{{ transfer.id }}" data-name="{{ transfer.finalize }}" data-bs-toggle="modal" data-bs-target="#modalFinalizedTransfer-{{ transfer.id }}">Finalizar</button>
+                                      {% endif %}
+                                    {% else %}
+                                      <button class="btn btn-secondary btn-secondary--fill finalize enabled" disabled data-name="{{ transfer.finalize }}">Finalizar</button>
+                                    {% endif %}
+                                  </div>
+                                  <!-- End Column list transfer -->
+                                </div>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Highlight Item -->
+                    </div>
+
+                    {% for transfer in transfers %}
+                      <!-- Modal Finalized Transfer -->
+                      <dialog class="modal fade modal-finalized-transfer" id="modalFinalizedTransfer-{{ transfer.id }}" role="dialog">
+                        <div class="modal-dialog modal-md modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-alert__wrapper-icon">
+                              <span class="icon-alert"></span>
+                            </div>
+                            <div class="modal-header">
+                              <h2 class="modal-title">Finalización transferencia</h2>
+                              <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              {% if transfer.finalize %}
+                                <form method="post" class="form formFinalizedTransfer" id="formFinalizedTransfer-{{ transfer.id }}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="finalize" value="{{ transfer.id }}" />
+                                  <div class="form__group--two-col">
+                                    
+                                    <fieldset class="form__field">
+                                      <label for="finalizedHourTransfer">Hora finalización</label>
+                                      <div class="form__element form__element--time">
+                                        <input type="time" value="{{ transfer.date_finalize|time:'H:i'}}" name="finalized-hour-transfer" id="finalizedHourTransfer" disabled/>
+                                      </div>
+                                    </fieldset>
+                            
+                                    <fieldset class="form__field">
+                                      <label for="finalizedDateTransfer">Fecha finalización</label>
+                                      <div class="form__element form__element--date">
+                                        <input type="date" name="finalized-date-transfer" value="{{ transfer.date_finalize|date:'Y-m-d' }}" id="finalizedDateTransfer" disabled/>
+                                      </div>
+                                    </fieldset>
+
+                                    <fieldset class="form__field w-100">
+                                      <label for="frequencieCommentary">Comentarios</label>
+                                      <div class="form__element form__element--textarea">
+                                        <textarea name="finalize_comment" cols="40" rows="10" placeholder="Agregue comentarios del proceso" id="frequencieCommentary" disabled>{{ transfer.comment_finalize }}</textarea>
+                                      </div>
+                                    </fieldset>
+                                  </div>
+                                </form>
+                              {% else %}
+                                <form method="post" class="form formFinalizedTransfer" id="formFinalizedTransfer-{{ transfer.id }}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="finalize" value="{{ transfer.id }}" />
+                                  <div class="form__group--two-col">
+                                    
+                                    <fieldset class="form__field required">
+                                      <label for="finalizedHourTransfer">Hora finalización</label>
+                                      <div class="form__element form__element--time">
+                                        <input type="time" name="finalized-hour-transfer" id="finalizedHourTransfer" />
+                                      </div>
+                                    </fieldset>
+                            
+                                    <fieldset class="form__field required">
+                                      <label for="finalizedDateTransfer">Fecha finalización</label>
+                                      <div class="form__element form__element--date">
+                                        <input type="date" name="finalized-date-transfer" id="finalizedDateTransfer" />
+                                      </div>
+                                    </fieldset>
+
+                                    <fieldset class="form__field w-100 required">
+                                      <label for="frequencieCommentary">Comentarios</label>
+                                      <div class="form__element form__element--textarea">
+                                        <textarea name="finalize_comment" cols="40" rows="10" placeholder="Agregue comentarios del proceso" id="frequencieCommentary"></textarea>
+                                      </div>
+                                    </fieldset>
+                                  </div>
+                            
+                                  <div class="form__call">
+                                    <button type="button" class="btn btn-primary btn-primary--fill finalizeTransferOpenModal" data-form-id="{{ transfer.id }}">
+                                      Finalizar proceso
+                                    </button>
+                                  </div>
+                                </form>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </dialog>
+                      <!-- End Modal Finalized Transfer -->
+                    {% endfor %}
+
+                    <!-- Modal confirmation transfer -->
+                    <dialog class="modal fade modal-finalized-transfer" id="modalConfirmationTransfer" role="dialog">
+                      <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-alert__wrapper-icon">
+                            <span class="icon-alert"></span>
+                          </div>
+                          <div class="modal-header">
+                            <h2 class="modal-title">Confirmar finalización</h2>
+                            <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="description">¿Está seguro de querer finalizar la transferencia?</p>
+
+                            <div class="container-button mt-5 d-flex justify-content-center flex-wrap gap-4">
+                              <button class="btn btn-secondary btn-secondary--contour btn-close-modal" data-bs-dismiss="modal" type="button" aria-label="Volver"  data-bs-toggle="modal"><span class="icon-back"></span>Volver</button>
+                              <input type="submit" class="btn btn-primary btn-primary--fill btn-confirm-modal" id="endProcessTransfer" aria-label="Finalizar" value="Finalizar" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </dialog>
+                    <!-- End Modal confirmation transfer -->
+
+                    <!-- Modal success transfer -->
+                    <dialog class="modal fade modal-primary-style modal-sucess-transfer" id="modalSuccessTransfer" role="dialog">
+                      <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h2 class="modal-title">Transferencia finalizada</h2>
+                            <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="description">Se ha notificado al equipo encargado</p>
+
+                            <div class="data-finalized">
+                              <p class="data-finalized-date">
+                                Fecha: <span>1 de Julio</span>
+                              </p>
+                              <p class="data-finalized-hour">
+                                Hora de finalización: <span>10:00 AM</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </dialog>
+                    <!-- End Modal success transfer -->
+
+                    <!-- forward and backward navigation -->
+                    <div class="content-buttons">
+                      <form method="post" id="finalizeTransferContinue">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-secondary btn-secondary--fill btn-form-continue" value="Continuar">
+                      </form>
+                    </div>
+                    <!-- End forward and backward navigation -->
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- END Collapse item -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
