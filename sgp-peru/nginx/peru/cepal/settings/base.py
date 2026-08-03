@@ -201,6 +201,7 @@ EMAIL_PORT = str(os.getenv('EMAIL_PORT'))
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', '10'))
 auth_password = str(os.getenv('EMAIL_HOST_PASSWORD'))
 auth_user = str(os.getenv('EMAIL_HOST_USER'))
 

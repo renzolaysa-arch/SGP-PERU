@@ -9,7 +9,9 @@ def notify_email(subject,
                  to,
                  name_link,
                  link,
-                 country
+                 country,
+                 connection=None,
+                 fail_silently=True,
                  ):
     subject = subject
     html_message = render_to_string(
@@ -18,8 +20,12 @@ def notify_email(subject,
     from_email = 'Alertas y Notificaciones ' + settings.EMAIL_HOST_USER
     to = to
 
-    try:
-        mail.send_mail(subject, plain_message, from_email,
-                       [to], html_message=html_message)
-    except:
-        print("Error al enviar correo")
+    return mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+        connection=connection,
+        fail_silently=fail_silently,
+    )

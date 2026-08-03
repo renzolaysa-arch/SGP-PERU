@@ -15,6 +15,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from datetime import date, datetime, timedelta, timezone
 from notifications.models import Notification
+from notifications.services import create_notifications_and_send_emails_async
 from inventory.forms import CreateInventoryForm, FilterOrderForm, CreateCommentForm, QualityTestForm
 from users.models import Provider
 from providers.models import ProviderEntity
@@ -395,23 +396,26 @@ def edit_inventory(request, id):
                 for item in data_user_func:
                     notifications.add(item.user.id)
 
-                # capturar el funcionarioy
-                for notify in notifications:
-                    name = "Se ha editado el registro administrativo:" + request.POST['title']+", consultar <a target='_blank' href='" + \
-                        url+"detalle-inventario/" + \
-                        str(id_form) + "'>aquí</a>"
-                    message = "Se ha editado el registro administrativo" + \
-                        request.POST['title']
+                name = "Se ha editado el registro administrativo:" + request.POST['title']+", consultar <a target='_blank' href='" + \
+                    url+"detalle-inventario/" + \
+                    str(id_form) + "'>aquí</a>"
+                message = "Se ha editado el registro administrativo" + \
+                    request.POST['title']
+                link = url+"detalle-inventario/" + str(id_form)
 
-                    Notification.on_site.create(
+                recipients = User.objects.filter(pk__in=notifications)
+                create_notifications_and_send_emails_async([
+                    Notification(
                         name=name,
-                        sent_to=get_object_or_404(
-                            User, pk=notify),
+                        sent_to=recipient,
                         module_from="IN",
                         message=message,
                         name_link='Consultar registro administrativo',
-                        link=url+"detalle-inventario/" + str(id_form)
+                        link=link,
+                        site_id=get_current_site(request).id,
                     )
+                    for recipient in recipients
+                ])
             except:
                 return redirect('inventory:inventory_list')
 
