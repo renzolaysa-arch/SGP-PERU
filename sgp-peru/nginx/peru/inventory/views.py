@@ -316,23 +316,26 @@ def inventory_create(request):
                     for item in data_user_func:
                         notifications.add(item.user.id)
 
-                    # capturar el funcionarioy
-                    for notify in notifications:
-                        name = "Se agregó un nuevo registro administrativo, consultar <a target='_blank' href='" + \
-                            url+"detalle-inventario/" + \
-                            str(id_form) + "'>aquí</a>"
-                        message = "Se agregó un nuevo registro administrativo" + \
-                            request.POST['title']
+                    name = "Se agregó un nuevo registro administrativo, consultar <a target='_blank' href='" + \
+                        url+"detalle-inventario/" + \
+                        str(id_form) + "'>aquí</a>"
+                    message = "Se agregó un nuevo registro administrativo" + \
+                        request.POST['title']
+                    link = url+"detalle-inventario/" + str(id_form)
 
-                        Notification.on_site.create(
+                    recipients = User.objects.filter(pk__in=notifications)
+                    create_notifications_and_send_emails_async([
+                        Notification(
                             name=name,
-                            sent_to=get_object_or_404(
-                                User, pk=notify),
+                            sent_to=recipient,
                             module_from="IN",
                             message=message,
                             name_link='Consultar registro administrativo',
-                            link=url+"detalle-inventario/" + str(id_form)
+                            link=link,
+                            site_id=get_current_site(request).id,
                         )
+                        for recipient in recipients
+                    ])
                 except:
                     return redirect('inventory:inventory_list')
             else:

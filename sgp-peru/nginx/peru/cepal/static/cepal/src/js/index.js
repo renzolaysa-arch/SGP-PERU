@@ -4143,7 +4143,6 @@ function confirmationRRAAmodal(form) {
         data: data,
         contentType: false,
         processData: false,
-        timeout: 30000,
         success: function (res) {
             // Seteamos mensaje en el modal
             $modalConfirmationRRAA.find('.description').html(actualMessages["description"]);
