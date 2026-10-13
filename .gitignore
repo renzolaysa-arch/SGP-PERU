@@ -41,3 +41,7 @@ core.*
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Entornos y paquetes locales adicionales
+.venv*/
+.codex-python-packages/

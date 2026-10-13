@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
 from .models import Functionary, Provider, Unit_Central, AccessUserRRA, Inventory
 from providers.models import ProviderEntity
@@ -142,6 +143,11 @@ class loginUser(forms.Form):
         widget=ReCaptchaV2Checkbox,
         required=True,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if settings.DEBUG:
+            self.fields.pop('captcha', None)
 
 
 class UpdateProvider(forms.ModelForm):
