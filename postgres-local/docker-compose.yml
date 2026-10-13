@@ -1,0 +1,33 @@
+# PostgreSQL local para desarrollar sgp-peru.
+# Base restaurada desde cepal_2023_04062026_backup.sql (volcado de PostgreSQL 14.20).
+# La contrasena esta en .env (POSTGRES_PASSWORD), junto a este archivo.
+#
+#   docker compose up -d      levantar
+#   docker compose stop       detener (los datos se conservan en el volumen)
+#   docker compose down       quitar el contenedor (el volumen cepal_pgdata se conserva)
+
+name: cepal
+
+services:
+  db:
+    image: postgres:14
+    container_name: cepal-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?falta POSTGRES_PASSWORD en .env}
+      POSTGRES_DB: cepal_2023
+      TZ: America/Lima
+    ports:
+      - "127.0.0.1:5432:5432"   # solo accesible desde este equipo
+    volumes:
+      - cepal_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cepal_2023"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  cepal_pgdata:
+    name: cepal_pgdata
