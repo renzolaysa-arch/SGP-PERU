@@ -112,7 +112,7 @@
         <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%;padding-top: 10px;">
           <tr>
             <td width="100%" style="font-family:'Open Sans', sans-serif;font-size:11px;font-weight:400;text-align:left;color:#777777;">
-              DANE | Departamento administrativo nacional de estadística
+              {% if country == "pe" %}INEI | Instituto Nacional de Estadística e Informática{% else %}DANE | Departamento administrativo nacional de estadística{% endif %}
             </td>
           </tr>
           <tr>

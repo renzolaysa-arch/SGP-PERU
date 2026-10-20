@@ -27,6 +27,15 @@
                     {{ form.errors }}
                 </p>
 
+                {% for message in messages %}
+                <p role="status" class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %}">{{ message }}</p>
+                {% endfor %}
+                {% if can_resend %}
+                <form action="{% url 'resend_registration_email' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Reenviar correo de registro</button>
+                </form>
+                {% endif %}
                 <!-- FORM REGISTER-->
                 <form id="register-form" class="register-form" action="" method="POST">
                     {% csrf_token %}
@@ -110,29 +119,4 @@
         </div>
     </div>
 </section>
-<dialog class="modal fade" id="create-new-provider" role="dialog">
-    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="icon-container">
-                    <div class="icon icon-success"></div>
-                </div>
-                <h2 class="register-sucess">Registro de usuario exitoso</h2>
-                <button type="button" onclick="closeModal()" className="btn btn-close-modal" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-
-            </div>
-            <div class="modal-body">
-                <div class="container-text">
-                    <p>Enviamos un mensaje al correo electrónico registrado con un enlace de verificación de su cuenta.</p>
-                    <p>Si no recibió el mensaje, <a href="#" class="reload-pages">Clic aquí</a></p>
-                    <p class = "not-aproved">Su cuenta ha sido creada, espere ser validado por unidad central</p>
-                </div>
-                <div class="container-button">
-                    <a class="btn-user-login" href="{% url 'login' %}">Ingresar a mi cuenta</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</dialog>
 {% endblock %}

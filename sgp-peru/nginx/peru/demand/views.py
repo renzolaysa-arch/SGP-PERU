@@ -20,6 +20,8 @@ from django.conf import settings
 from datetime import timedelta
 from django.utils import timezone
 from .functions import calculate_process_board
+from .progress import sync_preparation_state
+from django.db import transaction
 import re
 
 
@@ -1236,8 +1238,6 @@ def process_preparation(request, id_demand):
         except Preparations.DoesNotExist:
             preparations = None
             
-    preparation.demand_process = 'ini'
-    preparation.save()
 
     if request.method == "GET":
         return render(request, 'demand/demand_preparation.html', {
@@ -1249,23 +1249,23 @@ def process_preparation(request, id_demand):
         })
     else:
         selected_transfer = get_object_or_404(
-            Transfers, pk=request.POST["transfer"])
+            Transfers, pk=request.POST["transfer"], transfer=transfer, finalize=True)
         date = request.POST["date"] + \
             ' ' + request.POST["hour"]
         date_verification = parse_datetime(date)
 
-        Preparations.on_site.create(
-            preparation=preparation,
-            transfer=selected_transfer,
-            date_verification=date_verification,
-            comment=request.POST["coments"],
-        )
+        with transaction.atomic():
+            Transfer.on_site.select_for_update().get(pk=transfer.pk)
+            if not Preparations.on_site.filter(preparation=preparation, transfer=selected_transfer).exists():
+                Preparations.on_site.create(
+                    preparation=preparation, transfer=selected_transfer,
+                    date_verification=date_verification, comment=request.POST['coments'],
+                )
 
         selected_transfer.preparation = True
         selected_transfer.save()
 
-        preparation.demand_process = 'pr'
-        preparation.save()
+        sync_preparation_state(preparation)
 
         return redirect('demand:process_preparation', id_demand)
 
@@ -1284,14 +1284,12 @@ def process_preparation_process(request, id_demand):
     if preparations is None:
         return redirect('demand:process_preparation', id_demand)
 
-    preparation.demand_process = 'pr'
-    preparation.save()
 
     form = PreparationForm()
     preparation_id = request.GET.get("preparation")
 
     if preparation_id is not None and preparation_id != '':
-        preparation_active = get_object_or_404(Preparations, pk=preparation_id)
+        preparation_active = get_object_or_404(Preparations, pk=preparation_id, preparation=preparation)
         sub_process = preparation_active.demand_subprocess
 
     if request.method == "GET":
@@ -1560,15 +1558,13 @@ def process_preparation_revision(request, id_demand):
     if preparations is None:
         return redirect('demand:process_preparation', id_demand)
 
-    preparation.demand_process = 're'
-    preparation.save()
 
     preparation_id = request.GET.get("preparation")
 
     if preparation_id is not None and preparation_id != '':
-        preparation_active = get_object_or_404(Preparations, pk=preparation_id)
+        preparation_active = get_object_or_404(Preparations, pk=preparation_id, preparation=preparation)
         sub_process = preparation_active.demand_subprocess
-        process = preparation.demand_process
+        process = 're'
 
     if request.method == "GET":
         if preparation_id is not None and preparation_id != '':
@@ -1628,13 +1624,11 @@ def process_preparation_finalize(request, id_demand):
     preparations = Preparations.on_site.filter(preparation=preparation)
     participations = ParticipationDemand.on_site.filter(demand=demand)
 
-    preparation.demand_process = 'fi'
-    preparation.save()
 
     preparation_id = request.GET.get("preparation")
 
     if preparation_id is not None and preparation_id != '':
-        preparation_active = get_object_or_404(Preparations, pk=preparation_id)
+        preparation_active = get_object_or_404(Preparations, pk=preparation_id, preparation=preparation)
         sub_process = preparation_active.demand_subprocess
 
     if request.method == "GET":
@@ -1668,6 +1662,7 @@ def process_preparation_finalize(request, id_demand):
             preparation_active.transfer.validate_preparation = True
             preparation_active.transfer.save()
             preparation_active.save()
+            sync_preparation_state(preparation)
             
             try:
                 evaluation = Evaluation.on_site.get(demand=id_demand)

@@ -198,7 +198,9 @@ RECAPTCHA_PRIVATE_KEY = str(os.getenv('RECAPTCHA_PRIVATE_KEY'))
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
 EMAIL_PORT = str(os.getenv('EMAIL_PORT'))
-EMAIL_USE_SSL = True
+# SSL directo (puerto 465) por defecto; para STARTTLS (puerto 587) EMAIL_USE_SSL=False y EMAIL_USE_TLS=True
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'True').lower() == 'true'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False').lower() == 'true'
 EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', '10'))

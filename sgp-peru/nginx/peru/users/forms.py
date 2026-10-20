@@ -103,9 +103,10 @@ class CreateProvider(forms.Form):
     )
 
     def clean(self):
-        email = self.cleaned_data["email"]
-        password_confirm = self.cleaned_data["password_confirm"]
-        password = self.cleaned_data["password"]
+        # .get(): si un campo ya fallo su propia validacion no esta en cleaned_data
+        email = self.cleaned_data.get("email")
+        password_confirm = self.cleaned_data.get("password_confirm", "")
+        password = self.cleaned_data.get("password", "")
 
         largo = re.compile(r'.{8,}')
         digito = re.compile(r'\d+')
@@ -125,7 +126,7 @@ class CreateProvider(forms.Form):
         if password != password_confirm:
             self.add_error('password', ValidationError(
                 "Las contraseñas no coinciden"))
-        elif User.objects.filter(username=email):
+        elif email and User.objects.filter(username__iexact=email).exists():
             self.add_error('email', ValidationError("El usuario ya existe"))
 
 

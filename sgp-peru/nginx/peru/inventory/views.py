@@ -24,6 +24,10 @@ from content.models import Visitor
 from users.models import Functionary, Unit_Central
 import pandas
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.http import FileResponse, HttpResponseForbidden
+from .file_versions import save_with_history, can_view_history
+from .models import InventoryFileVersion
 # Create your views here.
 
 
@@ -181,6 +185,7 @@ def detail_inventory(request, id_inventory):
             'commentForm': commentForm,
             'dates_comments': dates_comments,
             'owner': owner,
+            'can_view_file_history': can_view_history(request.user, inventory),
         })
     else:
         form = CreateCommentForm(request.POST)
@@ -300,9 +305,7 @@ def inventory_create(request):
             entity_provider = ProviderEntity.objects.get(
                 pk=data_user.entity_provider.id)
             if form_create_inventory.is_valid():
-                new = form_create_inventory.save(commit=False)
-                new.entity_provider = entity_provider
-                new.save()
+                new = save_with_history(form_create_inventory, request.user, entity_provider)
                 try:
                     form_create_inventory.save_m2m()
                     id_form = form_create_inventory.instance.id
@@ -368,6 +371,8 @@ def get_child_divipola(request, id_divipola):
 def edit_inventory(request, id):
     inventory = get_object_or_404(
         Inventory, pk=id, site__id=get_current_site(request).id)
+    if not Provider.on_site.filter(user=request.user, entity_provider_id=inventory.entity_provider_id).exists():
+        return HttpResponseForbidden('No puede modificar un registro de otra entidad.')
     if request.method == "GET":
         edit = True
         form_create_inventory = CreateInventoryForm(instance=inventory)
@@ -386,7 +391,7 @@ def edit_inventory(request, id):
             request.POST, request.FILES, instance=inventory)
         user_id = request.user.id
         if form.is_valid():
-            form.save()
+            save_with_history(form, request.user)
             try:
                 id_form = form.instance.id
                 url = settings.SITE_URL
@@ -422,6 +427,8 @@ def edit_inventory(request, id):
             except:
                 return redirect('inventory:inventory_list')
 
+    if request.method == 'POST' and form.errors:
+        return render(request, 'register/inventory_create.html', {'form_create_inventory': form, 'edit': True, 'id': id})
     return redirect('inventory:inventory_list')
 
 
@@ -605,3 +612,23 @@ def quality_test_delete(request, id_test):
         QualityTest, pk=id_test, site__id=get_current_site(request).id)
     test.delete()
     return redirect('profile')
+
+
+@login_required(login_url='login')
+def file_history(request, id_inventory):
+    item = get_object_or_404(Inventory, pk=id_inventory, site_id=get_current_site(request).id)
+    if not can_view_history(request.user, item):
+        return HttpResponseForbidden('No tiene permiso para consultar el historial.')
+    return render(request, 'register/file_history.html', {'inventory': item, 'versions': item.file_versions.select_related('uploaded_by').all()})
+
+
+@login_required(login_url='login')
+def file_version_download(request, id_inventory, id_version):
+    item = get_object_or_404(Inventory, pk=id_inventory, site_id=get_current_site(request).id)
+    if not can_view_history(request.user, item):
+        return HttpResponseForbidden('No tiene permiso para descargar esta versión.')
+    version = get_object_or_404(InventoryFileVersion, pk=id_version, inventory=item)
+    if not version.file.storage.exists(version.file.name):
+        from django.http import Http404
+        raise Http404('El archivo no está disponible en el almacenamiento.')
+    return FileResponse(version.file.open('rb'), as_attachment=True, filename=version.original_name)

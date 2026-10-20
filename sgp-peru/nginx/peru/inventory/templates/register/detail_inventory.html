@@ -24,6 +24,9 @@
                     {% endif %}
                     <div class="block-management-header mt-5">
                         <h2 class="block-management-header-title mb-4">{{inventory.title}}</h2>
+                        {% if can_view_file_history %}
+                        <a href="{% url 'inventory:file_history' inventory.id %}" class="btn btn-white-bordered">Historial de archivos</a>
+                        {% endif %}
                         <div class="type-proveedor">
                             <p>Proveedor:</p>
                             <p>{{inventory.entity_provider}}</p>

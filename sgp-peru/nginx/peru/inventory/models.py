@@ -1238,3 +1238,17 @@ class QualityTest (models.Model):
     class Meta:
         verbose_name = "Test de Calidad"
         verbose_name_plural = "Test de Calidad"
+
+
+class InventoryFileVersion(models.Model):
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, related_name='file_versions')
+    file = models.FileField(upload_to='uploads/sample-data/versions', max_length=255)
+    original_name = models.CharField(max_length=255)
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    uploaded_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Versión de archivo de RRAA'
+        verbose_name_plural = 'Versiones de archivos de RRAA'
+        constraints = [models.UniqueConstraint(fields=['inventory', 'file'], name='unique_inventory_file_version')]

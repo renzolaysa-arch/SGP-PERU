@@ -1,4 +1,5 @@
 from datetime import timedelta
+from .progress import preparation_progress
 from demand.models import (Reception, Transfer,
                            Negotiation, Transfers, Preparation, Preparations, Evaluation, Evaluations)
 
@@ -151,7 +152,7 @@ def calculate_process_board(id_demand):
         cant_frequency = calculate_frequency_delivery(
             negotiation.date_agreed, negotiation.date_agreement, negotiation.time)
         try:
-            cant_deliveries = Transfers.on_site.filter(transfer=transfer).distinct('frequency_delivery').count()
+            cant_deliveries = Transfers.on_site.filter(transfer=transfer).order_by().values('frequency_delivery').distinct().count()
         except:
             cant_deliveries = 0
         
@@ -162,49 +163,15 @@ def calculate_process_board(id_demand):
                 (cant_deliveries * 100) / cant_frequency)
 
     if preparation:
-        ## preparation ini ##
-        if preparation.demand_process == 'ini':
-            process_board["url_preparation"] = '/solicitud/' + \
-                str(id_demand)+'/preparacion/inicio/'
-            process_board["porcent_preparation"] = 25
-            process_board["status_preparation"] = 'ini'
-
-        ## preparation pr ##
-        elif preparation.demand_process == 'pr':
-            process_board["url_preparation"] = '/solicitud/' + \
-                str(id_demand)+'/preparacion/proceso/'
-            process_board["porcent_preparation"] = 50
-            process_board["status_preparation"] = 'pr'
-
-        ## preparation re ##
-        elif preparation.demand_process == 're':
-            process_board["url_preparation"] = '/solicitud/' + \
-                str(id_demand)+'/preparacion/revision/'
-            process_board["porcent_preparation"] = 75
-            process_board["status_preparation"] = 're'
-
-        ## preparation fi ##
-        elif preparation.demand_process == 'fi':
-            process_board["url_preparation"] = '/solicitud/' + \
-                str(id_demand)+'/preparacion/finalizado/'
-            process_board["porcent_preparation"] = 100
-            process_board["status_preparation"] = 'fi'
-            
-        try:
-            cant_transfert = Transfers.on_site.filter(transfer=transfer).count()
-        except:
-            cant_transfert = 0
-            
-        try:
-            cant_preparation = Preparations.on_site.filter(preparation=preparation, finalize=True).count()
-        except:
-            cant_preparation = 0
-        
-        if cant_preparation == 0:
-            process_board["porcent_preparation"] = 0
-        else:
-            process_board["porcent_preparation"] = int(
-                (cant_preparation * 100) / cant_transfert)
+        progress = preparation_progress(preparation, transfer)
+        process_board['porcent_preparation'] = progress['percent']
+        process_board['status_preparation'] = progress['status']
+        process_board['preparation_completed'] = progress['completed']
+        process_board['preparation_total'] = progress['total']
+        process_board['preparation_pending'] = progress['pending']
+        process_board['preparation_pending_deliveries'] = progress['pending_deliveries']
+        step = {'ini': 'inicio', 'pr': 'proceso', 're': 'revision', 'fi': 'finalizado'}[progress['status']]
+        process_board['url_preparation'] = '/solicitud/%s/preparacion/%s/' % (id_demand, step)
 
     ## evaluation ##
     if evaluation:

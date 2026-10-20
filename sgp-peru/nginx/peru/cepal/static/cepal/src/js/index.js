@@ -932,6 +932,28 @@ function showModalFilterMobile() {
 /*==================== EVENT CLICK MENU HEAD UNIT  ====================*/
 
 /* A function that is called when the user clicks on the menu head unit. */
+function dashboardStateKey() {
+    return 'sgp.tabProfile.' + ($('body').attr('data-session-user') || 'anonymous');
+}
+
+function recoverDashboardSession() {
+    $(document).ajaxError(function (event, xhr) {
+        if (xhr.status === 401 && xhr.responseJSON && xhr.responseJSON.error === 'session_expired') {
+            localStorage.removeItem(dashboardStateKey());
+            window.location.assign(xhr.responseJSON.login_url + '?expired=1');
+        }
+    });
+    $(document).on('click', 'a[href*="/usuario/logout"]', function () {
+        localStorage.removeItem(dashboardStateKey());
+        localStorage.removeItem('tabProfile');
+    });
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted && $('#groupsProfile').length) window.location.reload();
+    });
+}
+
+$(recoverDashboardSession);
+
 function eventClickMenuHeadUnit(statesPages) {
     if ($('#groupsProfile').length) {
         let loaderContent = $('#groupsProfileMain .loading');
@@ -949,9 +971,12 @@ function eventClickMenuHeadUnit(statesPages) {
         }
 
         // hide loader Content
-        function showLoaderError() {
+        function showLoaderError(req) {
             $('#groupsProfileMain .loading__text').addClass('d-none');
-            $('#groupsProfileMain .loading__text--error').removeClass('d-none');
+            $('#groupsProfileMain .loading__text--error')
+                .text(req && req.status === 403 ? 'No tiene permiso para esta sección. Seleccione otra opción del menú.' :
+                    'No se pudo cargar esta sección. Selecciónela de nuevo para reintentar.')
+                .removeClass('d-none');
         }
 
         // hide loader Content
@@ -999,7 +1024,7 @@ function eventClickMenuHeadUnit(statesPages) {
                     getEvaluationQuestions();
                     profilefilterSearchAccessRraa();
                 } else {
-                    showLoaderError();
+                    showLoaderError(req);
                 }
             });
 
@@ -1008,7 +1033,14 @@ function eventClickMenuHeadUnit(statesPages) {
 
 
         if (statesPages == 'ready') {
-            let tabProfileUser = localStorage.getItem('tabProfile');
+            let tabProfileUser = localStorage.getItem(dashboardStateKey());
+            const allowedLinks = $('#groupsProfileMenuSidebar .link').map(function () {
+                return $(this).attr('data-link');
+            }).get();
+            if (!allowedLinks.includes(tabProfileUser)) {
+                localStorage.removeItem(dashboardStateKey());
+                tabProfileUser = null;
+            }
             if (tabProfileUser !== '' && tabProfileUser !== null) {
                 // Leer el link
                 $('#groupsProfileMenuSidebar .tab-sidebar-nav-item').each(function () {
@@ -1039,7 +1071,7 @@ function eventClickMenuHeadUnit(statesPages) {
                             hideLoader();
                         }, 200);
                     } else {
-                        showLoaderError();
+                        showLoaderError(req);
                     }
                 });
             }
@@ -1061,7 +1093,7 @@ function eventClickMenuHeadUnit(statesPages) {
                 $(this).addClass('active');
 
                 let urlLink = $(this).find('.link').attr('data-link');
-                localStorage.setItem('tabProfile', urlLink);
+                localStorage.setItem(dashboardStateKey(), urlLink);
 
                 loadPagesProfileuser(urlLink);
 

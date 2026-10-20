@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .file_versions import save_with_history
 from .models import Inventory, InventoryStatus, InventoryTheme, InventoryThematic, CommentInventory, QualityTest
 from .models import TypeFormatSampleData, TransferMediumSampleData, TagsSampleData, VariablesSampleData
 from django.contrib.sites.shortcuts import get_current_site
@@ -110,6 +111,9 @@ class InventoryAdmin(CustomImportExportModelAdmin, admin.ModelAdmin):
     list_display = ("title", "site", "created_date", "modified_date")
     list_filter = ["created_date", "site"]
     search_fields = ["title"]
+
+    def save_model(self, request, obj, form, change):
+        save_with_history(form, request.user)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

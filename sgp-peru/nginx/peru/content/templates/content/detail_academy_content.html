@@ -66,7 +66,7 @@
 					{% if new_item.youtube is not None%}
 					<div class="detail__video">
 						<div class="detail__video-container">
-							<iframe src="https://www.youtube.com/embed/{{new_item.youtube}}" title="Video Noticia {{new_item.title}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  allowscriptaccess="always" allowfullscreen></iframe>
+							<iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/{{new_item.youtube}}" title="Video Noticia {{new_item.title}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  allowscriptaccess="always" allowfullscreen></iframe>
 						</div>
 						{% if new_item.cita_youtube is not None%}	
 						<p class="detail__video-caption">

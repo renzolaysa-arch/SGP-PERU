@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('crear/', views.create_provider, name='create_provider'),
+    path('reenviar-registro/', views.resend_registration_email, name='resend_registration_email'),
     path('ingresar/', views.login_user, name='login'),
     path('recuperar-clave/', views.password_reset_request, name="reset_password"),
     path('recuperar-clave-enviar/',
