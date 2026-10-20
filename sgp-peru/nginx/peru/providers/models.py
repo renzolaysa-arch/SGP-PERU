@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.sites.models import Site
 from django.conf import settings
@@ -274,7 +275,13 @@ class ProviderEntity(models.Model):
         max_length=255,
         blank=False,
         null=False,
-        default=''
+        default='',
+        # Se compara con el dominio del correo de quien se registra para enviarle el enlace de activacion
+        validators=[RegexValidator(
+            regex=r'^(?!www\.)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$',
+            message="Escriba solo el dominio del correo institucional, por ejemplo minedu.gob.pe (sin http, www, @ ni barras).",
+        )],
+        help_text="Dominio del correo institucional, por ejemplo minedu.gob.pe. No es la página web."
     )
     status = models.ForeignKey(
         ProviderStatus,

@@ -15,6 +15,8 @@ from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
 from .decorators import check_user
 from notifications.functions import notify_email
+from notifications.services import create_notifications_and_send_emails_async, send_email_async
+from django.db import transaction
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -40,6 +42,10 @@ from django.core.paginator import Paginator
 import csv
 import pandas as pd
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
+from django.views.decorators.http import require_POST
+import logging
+import time
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
 # Create your views here.
@@ -105,104 +111,58 @@ def create_provider(request):
         return redirect('profile')
     if request.method == 'GET':
         return render(request, 'users/create_provider.html', {
-            "form": CreateProvider()
+            "form": CreateProvider(),
+            "can_resend": bool(request.session.get("registration_provider_id")),
         })
     else:
         form = CreateProvider(request.POST, request.FILES)
         if form.is_valid():
-            user_emil = request.POST['email']
-            domain_user = user_emil.split('@')
+            user_emil = form.cleaned_data['email']
+            # rpartition: el dominio es lo que va despues de la ultima @
+            email_domain = user_emil.rpartition('@')[2].lower()
+            site_id = get_current_site(request).id
             provider = ProviderEntity.objects.filter(
-                site__id=get_current_site(request).id,
-                domain=domain_user[1]
-            )
+                site__id=site_id,
+                domain__iexact=email_domain
+            ).first()
             url = settings.SITE_URL
-            if provider:
-                try:
-                    user_active = False
-                    valid_data = True
-                    token = secrets.token_hex(nbytes=16)
-                    name_notify = "Nuevo posible proveedor registrado, recuerde dirigirse a la sección de Listado de usuarios, Solicitudes de accesos para activar el usuario creado."
-                    message = "Para activar el nuevo proveedor puedes hacer clic para ir a Listado de usuarios, Solicitudes de accesos."
-                    try:
-                        head_unit = Unit_Central.on_site.all()
+            token = secrets.token_hex(nbytes=16) if provider else ""
 
-                        for notify in head_unit:
-                            Notification.on_site.create(
-                                name=name_notify,
-                                sent_to=get_object_or_404(
-                                    User, pk=notify.user.id),
-                                module_from="PRV",
-                                message=message,
-                                name_link='Activa la cuenta del nuevo proveedor',
-                                link=url + 'usuario/perfil/',
-                            )
-                        notify_email(
-                            'Activa tu cuenta',
-                            'Para activar su cuenta es necesario hacer clic',
-                            user_emil,
-                            'Activa tu cuenta',
-                            url + 'usuario/activate-token/' + token,
-                            settings.COUNTRY
-                        )
-                    except:
-                        print("Error to get data Unit_Central")
-                except:
-                    response_data = {}
-                    response_data['result'] = 'error'
-                    response_data['message'] = 'Ha Ocurrido un Error con el envío de correo electrónico, es posible que deba corregirlo o contactar al administrador'
-            else:
-                # cuando el modele de unidad central este listo se debe migrar el correo
-                # envio de notificaciones
-                try:
-                    head_unit = Unit_Central.on_site.all()
-                    name_notify = "Nuevo posible proveedor registrado, recuerde dirigirse a la sección de Listado de usuarios, Solicitudes de accesos para activar el usuario creado."
-                    message = "Para activar el nuevo proveedor puedes hacer clic para ir a Listado de usuarios, Solicitudes de accesos."
-                    for notify in head_unit:
-                        Notification.on_site.create(
-                            name=name_notify,
-                            sent_to=get_object_or_404(
-                                User, pk=notify.user.id),
-                            module_from="PRV",
-                            message=message,
-                            name_link='Activa la cuenta del nuevo proveedor',
-                            link=url + 'usuario/perfil/',
-                        )
-                    notify_email(
-                        'Nuevo proveedor',
-                        'Se ha notificado a la Unidad Central una nueva solicitud de nuevo proveedor',
-                        user_emil,
-                        None,
-                        None,
-                        settings.COUNTRY
-                    )
-                    user_active = False
-                    valid_data = False
-                    token = ""
-                except:
-                    response_data = {}
-                    response_data['result'] = 'error'
-                    response_data['message'] = 'Ha Ocurrido un Error con el envío de correo electrónico, es posible que deba corregirlo o contactar al administrador'
+            # Primero se crea la cuenta; los correos salen solo si quedo guardada
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    first_name=request.POST['name'],
+                    last_name=request.POST['last_name'],
+                    username=user_emil,
+                    email=user_emil,
+                    password=request.POST['password'],
+                    is_active=False
+                )
+                group_provider = Group.objects.get(name='Proveedor')
+                group_provider.user_set.add(user)
+                saved_provider = Provider.objects.create(
+                    document_type=request.POST['document_type'],
+                    identification_number=request.POST['identification_number'],
+                    user=user,
+                    valid_data=provider is not None,
+                    entity_provider=provider,
+                    hash=token
+                )
 
-            user = User.objects.create_user(
-                first_name=request.POST['name'],
-                last_name=request.POST['last_name'],
-                username=user_emil,
-                email=user_emil,
-                password=request.POST['password'],
-                is_active=user_active
-            )
-            group_provider = Group.objects.get(name='Proveedor')
-            group_provider.user_set.add(user)
-            Provider.objects.create(
-                document_type=request.POST['document_type'],
-                identification_number=request.POST['identification_number'],
-                user=user,
-                valid_data=valid_data,
-                entity_provider=provider.first() if provider else None,
-                hash=token
-            )
-            return redirect('/usuario/crear')
+            name_notify = "Nuevo posible proveedor registrado, recuerde dirigirse a la sección de Listado de usuarios, Solicitudes de accesos para activar el usuario creado."
+            message = "Para activar el nuevo proveedor puedes hacer clic para ir a Listado de usuarios, Solicitudes de accesos."
+            try:
+                create_notifications_and_send_emails_async([
+                    Notification(
+                        name=name_notify, sent_to=head.user, module_from="PRV", message=message,
+                        name_link='Revisar solicitud de registro', link=url + 'usuario/perfil/', site_id=site_id,
+                    ) for head in Unit_Central.on_site.select_related('user')
+                ])
+            except Exception:
+                logging.getLogger(__name__).exception('No se pudo notificar el registro a Unidad Central')
+            request.session['registration_provider_id'] = saved_provider.pk
+            _deliver_registration_message(request, saved_provider)
+            return redirect('create_provider')
 
         else:
             form.errors
@@ -211,48 +171,64 @@ def create_provider(request):
             })
 
 
-def send_token(request, id_user):
+def _deliver_registration_message(request, provider):
+    request.session['registration_last_send'] = time.time()
+    activation = bool(provider.hash)
     try:
-        provider = Provider.on_site.get(pk=id_user)
-    except provider.DoesNotExist:
-        provider = None
-
-    if provider is not None:
-        url = settings.SITE_URL
-        notify_email(
-            'Activa tu cuenta',
-            'Para activar su cuenta de clic',
-            provider.user.username,
-            'Activa tu cuenta',
-            url + 'usuario/activate-token/' + provider.hash,
-            settings.COUNTRY
+        sent = notify_email(
+            'Activa tu cuenta' if activation else 'Nuevo proveedor',
+            'Para activar su cuenta abra el enlace.' if activation else
+                'Su cuenta fue creada y está pendiente de aprobación por Unidad Central.',
+            provider.user.email,
+            'Activa tu cuenta' if activation else None,
+            settings.SITE_URL.rstrip('/') + reverse('activate', args=[provider.hash]) if activation else None,
+            settings.COUNTRY, fail_silently=False,
         )
+        if sent != 1:
+            raise RuntimeError('El servidor de correo no aceptó el mensaje')
+    except Exception:
+        logging.getLogger(__name__).exception('Fallo al enviar confirmación de registro')
+        messages.error(request, 'Su cuenta fue creada, pero no se pudo enviar el correo. Puede reintentarlo o contactar a Unidad Central.')
+        return False
+    messages.success(request, 'Enviamos el enlace de activación. Revise su bandeja y correo no deseado.' if activation else
+                     'Su cuenta fue creada y está pendiente de aprobación por Unidad Central. Enviamos un aviso a su correo.')
+    return True
+
+
+@require_POST
+def resend_registration_email(request):
+    provider = Provider.on_site.filter(
+        pk=request.session.get('registration_provider_id'), user__is_active=False,
+    ).select_related('user').first()
+    if provider is None:
+        messages.info(request, 'Regístrese o contacte a Unidad Central para solicitar ayuda con la activación.')
+    elif time.time() - request.session.get('registration_last_send', 0) < 60:
+        messages.info(request, 'Espere un minuto antes de solicitar otro correo.')
+    else:
+        _deliver_registration_message(request, provider)
+    return redirect('create_provider')
+
+
+@check_user(['Unidad Central'], 'login')
+def send_token(request, id_user):
+    provider = Provider.on_site.filter(pk=id_user, user__is_active=False).exclude(hash='').select_related('user').first()
+    if provider is not None:
+        _deliver_registration_message(request, provider)
     return redirect('/usuario/crear?unit='+str(id_user))
 
 
 def activate(request, token):
-    try:
-        provider = Provider.on_site.get(hash=token)
-    except provider.DoesNotExist:
-        provider = None
+    provider = Provider.on_site.filter(hash=token).select_related('user').first()
 
-    if provider is not None:
-        try:
-            user_provider = User.objects.get(id=provider.user_id)
-        except user_provider.DoesNotExist:
-            user_provider = None
+    if provider is None:
+        # Enlace ya usado o inexistente: la cuenta suele estar activa, se envia a ingresar
+        return redirect('/usuario/ingresar')
 
-        if user_provider is not None:
-            provider.hash = ""
-            provider.save()
-            user_provider.is_active = True
-            user_provider.save()
-            return redirect('/usuario/ingresar')
-        else:
-            return redirect('/usuario/crear')
-
-    else:
-        return redirect('/usuario/crear')
+    provider.hash = ""
+    provider.save()
+    provider.user.is_active = True
+    provider.user.save()
+    return redirect('/usuario/ingresar')
 
 
 def login_user(request):

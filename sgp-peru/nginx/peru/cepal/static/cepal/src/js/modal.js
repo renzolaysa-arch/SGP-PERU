@@ -439,7 +439,7 @@ function validateRegisterForm() {
             // in the "action" attribute of the form when valid
             submitHandler: function (form) {
                 if (capctchaValiation()) {
-                    sessionStorage.setItem('modalRegister', 'registerSuccess');
+                    sessionStorage.removeItem('modalRegister');
                     form.submit();
                 }
             }
