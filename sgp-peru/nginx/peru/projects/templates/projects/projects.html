@@ -109,7 +109,7 @@
                     {% if project_item.youtube is not None%}
                     <div class="detail__video">
                         <div class="detail__video-container">
-                            <iframe src="https://www.youtube.com/embed/{{project_item.youtube}}" frameborder='0' allowscriptaccess="always" allow="autoplay;" allowfullscreen></iframe>
+                            <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/{{project_item.youtube}}" frameborder='0' allowscriptaccess="always" allow="autoplay;" allowfullscreen></iframe>
                         </div>
                         {% if project_item.cita_youtube is not None%}
                         <p class="detail__video-caption">
