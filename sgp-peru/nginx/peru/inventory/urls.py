@@ -4,6 +4,8 @@ from django.contrib.auth import views as auth_views
 
 app_name = 'inventory'
 urlpatterns = [
+    path('historial-archivos/<int:id_inventory>/', views.file_history, name='file_history'),
+    path('historial-archivos/<int:id_inventory>/<int:id_version>/descargar/', views.file_version_download, name='file_version_download'),
     path('lista-registros/', views.inventory_list, name='inventory_list'),
     path('detalle-inventario/<int:id_inventory>', views.detail_inventory, name='detail_inventory'),
     path('view-sample-data/<int:id_inventory>', views.view_sample_data, name='view_sample_data'),

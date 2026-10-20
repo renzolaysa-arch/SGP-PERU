@@ -1,0 +1,25 @@
+{% extends 'cepal/base.html' %}
+{% block title %}Historial de archivos{% endblock %}
+{% block content %}
+<main class="container py-5">
+  <h1>Historial de archivos de {{ inventory.title }}</h1>
+  <p>Se conservan las cargas anteriores. El archivo vigente se identifica en el listado.</p>
+  <div class="table-responsive">
+    <table class="table">
+      <thead><tr><th>Archivo</th><th>Fecha de carga</th><th>Usuario</th><th>Estado</th><th>Acción</th></tr></thead>
+      <tbody>
+      {% for version in versions %}
+        <tr>
+          <td>{{ version.original_name }}</td>
+          <td>{{ version.uploaded_at|date:'d/m/Y H:i'|default:'Fecha anterior no registrada' }}</td>
+          <td>{{ version.uploaded_by.get_username|default:'Usuario anterior no registrado' }}</td>
+          <td>{% if version.file.name == inventory.file_example_sample_data.name %}Vigente{% else %}Anterior{% endif %}</td>
+          <td><a href="{% url 'inventory:file_version_download' inventory.id version.id %}">Descargar versión</a></td>
+        </tr>
+      {% empty %}<tr><td colspan="5">No hay archivos cargados.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{% url 'inventory:detail_inventory' inventory.id %}">Volver al registro</a>
+</main>
+{% endblock %}
