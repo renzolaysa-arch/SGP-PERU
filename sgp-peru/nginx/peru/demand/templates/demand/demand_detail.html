@@ -296,6 +296,10 @@
                 data-name="preparation">
                 <div class="activity-item-info">
                   <p class="activity-item-info-title">Preparación</p>
+                  <p>{{ process_board.preparation_completed|default:0 }} de {{ process_board.preparation_total|default:0 }} entregas preparadas</p>
+                  {% if process_board.preparation_pending %}
+                  <p>Pendientes: {{ process_board.preparation_pending_deliveries|join:", " }}</p>
+                  {% endif %}
                   {% if request.user|has_group:"Unidad Central" %}
                   {% if process_board.url_preparation is not None %}
                   <a href='{{ process_board.url_preparation }}' class="activity-item-info-link">Ver evidencias</a>
