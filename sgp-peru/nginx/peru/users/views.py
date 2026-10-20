@@ -41,6 +41,7 @@ import csv
 import pandas as pd
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
+from django.views.decorators.cache import never_cache
 # Create your views here.
 
 
@@ -395,6 +396,7 @@ class notification_list:
 
 
 @login_required(login_url='login')
+@never_cache
 def profile(request):
     if request.user.groups.filter(name='Unidad Central').exists():
         user_id = request.user.id
@@ -763,6 +765,7 @@ def update_provider(request, group,  id_user):
     return redirect('profile')
 
 
+@check_user(['Unidad Central'], 'login')
 def dashboard(request):
     user_id = request.user.id
     user_provider = Unit_Central.objects.get(user=user_id)
@@ -843,6 +846,7 @@ def dashboard(request):
                   })
 
 
+@check_user(['Unidad Central'], 'login')
 def notifications(request):
     user_id = request.user.id
     user_provider = Unit_Central.objects.get(user=user_id)
@@ -884,14 +888,17 @@ def notifications(request):
                   })
 
 
+@check_user(['Unidad Central'], 'login')
 def inventory(request):
     return render(request, 'users/head_unit/inventory.html')
 
 
+@check_user(['Unidad Central'], 'login')
 def activity_board(request):
     return render(request, 'users/head_unit/activity_board.html')
 
 
+@check_user(['Unidad Central'], 'login')
 def acceso_rra(request):
     queryset = AccessUserRRA.on_site.all()
 
@@ -922,6 +929,7 @@ def acceso_rra(request):
     )
 
 
+@check_user(['Funcionario'], 'login')
 def access_rra(request):
     user_id = request.user.id
     user_provider = Functionary.objects.get(user=user_id)
@@ -1012,6 +1020,7 @@ def delete_acceso_rra(request, access_id):
     return redirect('profile')
 
 
+@check_user(['Funcionario'], 'login')
 def activity_boards(request):
     user_id = request.user.id
     user_provider = Functionary.objects.get(user=user_id)
@@ -1116,6 +1125,7 @@ def count_inventory(id_provider):
     return Inventory.on_site.filter(entity_provider=id_provider, custody=True).count()
 
 
+@check_user(['Funcionario'], 'login')
 def activities(request):
     return render(request, 'users/functionary/activities.html')
 
@@ -1142,6 +1152,7 @@ class activity_management_list:
         self.evaluation_demand_process = evaluation_demand_process
 
 
+@check_user(['Funcionario'], 'login')
 def activity_management(request):
     user_id = request.user.id
     user_provider = Functionary.objects.get(user=user_id)
@@ -1184,6 +1195,7 @@ def activity_management(request):
                   })
 
 
+@check_user(['Funcionario'], 'login')
 def inventories(request):
     user_id = request.user.id
     inventory_page_obj = Inventory.on_site.all()
@@ -1203,6 +1215,7 @@ def inventories(request):
                   })
 
 
+@check_user(['Funcionario'], 'login')
 def demands_functionary(request):
     user_id = request.user.id
     demand_page_obj = Demands.on_site.all()
@@ -1222,6 +1235,7 @@ def demands_functionary(request):
                   })
 
 
+@check_user(['Funcionario'], 'login')
 def notification(request):
     user_id = request.user.id
     user_provider = Functionary.objects.get(user=user_id)
@@ -1273,7 +1287,7 @@ def hidden_notification(request, id_notification):
         return JsonResponse({'fail': 'True'})
 
 
-@login_required(login_url='login')
+@never_cache
 def custom_logout(request):
     logout(request)
     return redirect("/")

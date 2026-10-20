@@ -26,6 +26,9 @@
                         Iniciar sesión
                     </h1>
                     <p class="auth-subtitle">Ingrese su nombre de usuario y contraseña.</p>
+                    {% if request.GET.expired %}
+                    <p role="status">Su sesión terminó. Ingrese nuevamente para continuar.</p>
+                    {% endif %}
                 </div>
                 <!-- FORM LOGIN-->
                 <form id="login-form" class="login-form" name="login-form" action="" method="POST">
